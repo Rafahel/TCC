@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
+   <children>
+      <Button fx:id="botaoCadastroEquipamento" layoutX="29.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" text="Cadastrar equipamento" />
+      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="200.0" layoutY="636.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" text="Debug equipamentos" />
+      <Button fx:id="botaoCalcula" layoutX="74.0" layoutY="214.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" text="Calcula" />
+      <TextField fx:id="textFieldTarifa" layoutX="344.0" layoutY="142.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
+      <Label layoutX="352.0" layoutY="108.0" text="Tarifa" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listView" layoutX="408.0" layoutY="205.0" onMouseClicked="#clickLista" prefHeight="389.0" prefWidth="399.0" />
+      <ListView fx:id="listView2" layoutX="835.0" layoutY="205.0" onMouseClicked="#clickLista2" prefHeight="389.0" prefWidth="399.0" />
+      <Label layoutX="584.0" layoutY="167.0" text="Lista 1" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="1008.0" layoutY="167.0" text="Lista 2" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonRefreshList" layoutX="585.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
+      <Button fx:id="botaoArquivo" layoutX="74.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" text="Arquivo" />
+      <Button fx:id="buttonSalvar" layoutX="40.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" text="Salvar equipamentos" />
+      <MenuBar fx:id="menuBar" layoutY="-1.0" prefHeight="28.0" prefWidth="141.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>
