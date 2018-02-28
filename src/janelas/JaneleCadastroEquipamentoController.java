@@ -54,7 +54,7 @@ public class JaneleCadastroEquipamentoController implements Initializable {
     private void cadastrar(){
         try{
             if (this.sempreLigadoCheckBox.isSelected())
-                this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), 24, 24));
+                this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), 1440, 1440));
             else
                 this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), Integer.parseInt(this.textFieldMaxHoras.getText()), Integer.parseInt(this.textFieldMinHoras.getText())));
             System.out.println("Completo");

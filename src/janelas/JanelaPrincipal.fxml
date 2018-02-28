@@ -55,5 +55,7 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button fx:id="configurarButton" layoutX="1026.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
+      <Button fx:id="botaoArduino" layoutX="74.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" text="Arduino" />
    </children>
 </AnchorPane>

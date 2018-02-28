@@ -17,15 +17,17 @@ public class Equipamento {
         this.watts = watts;
         this.minUtilzacaoDiariaHoras = minUtilzacaoDiariaHoras;
         this.maxUtilzacaoDiariaHoras = maxUtilzacaoDiariaHoras;
-        this.horasParaMinutos();
+        this.minUtilzacaoDiaria = minUtilzacaoDiariaHoras;
+        this.maxUtilzacaoDiaria = maxUtilzacaoDiariaHoras;
+//        this.horasParaMinutos();
         this.ligado = false;
         this.transformaWatts();
     }
 
-    public void horasParaMinutos(){
-        this.minUtilzacaoDiaria = this.minUtilzacaoDiariaHoras * 60;
-        this.maxUtilzacaoDiaria = this.maxUtilzacaoDiariaHoras * 60;
-    }
+//    public void horasParaMinutos(){
+//        this.minUtilzacaoDiaria = this.minUtilzacaoDiariaHoras * 60;
+//        this.maxUtilzacaoDiaria = this.maxUtilzacaoDiariaHoras * 60;
+//    }
 
     public void transformaWatts(){
         this.kwh = this.watts / 1000.0;

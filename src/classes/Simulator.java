@@ -58,6 +58,7 @@ public class Simulator {
 
     public void calculaGastosTotais(){
         double totalMinimo = 0, totalMax = 0, totalMed = 0;
+        System.out.println("Total equipamentos selecionados: " + equipamentos.size());
         for (Equipamento e: this.equipamentos) {
             totalMax = (e.getKwhMin() * e.getMaxUtilzacaoDiaria() * 30 ) * this.tarifa;
             totalMed = (e.getKwhMin() * 30 * (e.getMaxUtilzacaoDiaria()/2)) * this.tarifa;

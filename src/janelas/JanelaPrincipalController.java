@@ -1,10 +1,7 @@
 package janelas;
 
 
-import classes.Equipamento;
-import classes.Escritor;
-import classes.Loader;
-import classes.Simulator;
+import classes.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +12,11 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 
 public class JanelaPrincipalController implements Initializable{
@@ -55,17 +52,35 @@ public class JanelaPrincipalController implements Initializable{
     @FXML
     private MenuBar menuBar;
 
+    private ArrayList<Equipamento> listaEquipamentosSelecionados;
+
+    private ArrayList<Integer> portas;
+
+    @FXML
+    private Button botaoArduino;
+
     @FXML
     private void botaoArquivoClicked(){
+        listaEquipamentosSelecionados = new ArrayList<>();
+        String caminho = "C:\\Users\\Rafahel\\Desktop" ;
+        try {
+            FileReader fr = new FileReader("Settings.txt");
+            BufferedReader br = new BufferedReader(fr);
+            caminho  = br.readLine();
+            br.close();
+        }catch (NullPointerException | IOException n){
+            // não faz nada
+        }
+
         try {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Abrir Arquivo");
-            chooser.setInitialDirectory(new File("C:\\Users\\"));
+            chooser.setInitialDirectory(new File(caminho));
             this.file = chooser.showOpenDialog(new Stage());
             System.out.println(file.toString());
             this.equipamentos = Loader.load(file);
         }catch (Exception e){
-            System.out.println(e);
+//            System.out.println(e);
         }
         finally {
             this.addToList();
@@ -136,7 +151,7 @@ public class JanelaPrincipalController implements Initializable{
         try{
             double valores[] = new double[3];
             double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
-            Simulator simulator = new Simulator(this.equipamentos, tarifa);
+            Simulator simulator = new Simulator(this.listaEquipamentosSelecionados, tarifa);
             new Thread(){
                 public void run(){
                     simulator.calculaGastosTotais();
@@ -163,6 +178,7 @@ public class JanelaPrincipalController implements Initializable{
     private void addToList(){
         for (Equipamento e: this.equipamentos) {
             System.out.println(e.getNome() + " adicionado a lista 1" );
+
             this.listView.getItems().add(e.getNome());
         }
     }
@@ -180,8 +196,9 @@ public class JanelaPrincipalController implements Initializable{
         if(this.listView.getItems().size() > 0){
             ObservableList<String> lista;
             lista = this.listView.getSelectionModel().getSelectedItems();
-            System.out.println(this.listView.getSelectionModel().getSelectedItems());
-            System.out.println(lista.get(0));
+//            System.out.println(this.listView.getSelectionModel().getSelectedItems());
+//            System.out.println(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
+            listaEquipamentosSelecionados.add(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
             this.listView2.getItems().add(lista.get(0));
         }
     }
@@ -189,8 +206,17 @@ public class JanelaPrincipalController implements Initializable{
     @FXML
     private void clickLista2(){
         if(this.listView.getItems().size() > 0 && this.listView2.getSelectionModel().getSelectedIndex() >= 0) {
-            System.out.println("Removendo no index: " + this.listView2.getSelectionModel().getSelectedIndex());
+//            System.out.println("Removendo no index: " + this.listView2.getSelectionModel().getSelectedItem());
             try {
+
+                for (int i = 0; i < listaEquipamentosSelecionados.size() ; i++) {
+                    Equipamento e = listaEquipamentosSelecionados.get(i);
+                    if (e.getNome().equals(listView2.getSelectionModel().getSelectedItem())){
+//                        System.out.println("Item selecionado: " + listView2.getSelectionModel().getSelectedItem());
+//                        System.out.println("Item Removido: " + this.listaEquipamentosSelecionados.get(i).getNome());
+                        this.listaEquipamentosSelecionados.remove(e);
+                    }
+                }
                 this.listView2.getItems().remove(this.listView2.getSelectionModel().getSelectedIndex());
             }catch (ArrayIndexOutOfBoundsException e){
 //            System.out.println(e);
@@ -210,6 +236,53 @@ public class JanelaPrincipalController implements Initializable{
     private void refreshListClicked(){
         this.listView.getItems().remove(0, this.listView.getItems().size());
         this.addToList();
+    }
+
+    @FXML
+    private void configurarEquipamentos(){
+        this.portas = new ArrayList<>();
+        for (Equipamento e: this.listaEquipamentosSelecionados) {
+            System.out.println("Na lista : " + e.getNome());
+
+        }
+        try {
+            System.out.println("Chamando janela");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
+            Parent root = (Parent) loader.load();
+            JanelaConfigEquipamentos newWindowController = loader.getController();
+            newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Cadastro de Equipamentos");
+            stage.show();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void botaoArduinoClicked(){
+        System.out.println(portas);
+        Arduino arduino = new Arduino(this.listaEquipamentosSelecionados, this.portas);
+
+        if (!arduino.isConectado()){
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    arduino.conecta();
+                    while (arduino.isConectado()){
+                        arduino.equipamentoIsConnected();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };thread.start();
+        }
+
     }
 
 }
