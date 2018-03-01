@@ -60,6 +60,9 @@ public class JanelaPrincipalController implements Initializable{
     private Button botaoArduino;
 
     @FXML
+    private Button otimizaButton;
+
+    @FXML
     private void botaoArquivoClicked(){
         listaEquipamentosSelecionados = new ArrayList<>();
         String caminho = "C:\\Users\\Rafahel\\Desktop" ;
@@ -282,6 +285,20 @@ public class JanelaPrincipalController implements Initializable{
                 }
             };thread.start();
         }
+
+    }
+
+    @FXML
+    private void otimizaButtonClicked(){
+//        System.out.println("Numero de equipamentos = " +  this.listaEquipamentosSelecionados.size());
+//        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados);
+        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados);
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                otimizacaoGenetica.otimiza();
+            }
+        };thread.start();
 
     }
 
