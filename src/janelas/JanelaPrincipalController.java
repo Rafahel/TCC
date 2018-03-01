@@ -63,6 +63,9 @@ public class JanelaPrincipalController implements Initializable{
     private Button otimizaButton;
 
     @FXML
+    private TextField objetivoField;
+
+    @FXML
     private void botaoArquivoClicked(){
         listaEquipamentosSelecionados = new ArrayList<>();
         String caminho = "C:\\Users\\Rafahel\\Desktop" ;
@@ -132,7 +135,7 @@ public class JanelaPrincipalController implements Initializable{
 
         try {
             System.out.println("Chamando janela");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaCadastroEquipamento.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaCadastroEquipamento.fxml"));
             Parent root = (Parent) loader.load();
             JaneleCadastroEquipamentoController newWindowController = loader.getController();
             newWindowController.inicializaJanela(equipamentos);
@@ -250,7 +253,7 @@ public class JanelaPrincipalController implements Initializable{
         }
         try {
             System.out.println("Chamando janela");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaConfigEquipamento.fxml"));
             Parent root = (Parent) loader.load();
             JanelaConfigEquipamentos newWindowController = loader.getController();
             newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
@@ -290,9 +293,10 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void otimizaButtonClicked(){
+        double objetivo = Double.parseDouble(this.objetivoField.getText());
 //        System.out.println("Numero de equipamentos = " +  this.listaEquipamentosSelecionados.size());
 //        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados);
-        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados);
+        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
         Thread thread = new Thread() {
             @Override
             public void run() {

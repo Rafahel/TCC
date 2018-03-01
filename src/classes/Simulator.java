@@ -67,6 +67,7 @@ public class Simulator {
             this.totalMed += totalMed;
             this.totalMin += totalMinimo;
         }
+
         System.out.println("Máxima: " + this.totalMax);
         System.out.println("Média: " + this.totalMed);
         System.out.println("Minima: " + this.totalMin);

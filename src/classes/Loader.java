@@ -16,8 +16,8 @@ public class Loader {
                     break;
                 String nome = linha.split("\\s+")[0].replace('$', ' ');
                 int watts = Integer.parseInt(linha.split("\\s+")[1]);
-                int tempoMin = Integer.parseInt(linha.split("\\s+")[2]);
-                int tempMax = Integer.parseInt(linha.split("\\s+")[3]);
+                int tempoMin = Integer.parseInt(linha.split("\\s+")[3]);
+                int tempMax = Integer.parseInt(linha.split("\\s+")[2]);
                 equipamentos.add(new Equipamento(nome, watts, tempoMin, tempMax));
             }
             br.close();
