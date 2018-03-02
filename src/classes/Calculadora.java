@@ -11,6 +11,7 @@ public class Calculadora {
     private double tarifa;
     private double totalMax;
     private double totalMin;
+    private DecimalFormat df;
 
 
     public Calculadora(ArrayList<Equipamento> equipamentos, double tarifa) {
@@ -18,6 +19,8 @@ public class Calculadora {
         this.tarifa = tarifa;
         this.totalMax = 0;
         this.totalMin = 0;
+        this.df = new DecimalFormat("#.##");
+        this.df.setRoundingMode(RoundingMode.CEILING);
     }
 
     public void calculaGastosTotais(){
@@ -29,13 +32,13 @@ public class Calculadora {
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.CEILING);
 
 
-        System.out.println("Máxima: " + df.format(this.totalMax));
-        System.out.println("Minima: " + df.format(this.totalMin));
-        System.out.println("Media:" + df.format(getTotalMed()));
+        this.totalMax = Double.parseDouble(df.format(this.totalMax));
+        this.totalMin = Double.parseDouble(df.format(this.totalMin));
+        System.out.println("Máxima: " + this.totalMax);
+        System.out.println("Minima: " + this.totalMin);
+        System.out.println("Media:" + this.getTotalMed());
     }
 
     public double getTotalMax() {
@@ -47,6 +50,6 @@ public class Calculadora {
     }
 
     public double getTotalMed() {
-        return (totalMax + totalMin) / 2;
+        return Double.parseDouble(df.format((this.totalMax + this.totalMin)/2));
     }
 }
