@@ -1,6 +1,8 @@
 package classes;
 
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Calculadora {
@@ -27,10 +29,13 @@ public class Calculadora {
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
 
-        System.out.println("Máxima: " + this.totalMax);
-        System.out.println("Minima: " + this.totalMin);
-        System.out.println("Media:" + getTotalMed());
+
+        System.out.println("Máxima: " + df.format(this.totalMax));
+        System.out.println("Minima: " + df.format(this.totalMin));
+        System.out.println("Media:" + df.format(getTotalMed()));
     }
 
     public double getTotalMax() {

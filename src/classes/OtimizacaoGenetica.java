@@ -44,35 +44,50 @@ public class OtimizacaoGenetica {
         populacao.initialize();
 
         int generationCounter = 0;
+        boolean encontrado = false;
 
         while (true){
             generationCounter++;
             Individuo melhor = populacao.getFitestIndividual();
 
-            if (melhor.getFitness() >= Constantes.MAXIMUM_FITNESS && melhor.getFitness() <= 100 )
-                break;
 
 
-            System.out.println("Geracao: " + generationCounter + " - maior fitness : "
-                    + melhor.getFitness() + "%");
-            System.out.println(melhor);
-            System.out.println("Resultado: " + melhor.getResultado() + "\nObjetivo: " + this.objetivo + "\n");
-//            System.out.println(melhor.getCalculo() + "\n");
+
 //            System.out.println("\t\tRELATORIO DA POPULACAO");
 //            for (int i = 0; i < populacao.size() ; i++) {
 //                System.out.println(i + 1 + " - " + populacao.getIndividual(i));
 //            }
-//            populacao = algoritmoGenetico.evolvePopulacao(populacao);
+//            System.out.println("");
+//            System.out.println("Geracao: " + generationCounter + " - maior fitness : "
+//                    + melhor.getFitness() + "%");
+//            System.out.println(melhor);
+//            System.out.println("Resultado: " + melhor.getResultado() + "\nObjetivo: " + this.objetivo + "\n");
+//            System.out.println(melhor.getCalculo() + "\n");
+            if (melhor.getFitness() >= Constantes.MAXIMUM_FITNESS && melhor.getFitness() <= 100 ){
+                encontrado = true;
+                break;
+            }
 
-            if (generationCounter >= 90000 * 5)
-                return;
+            populacao = algoritmoGenetico.evolvePopulacao(populacao);
+
+            if (generationCounter >= 90000 * 5){
+                encontrado = false;
+                break;
+            }
+
 
 
         }
-        System.out.println("\n\nSolution Found!");
-        System.out.println("Generation: " + generationCounter + " - fitness: " + populacao.getFitestIndividual().getFitness()
-                + "% Resultado: " + populacao.getFitestIndividual().getResultado());
-        System.out.println(populacao.getFitestIndividual().getFitness() + "%");
-        System.out.println(populacao.getFitestIndividual() + "\n" + "Objetivo: " + this.objetivo);
+
+        if (encontrado){
+            System.out.println("\n\nSolution Found!");
+            System.out.println("Generation: " + generationCounter + " - fitness: " + populacao.getFitestIndividual().getFitness()
+                    + "% Resultado: " + populacao.getFitestIndividual().getResultado());
+            System.out.println(populacao.getFitestIndividual().getFitness() + "%");
+            System.out.println(populacao.getFitestIndividual() + "\n" + "Objetivo: " + this.objetivo);
+        }
+        else {
+            System.out.println("Não encontrado.");
+        }
     }
 }

@@ -307,12 +307,8 @@ public class JanelaPrincipalController implements Initializable{
            double minimo = calculadora.getTotalMin();
            double maximo = calculadora.getTotalMax();
            double objetivo = Double.parseDouble(this.objetivoField.getText());
-           System.out.println(objetivo + " < " + maximo);
-           System.out.println(objetivo + " > " + maximo);
            if(objetivo <= maximo){
-               System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
                if (objetivo > minimo){
-                   System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
                    OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
                    Thread thread = new Thread() {
                        @Override
@@ -322,7 +318,12 @@ public class JanelaPrincipalController implements Initializable{
                    };thread.start();
 
                }
-
+               else {
+                   System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
+               }
+           }
+           else{
+               System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
            }
        }
     }
