@@ -64,7 +64,7 @@ public class OtimizacaoGenetica {
 //            }
 //            populacao = algoritmoGenetico.evolvePopulacao(populacao);
 
-            if (generationCounter > 90000)
+            if (generationCounter >= 90000 * 5)
                 return;
 
 

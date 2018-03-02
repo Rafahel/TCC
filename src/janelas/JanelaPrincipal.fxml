@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#otimizaButtonClicked" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="828.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
    <children>
-      <Button fx:id="botaoCadastroEquipamento" layoutX="29.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" text="Cadastrar equipamento" />
-      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="200.0" layoutY="636.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" text="Debug equipamentos" />
-      <Button fx:id="botaoCalcula" layoutX="74.0" layoutY="214.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" text="Calcula" />
-      <TextField fx:id="textFieldTarifa" layoutX="344.0" layoutY="142.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
-      <Label layoutX="352.0" layoutY="108.0" text="Tarifa" textFill="#f6ff00">
+      <Button fx:id="botaoCadastroEquipamento" layoutX="143.0" layoutY="237.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" prefHeight="51.0" prefWidth="141.0" text="Cadastrar equipamento" />
+      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="611.0" layoutY="782.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" text="Debug equipamentos" />
+      <Button fx:id="botaoCalcula" layoutX="143.0" layoutY="296.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" prefHeight="51.0" prefWidth="141.0" text="Calcula" />
+      <TextField fx:id="textFieldTarifa" layoutX="134.0" layoutY="599.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
+      <Label layoutX="142.0" layoutY="565.0" text="Tarifa" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
@@ -33,10 +33,10 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="buttonRefreshList" layoutX="585.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
-      <Button fx:id="botaoArquivo" layoutX="74.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" text="Arquivo" />
-      <Button fx:id="buttonSalvar" layoutX="40.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" text="Salvar equipamentos" />
-      <MenuBar fx:id="menuBar" layoutY="-1.0" prefHeight="28.0" prefWidth="141.0">
+      <Button fx:id="buttonRefreshList" layoutX="580.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
+      <Button fx:id="botaoArquivo" layoutX="143.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" prefHeight="51.0" prefWidth="141.0" text="Arquivo" />
+      <Button fx:id="buttonSalvar" layoutX="144.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" prefHeight="51.0" prefWidth="141.0" text="Salvar equipamentos" />
+      <MenuBar fx:id="menuBar" layoutY="-1.0" prefHeight="28.0" prefWidth="1280.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -55,11 +55,11 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="configurarButton" layoutX="1026.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
-      <Button fx:id="botaoArduino" layoutX="74.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" text="Arduino" />
-      <Button fx:id="otimizaButton" layoutX="74.0" layoutY="502.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" text="Otimiza" />
-      <TextField fx:id="objetivoField" layoutX="436.0" layoutY="142.0" prefHeight="25.0" prefWidth="64.0" />
-      <Label layoutX="432.0" layoutY="108.0" text="Objetivo" textFill="#f6ff00">
+      <Button fx:id="configurarButton" layoutX="1008.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
+      <Button fx:id="botaoArduino" layoutX="143.0" layoutY="489.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" prefHeight="51.0" prefWidth="141.0" text="Arduino" />
+      <Button fx:id="otimizaButton" layoutX="143.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" prefHeight="51.0" prefWidth="141.0" text="Otimiza" />
+      <TextField fx:id="objetivoField" layoutX="226.0" layoutY="599.0" prefHeight="25.0" prefWidth="64.0" />
+      <Label layoutX="222.0" layoutY="565.0" text="Objetivo" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>

@@ -16,7 +16,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 
 public class JanelaPrincipalController implements Initializable{
@@ -64,6 +63,11 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private TextField objetivoField;
+
+
+
+
+
 
     @FXML
     private void botaoArquivoClicked(){
@@ -157,13 +161,13 @@ public class JanelaPrincipalController implements Initializable{
         try{
             double valores[] = new double[3];
             double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
-            Simulator simulator = new Simulator(this.listaEquipamentosSelecionados, tarifa);
+            Calculadora calculadora = new Calculadora(this.listaEquipamentosSelecionados, tarifa);
             new Thread(){
                 public void run(){
-                    simulator.calculaGastosTotais();
+                    calculadora.calculaGastosTotais();
                 }
             }.start();
-            System.out.println("Res: " +  simulator.getTotalMax());
+            System.out.println("Res: " +  calculadora.getTotalMax());
         }catch (NumberFormatException e){
             System.out.println("Entrada de tarifa inválida.");
         }
@@ -178,6 +182,7 @@ public class JanelaPrincipalController implements Initializable{
         this.listView2.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 //        this.addListaEquipamentosDEBUG();
         this.addToList();
+
 
     }
 
@@ -293,17 +298,33 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void otimizaButtonClicked(){
+        Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
+        calculadora.calculaGastosTotais();
+        double minimo = calculadora.getTotalMin();
+        double maximo = calculadora.getTotalMax();
         double objetivo = Double.parseDouble(this.objetivoField.getText());
-//        System.out.println("Numero de equipamentos = " +  this.listaEquipamentosSelecionados.size());
-//        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados);
-        OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                otimizacaoGenetica.otimiza();
+        System.out.println(objetivo + " < " + maximo);
+        System.out.println(objetivo + " > " + maximo);
+        if(objetivo <= maximo){
+            System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
+            if (objetivo > minimo){
+                System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
+                OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        otimizacaoGenetica.otimiza();
+                    }
+                };thread.start();
+
             }
-        };thread.start();
+
+        }
+        else {
+            System.out.println("FAIL 1");
+        }
 
     }
+
 
 }
