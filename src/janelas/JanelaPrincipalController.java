@@ -157,21 +157,21 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void botaoCalculaClicked(){
-
-        try{
-            double valores[] = new double[3];
-            double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
-            Calculadora calculadora = new Calculadora(this.listaEquipamentosSelecionados, tarifa);
-            new Thread(){
-                public void run(){
-                    calculadora.calculaGastosTotais();
-                }
-            }.start();
-            System.out.println("Res: " +  calculadora.getTotalMax());
-        }catch (NumberFormatException e){
-            System.out.println("Entrada de tarifa inválida.");
+        if (listaEquipamentosSelecionados.size() > 0){
+            try{
+                double valores[] = new double[3];
+                double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
+                Calculadora calculadora = new Calculadora(this.listaEquipamentosSelecionados, tarifa);
+                new Thread(){
+                    public void run(){
+                        calculadora.calculaGastosTotais();
+                    }
+                }.start();
+                System.out.println("Res: " +  calculadora.getTotalMax());
+            }catch (NumberFormatException e){
+                System.out.println("Entrada de tarifa inválida.");
+            }
         }
-
     }
 
     @Override
@@ -180,6 +180,7 @@ public class JanelaPrincipalController implements Initializable{
         this.file = null;
         this.listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.listView2.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.listaEquipamentosSelecionados = new ArrayList<>();
 //        this.addListaEquipamentosDEBUG();
         this.addToList();
 
@@ -251,24 +252,26 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void configurarEquipamentos(){
-        this.portas = new ArrayList<>();
-        for (Equipamento e: this.listaEquipamentosSelecionados) {
-            System.out.println("Na lista : " + e.getNome());
+        if (this.listaEquipamentosSelecionados.size() > 0){
+            this.portas = new ArrayList<>();
+            for (Equipamento e: this.listaEquipamentosSelecionados) {
+                System.out.println("Na lista : " + e.getNome());
 
-        }
-        try {
-            System.out.println("Chamando janela");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaConfigEquipamento.fxml"));
-            Parent root = (Parent) loader.load();
-            JanelaConfigEquipamentos newWindowController = loader.getController();
-            newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cadastro de Equipamentos");
-            stage.show();
+            }
+            try {
+                System.out.println("Chamando janela");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaConfigEquipamento.fxml"));
+                Parent root = (Parent) loader.load();
+                JanelaConfigEquipamentos newWindowController = loader.getController();
+                newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Cadastro de Equipamentos");
+                stage.show();
 
-        }catch (IOException e) {
-            e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -298,33 +301,30 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void otimizaButtonClicked(){
-        Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
-        calculadora.calculaGastosTotais();
-        double minimo = calculadora.getTotalMin();
-        double maximo = calculadora.getTotalMax();
-        double objetivo = Double.parseDouble(this.objetivoField.getText());
-        System.out.println(objetivo + " < " + maximo);
-        System.out.println(objetivo + " > " + maximo);
-        if(objetivo <= maximo){
-            System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
-            if (objetivo > minimo){
-                System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
-                OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
-                Thread thread = new Thread() {
-                    @Override
-                    public void run() {
-                        otimizacaoGenetica.otimiza();
-                    }
-                };thread.start();
+       if (listaEquipamentosSelecionados.size() > 0){
+           Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
+           calculadora.calculaGastosTotais();
+           double minimo = calculadora.getTotalMin();
+           double maximo = calculadora.getTotalMax();
+           double objetivo = Double.parseDouble(this.objetivoField.getText());
+           System.out.println(objetivo + " < " + maximo);
+           System.out.println(objetivo + " > " + maximo);
+           if(objetivo <= maximo){
+               System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
+               if (objetivo > minimo){
+                   System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
+                   OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
+                   Thread thread = new Thread() {
+                       @Override
+                       public void run() {
+                           otimizacaoGenetica.otimiza();
+                       }
+                   };thread.start();
 
-            }
+               }
 
-        }
-        else {
-            System.out.println("FAIL 1");
-        }
-
+           }
+       }
     }
-
 
 }
