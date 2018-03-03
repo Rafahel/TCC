@@ -18,10 +18,10 @@ public class Escritor {
         this.caminho = caminho;
     }
 
-    public void geraArquivo(){
+    public void geraArquivo() {
         try {
             FileWriter fw = new FileWriter(caminho);
-            BufferedWriter bw =  new BufferedWriter(fw);
+            BufferedWriter bw = new BufferedWriter(fw);
             for (Equipamento e : equipamentos) {
                 bw.append(e.toFileFormat());
                 bw.newLine();

@@ -17,7 +17,7 @@ public class Populacao {
 
     }
 
-    public void initialize(){
+    public void initialize() {
         for (int i = 0; i < individuals.length; i++) {
             Individuo individual = new Individuo(equipamentos, this.objetivo);
             individual.generateIndividual();
@@ -26,12 +26,12 @@ public class Populacao {
         }
     }
 
-    public Individuo getIndividual(int index){
+    public Individuo getIndividual(int index) {
         return this.individuals[index];
     }
 
 
-    public Individuo getFitestIndividual(){
+    public Individuo getFitestIndividual() {
 
         int n = individuals.length;
         Individuo temp;
@@ -48,8 +48,8 @@ public class Populacao {
         }
         double fitness = 0;
         temp = individuals[0];
-        for (int i = 0; i < individuals.length ; i++) {
-            if (individuals[i].getFitness() > fitness && individuals[i].getFitness() <= 100){
+        for (int i = 0; i < individuals.length; i++) {
+            if (individuals[i].getFitness() > fitness && individuals[i].getFitness() <= 100) {
                 temp = individuals[i];
                 fitness = temp.getFitness();
             }
@@ -76,11 +76,11 @@ public class Populacao {
         return temp;
     }
 
-    public int size(){
+    public int size() {
         return this.individuals.length;
     }
 
-    public void saveIndividual(int index, Individuo individual){
+    public void saveIndividual(int index, Individuo individual) {
         this.individuals[index] = individual;
     }
 }

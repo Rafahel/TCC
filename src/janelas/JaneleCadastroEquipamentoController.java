@@ -40,19 +40,18 @@ public class JaneleCadastroEquipamentoController implements Initializable {
     private ArrayList<Equipamento> equipamentos;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    public void inicializaJanela(ArrayList<Equipamento> equipamentos){
+    public void inicializaJanela(ArrayList<Equipamento> equipamentos) {
         this.equipamentos = equipamentos;
     }
 
     @FXML
-    private void cadastrar(){
-        try{
+    private void cadastrar() {
+        try {
             if (this.sempreLigadoCheckBox.isSelected())
                 this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), 1440, 1440));
             else
@@ -62,12 +61,10 @@ public class JaneleCadastroEquipamentoController implements Initializable {
 //            escritor.geraArquivo();
             Stage stage = (Stage) botaoCadastrar.getScene().getWindow();
             stage.close();
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(e);
         }
     }
-
-
 
 
 }

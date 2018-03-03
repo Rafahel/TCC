@@ -23,12 +23,12 @@ public class Calculadora {
         this.df.setRoundingMode(RoundingMode.CEILING);
     }
 
-    public void calculaGastosTotais(){
+    public void calculaGastosTotais() {
         double totalMinimo = 0, totalMax = 0, totalMed = 0;
         System.out.println("Total equipamentos selecionados: " + equipamentos.size());
-        for (Equipamento e: this.equipamentos) {
+        for (Equipamento e : this.equipamentos) {
             System.out.println(e.getNome());
-            totalMax = (e.getKwhMin() * e.getMaxUtilzacaoDiaria() * 30 ) * this.tarifa;
+            totalMax = (e.getKwhMin() * e.getMaxUtilzacaoDiaria() * 30) * this.tarifa;
             totalMinimo = (e.getKwhMin() * 30 * e.getMinUtilzacaoDiaria()) * this.tarifa;
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
@@ -50,10 +50,10 @@ public class Calculadora {
     }
 
     public double getTotalMed() {
-        return Double.parseDouble(df.format((this.totalMax + this.totalMin)/2));
+        return Double.parseDouble(df.format((this.totalMax + this.totalMin) / 2));
     }
 
-    public double[] getResults(){
+    public double[] getResults() {
         return new double[]{getTotalMax(), getTotalMed(), getTotalMin()};
     }
- }
+}

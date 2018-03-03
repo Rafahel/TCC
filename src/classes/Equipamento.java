@@ -8,17 +8,13 @@ public class Equipamento {
     private double kwhMin;
     private int minUtilzacaoDiaria;
     private int maxUtilzacaoDiaria;
-    private int minUtilzacaoDiariaHoras;
-    private int maxUtilzacaoDiariaHoras;
     private boolean ligado;
 
-    public Equipamento(String nome, int watts, int minUtilzacaoDiariaHoras, int maxUtilzacaoDiariaHoras) {
+    public Equipamento(String nome, int watts, int minUtilzacaoDiaria, int maxUtilzacaoDiaria) {
         this.nome = nome;
         this.watts = watts;
-        this.minUtilzacaoDiariaHoras = minUtilzacaoDiariaHoras;
-        this.maxUtilzacaoDiariaHoras = maxUtilzacaoDiariaHoras;
-        this.minUtilzacaoDiaria = minUtilzacaoDiariaHoras;
-        this.maxUtilzacaoDiaria = maxUtilzacaoDiariaHoras;
+        this.minUtilzacaoDiaria = minUtilzacaoDiaria;
+        this.maxUtilzacaoDiaria = maxUtilzacaoDiaria;
 //        this.horasParaMinutos();
         this.ligado = false;
         this.transformaWatts();
@@ -29,7 +25,7 @@ public class Equipamento {
 //        this.maxUtilzacaoDiaria = this.maxUtilzacaoDiariaHoras * 60;
 //    }
 
-    public void transformaWatts(){
+    public void transformaWatts() {
         this.kwh = this.watts / 1000.0;
         this.kwhMin = this.kwh / 60.0;
     }
@@ -66,10 +62,10 @@ public class Equipamento {
         this.ligado = ligado;
     }
 
-    public String toFileFormat(){
+    public String toFileFormat() {
         String nome = this.nome.replace(' ', '$');
-        return nome + " " + this.watts + " " + this.minUtilzacaoDiariaHoras + " "
-                + this.maxUtilzacaoDiariaHoras;
+        return nome + " " + this.watts + " " + this.minUtilzacaoDiaria + " "
+                + this.maxUtilzacaoDiaria;
     }
 
     @Override
@@ -81,5 +77,21 @@ public class Equipamento {
                 ", maxUtilzacaoDiaria=" + maxUtilzacaoDiaria +
                 ", ligado=" + ligado +
                 '}';
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setWatts(int watts) {
+        this.watts = watts;
+    }
+
+    public void setMinUtilzacaoDiaria(int minUtilzacaoDiaria) {
+        this.minUtilzacaoDiaria = minUtilzacaoDiaria;
+    }
+
+    public void setMaxUtilzacaoDiaria(int maxUtilzacaoDiaria) {
+        this.maxUtilzacaoDiaria = maxUtilzacaoDiaria;
     }
 }

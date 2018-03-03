@@ -17,7 +17,7 @@ public class Arduino {
         this.portas = portas;
         this.conectado = false;
         SerialPort[] portNames = SerialPort.getCommPorts();
-        for(int i = 0; i < portNames.length; i++)
+        for (int i = 0; i < portNames.length; i++)
             System.out.println(portNames[i].getSystemPortName());
         chosenPort = SerialPort.getCommPort("COM5");
         chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
@@ -27,22 +27,24 @@ public class Arduino {
         return conectado;
     }
 
-    public void conecta(){
+    public void conecta() {
 
-        if(chosenPort.openPort()) {
+        if (chosenPort.openPort()) {
             this.conectado = true;
-            Thread thread = new Thread(){
-                @Override public void run() {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
                     Scanner scanner = new Scanner(chosenPort.getInputStream());
-                    while(scanner.hasNextLine()) {
+                    while (scanner.hasNextLine()) {
                         try {
                             String line = scanner.nextLine();
 //                            int number = Integer.parseInt(line);
-                            if (line.length() == 9){
+                            if (line.length() == 9) {
 //                                System.out.println(line);
                                 status = line;
                             }
-                        } catch(Exception e) {}
+                        } catch (Exception e) {
+                        }
                     }
                     scanner.close();
                 }
@@ -57,17 +59,17 @@ public class Arduino {
 
     }
 
-    public void equipamentoIsConnected(){
+    public void equipamentoIsConnected() {
         try {
-            for (int i = 0; i < this.status.length() ; i++) {
-                if (status.charAt(i) == '1'){
+            for (int i = 0; i < this.status.length(); i++) {
+                if (status.charAt(i) == '1') {
 //                    System.out.println("Equipamento " + i + " ligado.");
                     System.out.println(equipamentos.get(i).getNome() + " ::: LIGADO na porta: " + portas.get(i));
-                }else {
+                } else {
 
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

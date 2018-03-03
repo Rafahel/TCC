@@ -1,5 +1,6 @@
 package classes;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,7 +13,6 @@ public class Individuo {
     private double objetivo;
     private Double resultado;
     static Integer idIndividuo;
-
 
 
     public Individuo(ArrayList<Equipamento> equipamentos, double objetivo) {
@@ -31,9 +31,9 @@ public class Individuo {
         this.objetivo = objetivo;
     }
 
-    public void generateIndividual(){
+    public void generateIndividual() {
         for (int i = 0; i < equipamentos.size(); i++) {
-            int min= equipamentos.get(i).getMinUtilzacaoDiaria();
+            int min = equipamentos.get(i).getMinUtilzacaoDiaria();
             int max = equipamentos.get(i).getMaxUtilzacaoDiaria();
 //            int gene = minimum + randomGenerator.nextInt((maximum - minimum) + 1);
             int gene = randomGenerator.nextInt((max - min) + 1) + min;
@@ -42,10 +42,10 @@ public class Individuo {
         }
     }
 
-    public Double getFitness(){
-        if (fitness == 0){
-            for (int i = 0; i < genes.length ; i++) {
-                this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * 30 ) * 0.69118;
+    public Double getFitness() {
+        if (fitness == 0) {
+            for (int i = 0; i < genes.length; i++) {
+                this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * 30) * 0.69118;
 //                System.out.println(equipamentos.get(i).getKwhMin() + " * " + getGene(i) + " * 30 * 0.69118 = " + this.resultado);
 //                System.out.println(equipamentos.get(i).getNome() +" ligado por " + getGene(i) + " por dia. Custo mensal: " + resultado);
             }
@@ -60,11 +60,11 @@ public class Individuo {
         return fitness;
     }
 
-    public int getGene(int i){
+    public int getGene(int i) {
         return this.genes[i];
     }
 
-    public void setGenes(int i, int value){
+    public void setGenes(int i, int value) {
         this.genes[i] = value;
         this.fitness = 0;
     }
@@ -73,10 +73,10 @@ public class Individuo {
     public String toString() {
         String s = "Genes: {";
 
-        for (int i = 0; i < equipamentos.size() ; i++) {
+        for (int i = 0; i < equipamentos.size(); i++) {
             s += getGene(i);
             if (i < equipamentos.size() - 1)
-                s+= ", ";
+                s += ", ";
         }
         return s + "} Solucao: " + this.resultado + " Fitness: " + fitness + " %";
     }
@@ -85,13 +85,14 @@ public class Individuo {
         return resultado;
     }
 
-    public String getFitnessStr(){
+    public String getFitnessStr() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(fitness);
     }
 
-    public String getCalculo(){
+    public String getCalculo() {
         DecimalFormat df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.UNNECESSARY);
         return "" + resultado + " * 100 / " + this.objetivo + " = " + df.format(fitness);
     }
 
