@@ -6,36 +6,38 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="828.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="933.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
    <children>
-      <Button fx:id="botaoCadastroEquipamento" layoutX="143.0" layoutY="237.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" prefHeight="51.0" prefWidth="141.0" text="Cadastrar equipamento" />
-      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="611.0" layoutY="782.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" text="Debug equipamentos" />
-      <Button fx:id="botaoCalcula" layoutX="143.0" layoutY="296.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" prefHeight="51.0" prefWidth="141.0" text="Calcula" />
-      <TextField fx:id="textFieldTarifa" layoutX="134.0" layoutY="599.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
-      <Label layoutX="142.0" layoutY="565.0" text="Tarifa" textFill="#f6ff00">
+      <Button fx:id="botaoCadastroEquipamento" layoutX="92.0" layoutY="103.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" prefHeight="51.0" prefWidth="141.0" text="Cadastrar equipamento" />
+      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="18.0" layoutY="865.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" prefHeight="51.0" prefWidth="131.0" text="Debug equipamentos" />
+      <Button fx:id="botaoCalcula" layoutX="92.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" prefHeight="51.0" prefWidth="141.0" text="Calcula" />
+      <TextField fx:id="textFieldTarifa" layoutX="83.0" layoutY="465.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
+      <Label layoutX="91.0" layoutY="431.0" text="Tarifa" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <ListView fx:id="listView" layoutX="408.0" layoutY="205.0" onMouseClicked="#clickLista" prefHeight="389.0" prefWidth="399.0" />
-      <ListView fx:id="listView2" layoutX="835.0" layoutY="205.0" onMouseClicked="#clickLista2" prefHeight="389.0" prefWidth="399.0" />
-      <Label layoutX="584.0" layoutY="167.0" text="Lista 1" textFill="#f6ff00">
+      <ListView fx:id="listView" layoutX="357.0" layoutY="71.0" onMouseClicked="#clickLista" prefHeight="389.0" prefWidth="399.0" />
+      <ListView fx:id="listView2" layoutX="784.0" layoutY="71.0" onMouseClicked="#clickLista2" prefHeight="389.0" prefWidth="399.0" />
+      <Label layoutX="533.0" layoutY="33.0" text="Lista 1" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="1008.0" layoutY="167.0" text="Lista 2" textFill="#f6ff00">
+      <Label layoutX="957.0" layoutY="33.0" text="Lista 2" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="buttonRefreshList" layoutX="580.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
-      <Button fx:id="botaoArquivo" layoutX="143.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" prefHeight="51.0" prefWidth="141.0" text="Arquivo" />
-      <Button fx:id="buttonSalvar" layoutX="144.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" prefHeight="51.0" prefWidth="141.0" text="Salvar equipamentos" />
+      <Button fx:id="buttonRefreshList" layoutX="529.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
+      <Button fx:id="botaoArquivo" layoutX="92.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" prefHeight="51.0" prefWidth="141.0" text="Arquivo" />
+      <Button fx:id="buttonSalvar" layoutX="93.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" prefHeight="51.0" prefWidth="141.0" text="Salvar equipamentos" />
       <MenuBar fx:id="menuBar" layoutY="-1.0" prefHeight="28.0" prefWidth="1280.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -55,14 +57,52 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="configurarButton" layoutX="1008.0" layoutY="611.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
-      <Button fx:id="botaoArduino" layoutX="143.0" layoutY="489.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" prefHeight="51.0" prefWidth="141.0" text="Arduino" />
-      <Button fx:id="otimizaButton" layoutX="143.0" layoutY="649.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" prefHeight="51.0" prefWidth="141.0" text="Otimiza" />
-      <TextField fx:id="objetivoField" layoutX="226.0" layoutY="599.0" prefHeight="25.0" prefWidth="64.0" />
-      <Label layoutX="222.0" layoutY="565.0" text="Objetivo" textFill="#f6ff00">
+      <Button fx:id="configurarButton" layoutX="957.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
+      <Button fx:id="botaoArduino" layoutX="92.0" layoutY="355.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" prefHeight="51.0" prefWidth="141.0" text="Arduino" />
+      <Button fx:id="otimizaButton" layoutX="92.0" layoutY="636.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" prefHeight="51.0" prefWidth="141.0" text="Otimiza" />
+      <TextField fx:id="objetivoField" layoutX="175.0" layoutY="465.0" prefHeight="25.0" prefWidth="64.0" />
+      <Label layoutX="171.0" layoutY="431.0" text="Objetivo" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
+      <TextArea fx:id="resultadoTextArea" editable="false" layoutX="343.0" layoutY="509.0" prefHeight="356.0" prefWidth="789.0" style="-fx-background-color: #000000; -fx-font-style: 40;">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="83.0" layoutY="522.0" text="Maxima:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="83.0" layoutY="591.0" text="Minima:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="95.0" layoutY="556.0" text="Média:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="maximaLabel" layoutX="159.0" layoutY="522.0" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="mediaLabel" layoutX="159.0" layoutY="556.0" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="minimaLabel" layoutX="159.0" layoutY="591.0" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonAtualizaLabels" layoutX="115.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#botaoAtualizaLabels" text="Atualiza Labels" />
+      <ProgressBar fx:id="progresso" layoutX="64.0" layoutY="694.0" prefWidth="200.0" progress="0.0" />
+      <Button fx:id="botaoCancela" layoutX="93.0" layoutY="718.0" mnemonicParsing="false" onMouseClicked="#botaoCancelaClicked" prefHeight="51.0" prefWidth="141.0" text="Cancela Otimizacao" />
    </children>
 </AnchorPane>

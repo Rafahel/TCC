@@ -19,7 +19,7 @@ public class Main extends Application {
         JanelaPrincipalController newWindowController = loader.getController();
         primaryStage.setTitle("Janela Principal");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 1280, 720));
+        primaryStage.setScene(new Scene(root, 1280, 933));
         primaryStage.show();
 
 

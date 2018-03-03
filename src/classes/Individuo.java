@@ -1,5 +1,6 @@
 package classes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -77,15 +78,21 @@ public class Individuo {
             if (i < equipamentos.size() - 1)
                 s+= ", ";
         }
-        return s + "} Solucao: " + this.resultado;
+        return s + "} Solucao: " + this.resultado + " Fitness: " + fitness + " %";
     }
 
     public double getResultado() {
         return resultado;
     }
 
+    public String getFitnessStr(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(fitness);
+    }
+
     public String getCalculo(){
-        return "" + resultado + " * 100 / " + this.objetivo + " = " + fitness;
+        DecimalFormat df = new DecimalFormat("#.###");
+        return "" + resultado + " * 100 / " + this.objetivo + " = " + df.format(fitness);
     }
 
 }

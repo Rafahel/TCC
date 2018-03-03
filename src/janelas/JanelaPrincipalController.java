@@ -3,6 +3,7 @@ package janelas;
 
 import classes.*;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -64,10 +65,24 @@ public class JanelaPrincipalController implements Initializable{
     @FXML
     private TextField objetivoField;
 
+    @FXML
+    private TextArea resultadoTextArea;
 
+    @FXML
+    private Label maximaLabel;
 
+    @FXML
+    private Label mediaLabel;
 
+    @FXML
+    private Label minimaLabel;
 
+    private double max, med, min;
+
+    @FXML
+    private Button buttonAtualizaLabels;
+
+    Boolean cancela;
 
     @FXML
     private void botaoArquivoClicked(){
@@ -127,19 +142,27 @@ public class JanelaPrincipalController implements Initializable{
 
     @FXML
     private void debugEquipamentos(){
-
-        System.out.println("Quantidade de equipamentos: " + this.equipamentos.size());
-        for (Equipamento e: this.equipamentos) {
-            System.out.println(e);
+        try {
+            File file = new File("C:\\Users\\Rafahel\\IdeaProjects\\Projeto\\Trabalho\\log.txt");
+            System.out.println(file.toString());
+            this.equipamentos = Loader.load(file);
+        }catch (Exception e){
+//            System.out.println(e);
+        }
+        finally {
+            this.addToList();
+            this.refreshListClicked();
+            this.clearList2();
         }
     }
 
     @FXML
     private void botaoCadastroEquipamento(){ // Chama a janela de cadastro e passa argumentos para ela.
+        System.out.println("EEEEE");
 
         try {
             System.out.println("Chamando janela");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaCadastroEquipamento.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaCadastroEquipamento.fxml"));
             Parent root = (Parent) loader.load();
             JaneleCadastroEquipamentoController newWindowController = loader.getController();
             newWindowController.inicializaJanela(equipamentos);
@@ -150,14 +173,19 @@ public class JanelaPrincipalController implements Initializable{
 
 
         }catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
+//            e.printStackTrace();
         }
 
     }
 
+
+
     @FXML
     private void botaoCalculaClicked(){
+
         if (listaEquipamentosSelecionados.size() > 0){
+            buttonAtualizaLabels.setVisible(true);
             try{
                 double valores[] = new double[3];
                 double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
@@ -165,9 +193,12 @@ public class JanelaPrincipalController implements Initializable{
                 new Thread(){
                     public void run(){
                         calculadora.calculaGastosTotais();
+                        max = calculadora.getResults()[0];
+                        med = calculadora.getResults()[1];
+                        min = calculadora.getResults()[2];
                     }
                 }.start();
-                System.out.println("Res: " +  calculadora.getTotalMax());
+
             }catch (NumberFormatException e){
                 System.out.println("Entrada de tarifa inválida.");
             }
@@ -183,7 +214,7 @@ public class JanelaPrincipalController implements Initializable{
         this.listaEquipamentosSelecionados = new ArrayList<>();
 //        this.addListaEquipamentosDEBUG();
         this.addToList();
-
+        this.cancela = false;
 
     }
 
@@ -260,7 +291,7 @@ public class JanelaPrincipalController implements Initializable{
             }
             try {
                 System.out.println("Chamando janela");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("janelas/JanelaConfigEquipamento.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
                 Parent root = (Parent) loader.load();
                 JanelaConfigEquipamentos newWindowController = loader.getController();
                 newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
@@ -300,6 +331,14 @@ public class JanelaPrincipalController implements Initializable{
     }
 
     @FXML
+    private void botaoCancelaClicked(){
+        if (cancela)
+            cancela = false;
+        else
+            cancela = true;
+    }
+
+    @FXML
     private void otimizaButtonClicked(){
        if (listaEquipamentosSelecionados.size() > 0){
            Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
@@ -307,9 +346,9 @@ public class JanelaPrincipalController implements Initializable{
            double minimo = calculadora.getTotalMin();
            double maximo = calculadora.getTotalMax();
            double objetivo = Double.parseDouble(this.objetivoField.getText());
-           if(objetivo <= maximo){
+           if(objetivo < maximo){
                if (objetivo > minimo){
-                   OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
+                   OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, resultadoTextArea, cancela);
                    Thread thread = new Thread() {
                        @Override
                        public void run() {
@@ -319,13 +358,21 @@ public class JanelaPrincipalController implements Initializable{
 
                }
                else {
-                   System.out.println("O objetivo precisa ser maior ou igual ao MINIMO");
+                   resultadoTextArea.setText("O objetivo precisa ser maior ou igual ao MINIMO");
                }
            }
            else{
-               System.out.println("O objetivo precisa ser menor ou igual ao MAXIMO");
+               resultadoTextArea.setText("O objetivo precisa ser menor ou igual ao MAXIMO");
            }
        }
+    }
+
+    @FXML
+    private void botaoAtualizaLabels(){
+//        teste();
+        maximaLabel.setText("" + max);
+        mediaLabel.setText("" + med);
+        minimaLabel.setText("" + (min + 0.6) );
     }
 
 }

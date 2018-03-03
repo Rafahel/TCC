@@ -1,93 +1,61 @@
 package classes;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import javafx.scene.control.TextArea;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class OtimizacaoGenetica {
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
-    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo) {
+    private String resultado;
+    private TextArea textArea;
+    private Boolean cancela;
+    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, TextArea textArea, Boolean cancela) {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
-    }
-
-
-    public OtimizacaoGenetica() {
-//        Double teste = Math.round(99.634534 * 100.0) / 100.0;
-//
-//
-//        System.out.println("TESTE >>> " + teste);
-
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        this.equipamentos = new ArrayList<Equipamento>();
-
-        /*
-                        Microondas 1200 5 3
-                        Lampada 9 300 120
-                        Geladeira 130 1440 1440
-                        Cafeteira 1000 10 6
-                        Geladeira$2 200 1440 1440
-         */
-//        equipamentos.add(new Equipamento("Microondas" ,1200, 3, 5));
-//        equipamentos.add(new Equipamento("Geladeira" ,130, 1440, 1440));
-//        equipamentos.add(new Equipamento("Cafeteira" ,1000, 6, 10));
-//        equipamentos.add(new Equipamento("Lampada" ,9, 120, 300));
+        this.resultado = "";
+        this.textArea = textArea;
+        this.cancela = false;
     }
 
     public void otimiza(){
         AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(equipamentos, objetivo);
-        Populacao populacao = new Populacao(50, equipamentos, this.objetivo);
+        Populacao populacao = new Populacao(100, equipamentos, this.objetivo);
         populacao.initialize();
 
         int generationCounter = 0;
         boolean encontrado = false;
+        double maxFitness = 100;
 
-        while (true){
+        while (generationCounter <= 5000 && !this.cancela){
             generationCounter++;
             Individuo melhor = populacao.getFitestIndividual();
-
-
-
-
-//            System.out.println("\t\tRELATORIO DA POPULACAO");
-//            for (int i = 0; i < populacao.size() ; i++) {
-//                System.out.println(i + 1 + " - " + populacao.getIndividual(i));
-//            }
-//            System.out.println("");
-//            System.out.println("Geracao: " + generationCounter + " - maior fitness : "
-//                    + melhor.getFitness() + "%");
-//            System.out.println(melhor);
-//            System.out.println("Resultado: " + melhor.getResultado() + "\nObjetivo: " + this.objetivo + "\n");
-//            System.out.println(melhor.getCalculo() + "\n");
-            if (melhor.getFitness() >= Constantes.MAXIMUM_FITNESS && melhor.getFitness() <= 100 ){
+            if (melhor.getFitness() >= maxFitness && melhor.getFitness() <= 100 ){
                 encontrado = true;
                 break;
             }
-
-            populacao = algoritmoGenetico.evolvePopulacao(populacao);
-
-            if (generationCounter >= 90000 * 5){
-                encontrado = false;
-                break;
+            if (generationCounter % 1000 == 0 && maxFitness >= 95){
+                System.out.print("Solução não encontrada, ja se passaram " + generationCounter + " geracoes, mudando fitness de " + maxFitness);
+                maxFitness -= 0.1;
+                System.out.println(" para " + maxFitness);
             }
-
-
-
+            populacao = algoritmoGenetico.evolvePopulacao(populacao);
         }
 
         if (encontrado){
-            System.out.println("\n\nSolution Found!");
-            System.out.println("Generation: " + generationCounter + " - fitness: " + populacao.getFitestIndividual().getFitness()
-                    + "% Resultado: " + populacao.getFitestIndividual().getResultado());
-            System.out.println(populacao.getFitestIndividual().getFitness() + "%");
-            System.out.println(populacao.getFitestIndividual() + "\n" + "Objetivo: " + this.objetivo);
+            Individuo fittest = populacao.getFitestIndividual();
+            this.resultado = "Solução encontrada!\n" + "Geração: " + generationCounter + " - fitness: " +
+                    fittest.getFitnessStr() + "% Resultado: " + fittest.getResultado() + "\n" +
+                    fittest + "\n" + "Objetivo: " + this.objetivo + "\n";
+            for (int i = 0; i < equipamentos.size() ; i++) {
+                this.resultado +=("Utilizar o equipamento " + equipamentos.get(i).getNome() + " por " + fittest.getGene(i) + " minutos diarios.\n");
+            }
+            this.textArea.setText(this.resultado);
         }
         else {
-            System.out.println("Não encontrado.");
+            this.textArea.setText("Solução não encontrada");
         }
     }
 }

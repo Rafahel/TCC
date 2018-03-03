@@ -51,7 +51,6 @@ public class AlgoritmoGenetico {
                 newSolution.setGenes(i, secondIndividual.getGene(i));
             }
         }
-
         return newSolution;
     }
 
@@ -60,11 +59,9 @@ public class AlgoritmoGenetico {
             if (Math.random() < Constantes.MUTATION_RATE){
                 int min= equipamentos.get(i).getMinUtilzacaoDiaria();
                 int max = equipamentos.get(i).getMaxUtilzacaoDiaria();
-//            int gene = minimum + randomGenerator.nextInt((maximum - minimum) + 1);
                 int gene = randomGenerator.nextInt((max - min) + 1) + min;
                 individual.setGenes(i, gene);
             }
-
         }
     }
     
