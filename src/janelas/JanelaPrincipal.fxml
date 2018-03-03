@@ -3,16 +3,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="933.0" prefWidth="1280.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaPrincipalController">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00000035" height="730.0" layoutX="63.0" layoutY="57.0" stroke="#fbff00" strokeType="INSIDE" width="200.0" />
       <Button fx:id="botaoCadastroEquipamento" layoutX="92.0" layoutY="103.0" mnemonicParsing="false" onMouseClicked="#botaoCadastroEquipamento" prefHeight="51.0" prefWidth="141.0" text="Cadastrar equipamento" />
       <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="93.0" layoutY="709.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" prefHeight="51.0" prefWidth="141.0" text="Debug equipamentos" />
       <Button fx:id="botaoCalcula" layoutX="92.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#botaoCalculaClicked" prefHeight="51.0" prefWidth="141.0" text="Calcula" />
@@ -37,25 +36,6 @@
       <Button fx:id="buttonRefreshList" layoutX="529.0" layoutY="477.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
       <Button fx:id="botaoArquivo" layoutX="92.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" prefHeight="51.0" prefWidth="141.0" text="Arquivo" />
       <Button fx:id="buttonSalvar" layoutX="93.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#buttonSalvarClicked" prefHeight="51.0" prefWidth="141.0" text="Salvar equipamentos" />
-      <MenuBar fx:id="menuBar" layoutY="-1.0" prefHeight="28.0" prefWidth="1280.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
       <Button fx:id="configurarButton" layoutX="784.0" layoutY="465.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
       <Button fx:id="botaoArduino" layoutX="92.0" layoutY="355.0" mnemonicParsing="false" onMouseClicked="#botaoArduinoClicked" prefHeight="51.0" prefWidth="141.0" text="Arduino" />
       <Button fx:id="otimizaButton" layoutX="93.0" layoutY="639.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" prefHeight="51.0" prefWidth="141.0" text="Otimiza" />
@@ -65,7 +45,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <TextArea fx:id="resultadoTextArea" editable="false" layoutX="362.0" layoutY="509.0" prefHeight="356.0" prefWidth="789.0">
+      <TextArea fx:id="resultadoTextArea" editable="false" layoutX="354.0" layoutY="509.0" prefHeight="356.0" prefWidth="835.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -80,7 +60,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="95.0" layoutY="556.0" text="Média:" textFill="#f6ff00">
+      <Label layoutX="82.0" layoutY="556.0" text="Média  :" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
@@ -103,5 +83,10 @@
       <Button fx:id="buttonAtualizaLabels" layoutX="115.0" layoutY="497.0" mnemonicParsing="false" onMouseClicked="#botaoAtualizaLabels" text="Atualiza Labels" />
       <Button fx:id="botaoEditarEquipamento" layoutX="1062.0" layoutY="465.0" mnemonicParsing="false" onMouseClicked="#botaoEditarEquipamentoClicked" text="Editar Equipamento" />
       <Button fx:id="botaoRemover" layoutX="939.0" layoutY="465.0" mnemonicParsing="false" onMouseClicked="#botaoEditarEquipamentoClicked" text="Remover" />
+      <Label layoutX="115.0" layoutY="61.0" text="Options" textFill="#f6ff00">
+         <font>
+            <Font name="Calibri Bold" size="27.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

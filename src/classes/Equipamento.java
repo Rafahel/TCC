@@ -85,6 +85,7 @@ public class Equipamento {
 
     public void setWatts(int watts) {
         this.watts = watts;
+        transformaWatts();
     }
 
     public void setMinUtilzacaoDiaria(int minUtilzacaoDiaria) {

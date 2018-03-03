@@ -49,9 +49,6 @@ public class JanelaPrincipalController implements Initializable {
 
     private File file;
 
-    @FXML
-    private MenuBar menuBar;
-
     private ArrayList<Equipamento> listaEquipamentosSelecionados;
 
     private ArrayList<Integer> portas;
@@ -241,7 +238,11 @@ public class JanelaPrincipalController implements Initializable {
             lista = this.listView.getSelectionModel().getSelectedItems();
 //            System.out.println(this.listView.getSelectionModel().getSelectedItems());
 //            System.out.println(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
-            listaEquipamentosSelecionados.add(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
+            Equipamento e = new Equipamento(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getNome(),
+                    equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getWatts(),
+                    equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getMinUtilzacaoDiaria(),
+                    equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getMaxUtilzacaoDiaria());
+            listaEquipamentosSelecionados.add(e);
             this.listView2.getItems().add(lista.get(0));
         }
     }

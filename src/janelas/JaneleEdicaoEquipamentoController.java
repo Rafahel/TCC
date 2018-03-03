@@ -34,6 +34,7 @@ public class JaneleEdicaoEquipamentoController implements Initializable {
 
     private ArrayList<Equipamento> equipamentos;
 
+
     private int pos;
 
     @Override

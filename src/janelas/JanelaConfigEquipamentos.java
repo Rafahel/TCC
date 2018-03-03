@@ -27,6 +27,32 @@ public class JanelaConfigEquipamentos implements Initializable {
     @FXML
     private Button oKbutton;
 
+    @FXML
+    private Button botaoProximo;
+
+    @FXML
+    private Button botaoAnterior;
+
+    @FXML
+    private Button botaoSalvar;
+
+    @FXML
+    private TextField textFieldNome;
+
+    @FXML
+    private TextField textFieldKwh;
+
+    @FXML
+    private TextField textFieldMaxHoras;
+
+    @FXML
+    private TextField textFieldMinHoras;
+
+    @FXML
+    private CheckBox sempreLigadoCheckBox;
+
+    int pos;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -38,7 +64,14 @@ public class JanelaConfigEquipamentos implements Initializable {
         t = new TextField[equipamentos.size()];
         label = new Label[equipamentos.size()];
         this.portas = portas;
+        this.pos = 0;
+        this.textFieldNome.setText(equipamentos.get(pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+
         populateList();
+
     }
 
 
@@ -65,6 +98,51 @@ public class JanelaConfigEquipamentos implements Initializable {
         }
         Stage stage = (Stage) this.oKbutton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void botaoProximoClicked(){
+        if (pos + 1 < equipamentos.size()){
+            pos++;
+        }else {
+            pos = 0;
+        }
+        System.out.println(equipamentos.get(pos));
+        this.textFieldNome.setText(equipamentos.get(pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+    }
+
+    @FXML
+    private void botaoAnteriorClicked(){
+        if (pos - 1 >= 0){
+            pos--;
+        }else {
+            pos = equipamentos.size() - 1;
+        }
+        System.out.println(equipamentos.get(pos));
+        this.textFieldNome.setText(equipamentos.get(pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+    }
+
+    @FXML
+    private void botaoSalvarClicked(){
+       try {
+           equipamentos.get(pos).setNome(textFieldNome.getText());
+           equipamentos.get(pos).setWatts(Integer.parseInt(textFieldKwh.getText()));
+           if(sempreLigadoCheckBox.isSelected()){
+               equipamentos.get(pos).setMaxUtilzacaoDiaria(1440);
+               equipamentos.get(pos).setMinUtilzacaoDiaria(1440);
+           }else {
+               equipamentos.get(pos).setMaxUtilzacaoDiaria(Integer.parseInt(textFieldMaxHoras.getText()));
+               equipamentos.get(pos).setMinUtilzacaoDiaria(Integer.parseInt(textFieldMinHoras.getText()));
+           }
+       }catch (NumberFormatException e){
+
+       }
     }
 
 

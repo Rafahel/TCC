@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="254.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaConfigEquipamentos">
+<AnchorPane fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="925.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaConfigEquipamentos">
   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#424a59" height="423.0" layoutX="405.0" layoutY="78.0" stroke="BLACK" strokeType="INSIDE" width="464.0" />
       <VBox fx:id="textFieldVbox" layoutX="134.0" layoutY="49.0" prefHeight="200.0" prefWidth="54.0" />
       <VBox fx:id="nomesVbox" layoutX="43.0" layoutY="49.0" prefHeight="200.0" prefWidth="91.0" />
       <Label layoutX="54.0" layoutY="14.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
@@ -20,6 +24,27 @@
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <Button fx:id="okButton" layoutX="214.0" layoutY="701.0" mnemonicParsing="false" onMouseClicked="#botaoOkClicked" text="OK" />
+      <Button fx:id="okButton" layoutX="614.0" layoutY="594.0" mnemonicParsing="false" onMouseClicked="#botaoOkClicked" text="OK" />
+      <TextField fx:id="textFieldNome" layoutX="579.0" layoutY="180.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldKwh" layoutX="579.0" layoutY="237.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldMaxHoras" layoutX="579.0" layoutY="289.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldMinHoras" layoutX="579.0" layoutY="345.0" style="-fx-background-color: #bbbbbb;" />
+      <Label layoutX="535.0" layoutY="184.0" text="Nome:" textFill="#fff600" />
+      <Label layoutX="543.0" layoutY="241.0" text="Watts:" textFill="#fff600" />
+      <Label layoutX="444.0" layoutY="293.0" text="Maximo Minutos por dia:" textFill="#fff600" />
+      <Label layoutX="445.0" layoutY="349.0" text="Minimo Minutos por dia:" textFill="#fff600" />
+      <Label layoutX="535.0" layoutY="128.0" prefHeight="46.0" prefWidth="270.0" text="Editor de Equipamento" textFill="#fff200">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="sempreLigadoCheckBox" layoutX="591.0" layoutY="404.0" mnemonicParsing="false" text="Sempre ligado" textFill="RED">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="botaoAnterior" layoutX="414.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#botaoAnteriorClicked" text="&lt;&lt;&lt;" />
+      <Button fx:id="botaoProximo" layoutX="818.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#botaoProximoClicked" text="&gt;&gt;&gt;" />
+      <Button fx:id="botaoSalvar" layoutX="607.0" layoutY="468.0" mnemonicParsing="false" onMouseClicked="#botaoSalvarClicked" text="Salvar" />
   </children>
 </AnchorPane>
