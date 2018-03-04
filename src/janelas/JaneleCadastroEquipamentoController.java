@@ -19,23 +19,17 @@ import java.util.ResourceBundle;
 
 public class JaneleCadastroEquipamentoController implements Initializable {
 
-    @FXML
-    private TextField textFieldNome;
+    @FXML private TextField textFieldNome;
 
-    @FXML
-    private TextField textFieldKwh;
+    @FXML private TextField textFieldKwh;
 
-    @FXML
-    private TextField textFieldMaxHoras;
+    @FXML private TextField textFieldMaxHoras;
 
-    @FXML
-    private TextField textFieldMinHoras;
+    @FXML private TextField textFieldMinHoras;
 
-    @FXML
-    private Button botaoCadastrar;
+    @FXML private Button botaoCadastrar;
 
-    @FXML
-    private CheckBox sempreLigadoCheckBox;
+    @FXML private CheckBox sempreLigadoCheckBox;
 
     private ArrayList<Equipamento> equipamentos;
 

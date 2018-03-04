@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="600.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaStatusController">
+   <children>
+      <VBox fx:id="portasVbox" layoutX="167.0" layoutY="59.0" prefHeight="200.0" prefWidth="33.0" />
+      <VBox fx:id="nomesVbox" layoutX="53.0" layoutY="59.0" prefHeight="200.0" prefWidth="91.0" />
+      <Label layoutX="64.0" layoutY="24.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="155.0" layoutY="24.0" prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <VBox fx:id="statusVbox" layoutX="198.0" layoutY="59.0" prefHeight="200.0" prefWidth="82.0" />
+      <Label layoutX="223.0" layoutY="24.0" prefHeight="28.0" prefWidth="33.0" text="Status" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="319.0" layoutY="145.0" prefHeight="28.0" prefWidth="91.0" text="Total Gasto:" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="valorGasto" layoutX="441.0" layoutY="145.0" prefHeight="28.0" prefWidth="70.0" text="100.99" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="417.0" layoutY="145.0" prefHeight="28.0" prefWidth="24.0" text="R$" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

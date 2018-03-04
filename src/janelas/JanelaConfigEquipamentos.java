@@ -17,41 +17,31 @@ import java.util.ResourceBundle;
 public class JanelaConfigEquipamentos implements Initializable {
 
     private ArrayList<Equipamento> equipamentos;
-    @FXML
-    private VBox nomesVbox;
-    @FXML
-    private VBox textFieldVbox;
+    @FXML private VBox nomesVbox;
+    @FXML private VBox textFieldVbox;
+
+    @FXML private Button oKbutton;
+
+    @FXML private Button botaoProximo;
+
+    @FXML private Button botaoAnterior;
+
+    @FXML private Button botaoSalvar;
+
+    @FXML private TextField textFieldNome;
+
+    @FXML private TextField textFieldKwh;
+
+    @FXML private TextField textFieldMaxHoras;
+
+    @FXML private TextField textFieldMinHoras;
+
+    @FXML private CheckBox sempreLigadoCheckBox;
+
+    private int pos;
     private TextField t[];
     private Label label[];
     private ArrayList<Integer> portas;
-    @FXML
-    private Button oKbutton;
-
-    @FXML
-    private Button botaoProximo;
-
-    @FXML
-    private Button botaoAnterior;
-
-    @FXML
-    private Button botaoSalvar;
-
-    @FXML
-    private TextField textFieldNome;
-
-    @FXML
-    private TextField textFieldKwh;
-
-    @FXML
-    private TextField textFieldMaxHoras;
-
-    @FXML
-    private TextField textFieldMinHoras;
-
-    @FXML
-    private CheckBox sempreLigadoCheckBox;
-
-    int pos;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,12 +82,15 @@ public class JanelaConfigEquipamentos implements Initializable {
 
     @FXML
     private void botaoOkClicked(){
-        for (int i = 0; i < equipamentos.size() ; i++) {
-            System.out.println("adicionando porta " + t[i].getText());
-            portas.add(Integer.parseInt(t[i].getText()));
+        try {
+            for (int i = 0; i < equipamentos.size() ; i++) {
+                System.out.println("adicionando porta " + t[i].getText());
+                portas.add(Integer.parseInt(t[i].getText()));
+            }
+        }catch (Exception e){
+
         }
-        Stage stage = (Stage) this.oKbutton.getScene().getWindow();
-        stage.close();
+
     }
 
     @FXML

@@ -33,7 +33,6 @@ public class Calculadora {
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
-//        System.out.println(totalMax);
         this.totalMax = Double.parseDouble(df.format(this.totalMax));
         this.totalMin = Double.parseDouble(df.format(this.totalMin));
         System.out.println("Máxima: " + this.totalMax);
@@ -49,7 +48,7 @@ public class Calculadora {
         return totalMin;
     }
 
-    public double getTotalMed() {
+    private double getTotalMed() {
         return Double.parseDouble(df.format((this.totalMax + this.totalMin) / 2));
     }
 

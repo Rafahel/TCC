@@ -2,6 +2,7 @@ package janelas;
 
 
 import classes.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -21,31 +22,23 @@ import java.util.ResourceBundle;
 
 public class JanelaPrincipalController implements Initializable {
 
-    @FXML
-    private Button botaoCadastroEquipamento;
+    @FXML private Button botaoCadastroEquipamento;
 
     private ArrayList<Equipamento> equipamentos;
 
-    @FXML
-    private Button botaoCalcula;
+    @FXML private Button botaoCalcula;
 
-    @FXML
-    private TextField textFieldTarifa;
+    @FXML private TextField textFieldTarifa;
 
-    @FXML
-    private Button DEBUG_EQUIPAMENTOS;
+    @FXML private Button DEBUG_EQUIPAMENTOS;
 
-    @FXML
-    private ListView<String> listView;
+    @FXML private ListView<String> listView;
 
-    @FXML
-    private ListView<String> listView2;
+    @FXML private ListView<String> listView2;
 
-    @FXML
-    private Button botaoArquivo;
+    @FXML private Button botaoArquivo;
 
-    @FXML
-    private Button buttonSalvar;
+    @FXML private Button buttonSalvar;
 
     private File file;
 
@@ -53,36 +46,31 @@ public class JanelaPrincipalController implements Initializable {
 
     private ArrayList<Integer> portas;
 
-    @FXML
-    private Button botaoArduino;
+    @FXML private Button botaoArduino;
 
-    @FXML
-    private Button otimizaButton;
+    @FXML private Button otimizaButton;
 
-    @FXML
-    private TextField objetivoField;
+    @FXML private TextField objetivoField;
 
-    @FXML
-    private TextArea resultadoTextArea;
+    @FXML private TextArea resultadoTextArea;
 
-    @FXML
-    private Label maximaLabel;
+    @FXML private Label maximaLabel;
 
-    @FXML
-    private Label mediaLabel;
+    @FXML private Label mediaLabel;
 
-    @FXML
-    private Label minimaLabel;
+    @FXML private Label minimaLabel;
 
     private double max, med, min;
 
-    @FXML
-    private Button buttonAtualizaLabels;
+    @FXML private Button buttonAtualizaLabels;
 
     private Boolean cancela;
 
-    @FXML
-    private Button botaoEditarEquipamento;
+    @FXML private Button botaoEditarEquipamento;
+
+    @FXML private Button janelaStatusButton;
+
+    boolean janelaStatusAberta;
 
     @FXML
     private void botaoArquivoClicked() {
@@ -212,6 +200,7 @@ public class JanelaPrincipalController implements Initializable {
         this.addToList();
         this.cancela = false;
         this.otimizaButton.setDisable(true);
+        this.janelaStatusAberta = false;
 
     }
 
@@ -310,7 +299,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void botaoArduinoClicked() {
         System.out.println(portas);
-        Arduino arduino = new Arduino(this.listaEquipamentosSelecionados, this.portas);
+        Arduino arduino = new Arduino(this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(textFieldTarifa.getText()));
 
         if (!arduino.isConectado()) {
             Thread thread = new Thread() {
@@ -318,18 +307,18 @@ public class JanelaPrincipalController implements Initializable {
                 public void run() {
                     arduino.conecta();
                     while (arduino.isConectado()) {
-                        arduino.equipamentoIsConnected();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        arduino.equipamentoIsConnected();
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                     }
+                    System.out.println("Desconectado.");
                 }
             };
             thread.start();
         }
-
     }
 
     @FXML
@@ -413,6 +402,29 @@ public class JanelaPrincipalController implements Initializable {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    @FXML
+    private void buttonJanelaStatusButtonClicked(){
+        if(!janelaStatusAberta){
+            try {
+                this.janelaStatusAberta = true;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaStatus.fxml"));
+                Parent root = (Parent) loader.load();
+                JanelaStatusController newWindowController = loader.getController();
+                newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(this.textFieldTarifa.getText()));
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Monitor de equipamentos");
+                stage.setOnHidden(e -> {newWindowController.shutdown(); this.janelaStatusAberta = false;});
+                stage.show();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }else {
+            System.out.println("A janela já esta aberta.");
+        }
+
     }
 
 }
