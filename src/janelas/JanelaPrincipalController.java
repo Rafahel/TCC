@@ -2,7 +2,6 @@ package janelas;
 
 
 import classes.*;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
