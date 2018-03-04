@@ -11,11 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -46,8 +49,6 @@ public class JanelaPrincipalController implements Initializable {
 
     private ArrayList<Integer> portas;
 
-    @FXML private Button botaoArduino;
-
     @FXML private Button otimizaButton;
 
     @FXML private TextField objetivoField;
@@ -72,6 +73,10 @@ public class JanelaPrincipalController implements Initializable {
 
     boolean janelaStatusAberta;
 
+    @FXML private Button botaoMostraEquipamentos;
+
+    @FXML private Button botaoLimpar;
+
     @FXML
     private void botaoArquivoClicked() {
         listaEquipamentosSelecionados = new ArrayList<>();
@@ -90,10 +95,10 @@ public class JanelaPrincipalController implements Initializable {
             chooser.setTitle("Abrir Arquivo");
             chooser.setInitialDirectory(new File(caminho));
             this.file = chooser.showOpenDialog(new Stage());
-            System.out.println(file.toString());
+            //System.out.println(file.toString());
             this.equipamentos = Loader.load(file);
         } catch (Exception e) {
-//            System.out.println(e);
+//            //System.out.println(e);
         } finally {
             this.addToList();
             this.refreshListClicked();
@@ -105,7 +110,7 @@ public class JanelaPrincipalController implements Initializable {
     private void buttonSalvarClicked() {
         try {
             if (!this.file.equals(null)) {
-                System.out.println("Salvando");
+                //System.out.println("Salvando");
                 Escritor escritor = new Escritor(this.equipamentos, this.file);
                 escritor.geraArquivo();
             }
@@ -116,12 +121,12 @@ public class JanelaPrincipalController implements Initializable {
                     chooser.setTitle("Abrir Arquivo");
                     chooser.setInitialDirectory(new File("C:\\Users\\"));
                     this.file = chooser.showOpenDialog(new Stage());
-                    System.out.println(file.toString());
+                    //System.out.println(file.toString());
                     Escritor escritor = new Escritor(this.equipamentos, this.file);
                     escritor.geraArquivo();
                     this.addToList();
                 } catch (Exception equipamentoNaoSelecionado) {
-                    System.out.println("Arquivo não selecionado.");
+                    //System.out.println("Arquivo não selecionado.");
                 }
             }
         }
@@ -131,10 +136,10 @@ public class JanelaPrincipalController implements Initializable {
     private void debugEquipamentos() {
         try {
             File file = new File("C:\\Users\\Rafahel\\IdeaProjects\\Projeto\\Trabalho\\log.txt");
-            System.out.println(file.toString());
+            //System.out.println(file.toString());
             this.equipamentos = Loader.load(file);
         } catch (Exception e) {
-//            System.out.println(e);
+//            //System.out.println(e);
         } finally {
             this.addToList();
             this.refreshListClicked();
@@ -146,7 +151,7 @@ public class JanelaPrincipalController implements Initializable {
     private void botaoCadastroEquipamento() { // Chama a janela de cadastro e passa argumentos para ela.
 
         try {
-            System.out.println("Chamando janela");
+            //System.out.println("Chamando janela");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaCadastroEquipamento.fxml"));
             Parent root = (Parent) loader.load();
             JaneleCadastroEquipamentoController newWindowController = loader.getController();
@@ -158,35 +163,10 @@ public class JanelaPrincipalController implements Initializable {
 
 
         } catch (IOException e) {
-            System.out.println(e);
+            //System.out.println(e);
 //            e.printStackTrace();
         }
 
-    }
-
-
-    @FXML
-    private void botaoCalculaClicked() {
-
-        if (listaEquipamentosSelecionados.size() > 0) {
-            buttonAtualizaLabels.setVisible(true);
-            try {
-                double valores[] = new double[3];
-                double tarifa = Double.parseDouble(this.textFieldTarifa.getText());
-                Calculadora calculadora = new Calculadora(this.listaEquipamentosSelecionados, tarifa);
-                new Thread() {
-                    public void run() {
-                        calculadora.calculaGastosTotais();
-                        max = calculadora.getResults()[0];
-                        med = calculadora.getResults()[1];
-                        min = calculadora.getResults()[2];
-                    }
-                }.start();
-
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada de tarifa inválida.");
-            }
-        }
     }
 
     @Override
@@ -206,17 +186,9 @@ public class JanelaPrincipalController implements Initializable {
 
     private void addToList() {
         for (Equipamento e : this.equipamentos) {
-            System.out.println(e.getNome() + " adicionado a lista 1");
+            //System.out.println(e.getNome() + " adicionado a lista 1");
 
             this.listView.getItems().add(e.getNome());
-        }
-    }
-
-    private void addListaEquipamentosDEBUG() {
-        int watts = 1000;
-        for (int i = 0; i < 30; i++) {
-            equipamentos.add(new Equipamento("Equipamento " + i, 1000, 7, 5));
-            watts += 500;
         }
     }
 
@@ -225,43 +197,32 @@ public class JanelaPrincipalController implements Initializable {
         if (this.listView.getItems().size() > 0) {
             ObservableList<String> lista;
             lista = this.listView.getSelectionModel().getSelectedItems();
-//            System.out.println(this.listView.getSelectionModel().getSelectedItems());
-//            System.out.println(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
+//            //System.out.println(this.listView.getSelectionModel().getSelectedItems());
+//            //System.out.println(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
             Equipamento e = new Equipamento(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getNome(),
                     equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getWatts(),
                     equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getMinUtilzacaoDiaria(),
                     equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getMaxUtilzacaoDiaria());
-            listaEquipamentosSelecionados.add(e);
+            listaEquipamentosSelecionados.add(new Equipamento(e.getNome(), e.getWatts(), e.getMinUtilzacaoDiaria(), e.getMaxUtilzacaoDiaria()));
             this.listView2.getItems().add(lista.get(0));
+            chamaCalculadora();
         }
     }
 
     @FXML
     private void clickLista2() {
-        if (this.listView.getItems().size() > 0 && this.listView2.getSelectionModel().getSelectedIndex() >= 0) {
-//            System.out.println("Removendo no index: " + this.listView2.getSelectionModel().getSelectedItem());
-            try {
-
-                for (int i = 0; i < listaEquipamentosSelecionados.size(); i++) {
-                    Equipamento e = listaEquipamentosSelecionados.get(i);
-                    if (e.getNome().equals(listView2.getSelectionModel().getSelectedItem())) {
-//                        System.out.println("Item selecionado: " + listView2.getSelectionModel().getSelectedItem());
-//                        System.out.println("Item Removido: " + this.listaEquipamentosSelecionados.get(i).getNome());
-                        this.listaEquipamentosSelecionados.remove(e);
-                    }
-                }
-                this.listView2.getItems().remove(this.listView2.getSelectionModel().getSelectedIndex());
-            } catch (ArrayIndexOutOfBoundsException e) {
-//            System.out.println(e);
-            }
+        if (this.listView2.getSelectionModel().getSelectedIndex() > -1){
+            listaEquipamentosSelecionados.remove(listaEquipamentosSelecionados.get(listView2.getSelectionModel().getSelectedIndex()));
+            this.listView2.getItems().remove(this.listView2.getSelectionModel().getSelectedIndex());
         }
+        chamaCalculadora();
     }
 
     private void clearList2() {
         try {
             this.listView2.getItems().remove(0, this.listView2.getItems().size());
         } catch (Exception e) {
-            System.out.println(e);
+            //System.out.println(e);
         }
     }
 
@@ -276,11 +237,11 @@ public class JanelaPrincipalController implements Initializable {
         if (this.listaEquipamentosSelecionados.size() > 0) {
             this.portas = new ArrayList<>();
             for (Equipamento e : this.listaEquipamentosSelecionados) {
-                System.out.println("Na lista : " + e.getNome());
+                //System.out.println("Na lista : " + e.getNome());
 
             }
             try {
-                System.out.println("Chamando janela");
+                //System.out.println("Chamando janela");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
                 Parent root = (Parent) loader.load();
                 JanelaConfigEquipamentos newWindowController = loader.getController();
@@ -297,46 +258,19 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void botaoArduinoClicked() {
-        System.out.println(portas);
-        Arduino arduino = new Arduino(this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(textFieldTarifa.getText()));
-
-        if (!arduino.isConectado()) {
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    arduino.conecta();
-                    while (arduino.isConectado()) {
-//                        arduino.equipamentoIsConnected();
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-                    }
-                    System.out.println("Desconectado.");
-                }
-            };
-            thread.start();
-        }
-    }
-
-    @FXML
-    private void botaoCancelaClicked() {
-        if (cancela)
-            cancela = false;
-        else
-            cancela = true;
-    }
-
-    @FXML
     private void otimizaButtonClicked() {
-
+        if(objetivoField.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "O campo objetivo esta vazio!", ButtonType.OK);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                return;
+            }
+        }
         if (listaEquipamentosSelecionados.size() > 0) {
             Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
             calculadora.calculaGastosTotais();
-            double minimo = calculadora.getTotalMin();
-            double maximo = calculadora.getTotalMax();
+            double minimo = Double.parseDouble(this.formatDbl(min));
+            double maximo = Double.parseDouble(this.formatDbl(max));
             double objetivo = Double.parseDouble(this.objetivoField.getText());
             if (objetivo < maximo) {
                 if (objetivo > minimo) {
@@ -359,52 +293,6 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void botaoAtualizaLabels() {
-        boolean mesmoUso = true;
-        for (Equipamento e: listaEquipamentosSelecionados) {
-            if (e.getMinUtilzacaoDiaria() != e.getMaxUtilzacaoDiaria()){
-                mesmoUso = false;
-                break;
-            }
-        }
-        if (mesmoUso) {
-            resultadoTextArea.setText("Apenas equipamento(s) são ligados 24 horas por dia, não são otimizaveis");
-            return;
-        }
-        this.otimizaButton.setDisable(false);
-        maximaLabel.setText("" + max);
-        mediaLabel.setText("" + med);
-        minimaLabel.setText("" + (min + 0.6));
-    }
-
-    @FXML
-    private void botaoEditarEquipamentoClicked(){
-        System.out.println(listView2.getSelectionModel().getSelectedIndex());
-
-    }
-
-    @FXML
-    private void botaoRemoverClicked(){
-        System.out.println(listView2.getSelectionModel().getSelectedIndex());
-
-    }
-
-    private void editorEquipamentos(int pos){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaEdicaoEquipamento.fxml"));
-            Parent root = (Parent) loader.load();
-            JaneleEdicaoEquipamentoController newWindowController = loader.getController();
-            newWindowController.inicializaJanela(equipamentos, pos);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cadastro de Equipamentos");
-            stage.show();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
-    @FXML
     private void buttonJanelaStatusButtonClicked(){
         if(!janelaStatusAberta){
             try {
@@ -419,11 +307,61 @@ public class JanelaPrincipalController implements Initializable {
                 stage.setOnHidden(e -> {newWindowController.shutdown(); this.janelaStatusAberta = false;});
                 stage.show();
             } catch (IOException e) {
-                System.out.println(e);
+                //System.out.println(e);
             }
         }else {
-            System.out.println("A janela já esta aberta.");
+            //System.out.println("A janela já esta aberta.");
         }
+
+    }
+
+    private void chamaCalculadora(){
+
+        double valores[] = new double[3];
+        double tarifa = Double.parseDouble(textFieldTarifa.getText());
+        Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, tarifa);
+        calculadora.calculaGastosTotais();
+        max = calculadora.getResults()[0];
+        med = calculadora.getResults()[1];
+        min = calculadora.getResults()[2];
+        atualizaLabels();
+    }
+
+    private void atualizaLabels(){
+
+        if (listaEquipamentosSelecionados.size() == 0){
+            minimaLabel.setText("0.00");
+            maximaLabel.setText("0.00");
+            mediaLabel.setText("0.00");
+        }
+        else if(listaEquipamentosSelecionados.size() > 4){
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.DOWN);
+            maximaLabel.setText(df.format(max));
+            mediaLabel.setText(df.format(med));
+            minimaLabel.setText(df.format(min));
+            this.otimizaButton.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void printEquips(){
+        for (Equipamento e: listaEquipamentosSelecionados) {
+            //System.out.println(e);
+        }
+    }
+
+    @FXML
+    private void botaoLimparClicked(){
+        listView2.getItems().remove(0, listView2.getItems().size());
+        listaEquipamentosSelecionados = new ArrayList<>();
+        chamaCalculadora();
+    }
+
+    public String formatDbl(double dbl){
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+        return df.format(dbl);
 
     }
 
