@@ -37,9 +37,9 @@ public class OtimizacaoGenetica {
                 encontrado = true;
                 break;
             }
-            if (generationCounter % 1000 == 0 && maxFitness >= 95) {
+            if (generationCounter % 1000 == 0 && maxFitness >= 90) {
                 System.out.print("Solução não encontrada, ja se passaram " + generationCounter + " geracoes, mudando fitness de " + maxFitness);
-                maxFitness -= 0.1;
+                maxFitness -= 2;
                 System.out.println(" para " + maxFitness);
             }
             populacao = algoritmoGenetico.evolvePopulacao(populacao);

@@ -2,26 +2,21 @@ package janelas;
 
 import classes.Arduino;
 import classes.Equipamento;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class JanelaStatusController implements Initializable {
@@ -46,6 +41,8 @@ public class JanelaStatusController implements Initializable {
     @FXML
     private VBox statusVbox;
 
+    @FXML Label horarioLabel;
+
     private ArrayList<Equipamento> equipamentos;
     private ArrayList<Integer> portas;
 
@@ -54,6 +51,8 @@ public class JanelaStatusController implements Initializable {
     private String status;
     private DecimalFormat df;
     private Thread thread;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,6 +97,7 @@ public class JanelaStatusController implements Initializable {
     }
 
     private void conectaArduino() {
+
         arduino = new Arduino(this.equipamentos, this.portas, this.tarifa);
         arduino.conecta();
         Task<Void> longRunningTask = new Task<Void>() {
@@ -105,6 +105,7 @@ public class JanelaStatusController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 while (arduino.isConectado()) {
+                    Platform.runLater(() -> horarioLabel.setText(time()));
                     Thread.sleep(100);
                     double valor = arduino.getGastoAtual();
                     updateMessage(Double.toString(valor));
@@ -131,6 +132,11 @@ public class JanelaStatusController implements Initializable {
         thread.start();
 
 
+    }
+
+    private String time(){
+        Date date = new Date();
+        return new SimpleDateFormat("hh:mm:ss a").format(date);
     }
 
     public void shutdown() {

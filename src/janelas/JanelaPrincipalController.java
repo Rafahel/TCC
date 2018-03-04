@@ -3,7 +3,6 @@ package janelas;
 
 import classes.*;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +12,10 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -345,7 +347,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void printEquips(){
         for (Equipamento e: listaEquipamentosSelecionados) {
-            //System.out.println(e);
+            System.out.println(e);
         }
     }
 

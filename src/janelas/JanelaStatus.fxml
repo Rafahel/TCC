@@ -40,5 +40,15 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <Label layoutX="319.0" layoutY="321.0" prefHeight="28.0" prefWidth="91.0" text="Relogio:" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="horarioLabel" layoutX="396.0" layoutY="321.0" prefHeight="28.0" prefWidth="184.0" text="HH/MM/SS" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

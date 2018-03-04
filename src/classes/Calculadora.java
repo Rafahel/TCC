@@ -20,7 +20,7 @@ public class Calculadora {
         this.totalMax = 0;
         this.totalMin = 0;
         this.df = new DecimalFormat("#.##");
-        this.df.setRoundingMode(RoundingMode.CEILING);
+        this.df.setRoundingMode(RoundingMode.DOWN);
     }
 
     public void calculaGastosTotais() {
@@ -33,11 +33,12 @@ public class Calculadora {
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
+        System.out.println("Máxima: " + this.totalMax);
         this.totalMax = Double.parseDouble(df.format(this.totalMax));
         this.totalMin = Double.parseDouble(df.format(this.totalMin));
-//        System.out.println("Máxima: " + this.totalMax);
-//        System.out.println("Minima: " + (this.totalMin + 0.06));
-//        System.out.println("Media:" + this.getTotalMed());
+        System.out.println("Máxima: " + this.totalMax);
+        System.out.println("Minima: " + (this.totalMin));
+        System.out.println("Media:" + this.getTotalMed());
     }
 
     public double getTotalMax() {
