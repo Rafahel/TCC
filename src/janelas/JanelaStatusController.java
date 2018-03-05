@@ -8,6 +8,9 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -51,6 +54,7 @@ public class JanelaStatusController implements Initializable {
     private String status;
     private DecimalFormat df;
     private Thread thread;
+    @FXML private Label potenciaLabel;
 
 
 
@@ -60,7 +64,7 @@ public class JanelaStatusController implements Initializable {
     }
 
 
-    public void inicializaJanela(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa) {
+    public void inicializaJanela(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa, Arduino arduino) {
         this.equipamentos = equipamentos;
         this.portas = portas;
         this.tarifa = tarifa;
@@ -68,9 +72,11 @@ public class JanelaStatusController implements Initializable {
         this.portaEquipamentoLabel = new Label[equipamentos.size()];
         this.statusEquipamentoLabel = new Label[equipamentos.size()];
         this.df = new DecimalFormat("#.##");
-        this.valorGasto.setText("");
+        this.arduino = arduino;
+        this.valorGasto.setText("0.00");
         this.populateList();
         conectaArduino();
+
     }
 
     private void populateList() {
@@ -98,8 +104,6 @@ public class JanelaStatusController implements Initializable {
 
     private void conectaArduino() {
 
-        arduino = new Arduino(this.equipamentos, this.portas, this.tarifa);
-        arduino.conecta();
         Task<Void> longRunningTask = new Task<Void>() {
 
             @Override
@@ -121,8 +125,11 @@ public class JanelaStatusController implements Initializable {
                             Platform.runLater(() -> statusEquipamentoLabel[pos].setText("LIGADO"));
                             Platform.runLater(() -> statusEquipamentoLabel[pos].setTextFill(Color.web("#0fea0b")));
                         }
+                        Platform.runLater(() -> potenciaLabel.setText("" + arduino.getTotalWatts()));
                     }
+
                 }
+
 
                 return null;
             }
@@ -139,9 +146,14 @@ public class JanelaStatusController implements Initializable {
         return new SimpleDateFormat("hh:mm:ss a").format(date);
     }
 
-    public void shutdown() {
-        arduino.setCloseThread(true);
-
+    private int getSeconds(String time){
+        time = time.replace(':', ' ');
+        return Integer.parseInt(time.split(" ")[2]);
     }
+
+//    public void shutdown() {
+//        arduino.setCloseThread(true);
+//
+//    }
 
 }

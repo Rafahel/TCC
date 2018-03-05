@@ -5,47 +5,57 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="600.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaStatusController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="808.0" prefWidth="866.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaStatusController">
    <children>
-      <VBox fx:id="portasVbox" layoutX="167.0" layoutY="59.0" prefHeight="200.0" prefWidth="33.0" />
-      <VBox fx:id="nomesVbox" layoutX="53.0" layoutY="59.0" prefHeight="200.0" prefWidth="91.0" />
-      <Label layoutX="64.0" layoutY="24.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
+      <VBox fx:id="portasVbox" layoutX="128.0" layoutY="66.0" prefHeight="200.0" prefWidth="33.0" />
+      <VBox fx:id="nomesVbox" layoutX="14.0" layoutY="66.0" prefHeight="200.0" prefWidth="91.0" />
+      <Label layoutX="25.0" layoutY="31.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <Label layoutX="155.0" layoutY="24.0" prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00">
+      <Label layoutX="116.0" layoutY="31.0" prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <VBox fx:id="statusVbox" layoutX="198.0" layoutY="59.0" prefHeight="200.0" prefWidth="82.0" />
-      <Label layoutX="223.0" layoutY="24.0" prefHeight="28.0" prefWidth="33.0" text="Status" textFill="#f6ff00">
+      <VBox fx:id="statusVbox" layoutX="159.0" layoutY="66.0" prefHeight="200.0" prefWidth="82.0" />
+      <Label layoutX="184.0" layoutY="31.0" prefHeight="28.0" prefWidth="33.0" text="Status" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="11.0" />
          </font>
       </Label>
-      <Label layoutX="319.0" layoutY="145.0" prefHeight="28.0" prefWidth="91.0" text="Total Gasto:" textFill="#f6ff00">
+      <Label layoutX="337.0" layoutY="31.0" prefHeight="28.0" prefWidth="91.0" text="Total Gasto:" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="valorGasto" layoutX="441.0" layoutY="145.0" prefHeight="28.0" prefWidth="70.0" text="100.99" textFill="#f6ff00">
+      <Label fx:id="valorGasto" layoutX="459.0" layoutY="31.0" prefHeight="28.0" prefWidth="70.0" text="100.99" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="417.0" layoutY="145.0" prefHeight="28.0" prefWidth="24.0" text="R$" textFill="#f6ff00">
+      <Label layoutX="435.0" layoutY="31.0" prefHeight="28.0" prefWidth="24.0" text="R$" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="319.0" layoutY="321.0" prefHeight="28.0" prefWidth="91.0" text="Relogio:" textFill="#f6ff00">
+      <Label layoutX="337.0" layoutY="68.0" prefHeight="28.0" prefWidth="91.0" text="Relogio:" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="horarioLabel" layoutX="396.0" layoutY="321.0" prefHeight="28.0" prefWidth="184.0" text="HH/MM/SS" textFill="#f6ff00">
+      <Label fx:id="horarioLabel" layoutX="414.0" layoutY="68.0" prefHeight="28.0" prefWidth="184.0" text="HH/MM/SS" textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="337.0" layoutY="96.0" prefHeight="28.0" prefWidth="202.0" text="Potencia sendo utilizada: " textFill="#f6ff00">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="potenciaLabel" layoutX="539.0" layoutY="96.0" prefHeight="28.0" prefWidth="202.0" text="10000" textFill="#f6ff00">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

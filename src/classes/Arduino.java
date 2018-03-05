@@ -14,18 +14,24 @@ public class Arduino {
     private double gastoAtual;
     private double tarifa;
     boolean closeThread;
+    private int[] wattsEquips;
+    private int totalWatts;
 
-    public Arduino(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa) {
+    public Arduino(String porta, ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa) {
         this.equipamentos = equipamentos;
         this.portas = portas;
         this.conectado = false;
         this.gastoAtual = 0;
         this.tarifa = tarifa;
         this.closeThread = false;
-        SerialPort[] portNames = SerialPort.getCommPorts();
-        for (int i = 0; i < portNames.length; i++)
-            System.out.println(portNames[i].getSystemPortName());
-        chosenPort = SerialPort.getCommPort("COM5");
+        this.wattsEquips = new int[equipamentos.size()];
+        for (int i = 0; i < wattsEquips.length ; i++) {
+            this.wattsEquips[i] = 0;
+        }
+//        SerialPort[] portNames = SerialPort.getCommPorts();
+//        for (int i = 0; i < portNames.length; i++)
+//            System.out.println(portNames[i].getSystemPortName());
+        chosenPort = SerialPort.getCommPort(porta);
         chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
     }
 
@@ -80,9 +86,12 @@ public class Arduino {
             for (int i = 0; i < this.status.length(); i++) {
                 if (status.charAt(i) == '1') {
 //                    System.out.println("Equipamento " + i + " ligado.");
-                    System.out.println(equipamentos.get(i).getNome() + " ::: LIGADO na porta: " + portas.get(i));
+                    System.out.println(equipamentos.get(i).getNome() + " ::: LIGADO na porta: " + portas.get(i) + " utilizando " + equipamentos.get(i).getWatts() + " watts");
                     this.gastoAtual += ((equipamentos.get(i).getKwhMin() * 30) * tarifa) / 60;
+                    this.wattsEquips[i] = this.equipamentos.get(i).getWatts();
                     System.out.println("Gasto Atual:" + this.gastoAtual);
+                }else {
+                    this.wattsEquips[i] = 0;
                 }
             }
         } catch (Exception e) {
@@ -100,5 +109,13 @@ public class Arduino {
 
     public void setCloseThread(boolean closeThread) {
         this.closeThread = closeThread;
+    }
+
+    public int getTotalWatts(){
+        int total = 0;
+        for (int wattsEquip : wattsEquips) {
+            total += wattsEquip;
+        }
+        return total;
     }
 }

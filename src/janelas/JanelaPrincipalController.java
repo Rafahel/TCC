@@ -2,7 +2,9 @@ package janelas;
 
 
 import classes.*;
+import com.fazecast.jSerialComm.SerialPort;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -76,6 +77,22 @@ public class JanelaPrincipalController implements Initializable {
     @FXML private Button botaoMostraEquipamentos;
 
     @FXML private Button botaoLimpar;
+
+    private Arduino arduino;
+
+    @FXML private ComboBox<String> portasComboBox;
+
+    @FXML private Button botaoConecta;
+
+    @FXML
+    private void botaoConectaClicked(){
+        if (equipamentos.size() > 0 && portas.size() > 0){
+            String porta = this.portasComboBox.getSelectionModel().getSelectedItem();
+            this.botaoConecta.setDisable(true);
+            this.portasComboBox.setDisable(true);
+            conectaArduino(porta);
+        }
+    }
 
     @FXML
     private void botaoArquivoClicked() {
@@ -181,6 +198,10 @@ public class JanelaPrincipalController implements Initializable {
         this.cancela = false;
         this.otimizaButton.setDisable(true);
         this.janelaStatusAberta = false;
+        SerialPort[] portas = SerialPort.getCommPorts();
+        for (int i = 0; i < portas.length; i++) {
+            this.portasComboBox.getItems().add(portas[i].getSystemPortName());
+        }
 
     }
 
@@ -294,25 +315,20 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private void buttonJanelaStatusButtonClicked(){
-        if(!janelaStatusAberta){
-            try {
-                this.janelaStatusAberta = true;
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaStatus.fxml"));
-                Parent root = (Parent) loader.load();
-                JanelaStatusController newWindowController = loader.getController();
-                newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(this.textFieldTarifa.getText()));
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Monitor de equipamentos");
-                stage.setOnHidden(e -> {newWindowController.shutdown(); this.janelaStatusAberta = false;});
-                stage.show();
-            } catch (IOException e) {
-                //System.out.println(e);
-            }
-        }else {
-            //System.out.println("A janela já esta aberta.");
+        try {
+            this.janelaStatusAberta = true;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaStatus.fxml"));
+            Parent root = (Parent) loader.load();
+            JanelaStatusController newWindowController = loader.getController();
+            newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(this.textFieldTarifa.getText()), arduino);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Monitor de equipamentos");
+//                stage.setOnHidden(e -> {newWindowController.shutdown(); this.janelaStatusAberta = false;});
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     private void chamaCalculadora(){
@@ -364,5 +380,29 @@ public class JanelaPrincipalController implements Initializable {
         return df.format(dbl);
 
     }
+
+
+    private void conectaArduino(String porta){
+        arduino = new Arduino(porta, this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(textFieldTarifa.getText()));
+        arduino.conecta();
+        Task<Void> longRunningTask = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                while (arduino.isConectado()) {
+                    Thread.sleep(100);
+                    double valor = arduino.getGastoAtual();
+                }
+                botaoConecta.setDisable(false);
+                portasComboBox.setDisable(false);
+                return null;
+            }
+        };
+
+        new Thread(longRunningTask).start();
+
+    }
+
+
 
 }
