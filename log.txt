@@ -2,7 +2,6 @@ Microondas 1200 5 3
 Lampada 9 300 120
 Geladeira 130 1440 1440
 Cafeteira 1000 10 6
-Geladeira$2 200 1440 1440
 Fritadeira$Eletrica 1000 60 15
 Liquidificador 300 7 3
 Televisao 110 240 120
