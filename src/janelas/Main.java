@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class Main extends Application {
 
     @Override
@@ -20,7 +22,8 @@ public class Main extends Application {
         JanelaPrincipalController newWindowController = loader.getController();
         primaryStage.setTitle("Janela Principal");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 1280, 933));
+        primaryStage.setScene(new Scene(root));
+        System.out.println(new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon").mkdir());
         primaryStage.show();
 
 

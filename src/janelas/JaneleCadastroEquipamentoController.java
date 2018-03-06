@@ -49,7 +49,7 @@ public class JaneleCadastroEquipamentoController implements Initializable {
             if (this.sempreLigadoCheckBox.isSelected())
                 this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), 1440, 1440));
             else
-                this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()), Integer.parseInt(this.textFieldMaxHoras.getText()), Integer.parseInt(this.textFieldMinHoras.getText())));
+                this.equipamentos.add(new Equipamento(this.textFieldNome.getText(), Integer.parseInt(this.textFieldKwh.getText()),Integer.parseInt(this.textFieldMinHoras.getText()), Integer.parseInt(this.textFieldMaxHoras.getText())));
             System.out.println("Completo");
 //            Escritor escritor = new Escritor(this.equipamentos, this.fi);
 //            escritor.geraArquivo();

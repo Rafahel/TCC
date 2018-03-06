@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
@@ -84,6 +85,19 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML private Button botaoConecta;
 
+    private String localPasta;
+
+    private ArrayList<String> resultadoOtimizacoes;
+
+    @FXML private Button botaoProximo;
+
+    @FXML private Button botaoAnterior;
+
+    private int indexOtimizacoes;
+
+    @FXML private Button botaoSalvarSolucao;
+
+
     @FXML
     private void botaoConectaClicked(){
         if (equipamentos.size() > 0 && portas.size() > 0){
@@ -97,20 +111,10 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void botaoArquivoClicked() {
         listaEquipamentosSelecionados = new ArrayList<>();
-        String caminho = "C:\\Users\\Rafahel\\Desktop";
-        try {
-            FileReader fr = new FileReader("Settings.txt");
-            BufferedReader br = new BufferedReader(fr);
-            caminho = br.readLine();
-            br.close();
-        } catch (NullPointerException | IOException n) {
-            // não faz nada
-        }
-
         try {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Abrir Arquivo");
-            chooser.setInitialDirectory(new File(caminho));
+            chooser.setInitialDirectory(new File(this.localPasta));
             this.file = chooser.showOpenDialog(new Stage());
             //System.out.println(file.toString());
             this.equipamentos = Loader.load(file);
@@ -136,7 +140,7 @@ public class JanelaPrincipalController implements Initializable {
                 try {
                     FileChooser chooser = new FileChooser();
                     chooser.setTitle("Abrir Arquivo");
-                    chooser.setInitialDirectory(new File("C:\\Users\\"));
+                    chooser.setInitialDirectory(new File(this.localPasta));
                     this.file = chooser.showOpenDialog(new Stage());
                     //System.out.println(file.toString());
                     Escritor escritor = new Escritor(this.equipamentos, this.file);
@@ -152,7 +156,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void debugEquipamentos() {
         try {
-            File file = new File("C:\\Users\\Rafahel\\IdeaProjects\\Projeto\\Trabalho\\log.txt");
+            File file = new File(this.localPasta + "\\EquipamentosCadastrados.txt");
             //System.out.println(file.toString());
             this.equipamentos = Loader.load(file);
         } catch (Exception e) {
@@ -202,7 +206,9 @@ public class JanelaPrincipalController implements Initializable {
         for (int i = 0; i < portas.length; i++) {
             this.portasComboBox.getItems().add(portas[i].getSystemPortName());
         }
-
+        this.localPasta = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon";
+        this.resultadoOtimizacoes = new ArrayList<>();
+        this.indexOtimizacoes = 0;
     }
 
     private void addToList() {
@@ -295,7 +301,7 @@ public class JanelaPrincipalController implements Initializable {
             double objetivo = Double.parseDouble(this.objetivoField.getText());
             if (objetivo < maximo) {
                 if (objetivo > minimo) {
-                    OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, resultadoTextArea, cancela);
+                    OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, resultadoTextArea, this.resultadoOtimizacoes);
                     Thread thread = new Thread() {
                         @Override
                         public void run() {
@@ -403,6 +409,38 @@ public class JanelaPrincipalController implements Initializable {
 
     }
 
+    @FXML
+    private void botaoProximoClicked(){
+        if (this.resultadoOtimizacoes.size() > 0){
+            if (indexOtimizacoes < this.resultadoOtimizacoes.size() - 1){
+                System.out.println(indexOtimizacoes);
+                this.indexOtimizacoes ++;
+            }else {
+                System.out.println(indexOtimizacoes);
+                this.indexOtimizacoes = 0;
+            }
+            this.resultadoTextArea.setText(this.resultadoOtimizacoes.get(indexOtimizacoes));
+        }
+    }
 
+    @FXML
+    private void botaoAnteriorClicked(){
+        if (this.resultadoOtimizacoes.size() > 0) {
+            if (indexOtimizacoes > 0){
+                this.indexOtimizacoes --;
+                System.out.println(indexOtimizacoes);
+            }else {
+                System.out.println(indexOtimizacoes);
+                this.indexOtimizacoes = this.resultadoOtimizacoes.size() - 1;
+            }
+            this.resultadoTextArea.setText(this.resultadoOtimizacoes.get(indexOtimizacoes));
+        }
+    }
+
+    @FXML
+    private void botaoSalvarSolucaoClicked(){
+        Escritor escritor = new Escritor(new File(this.localPasta));
+        escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoOtimizacoes.get(indexOtimizacoes) );
+    }
 
 }

@@ -2,7 +2,10 @@ package classes;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Arduino {
@@ -16,6 +19,8 @@ public class Arduino {
     boolean closeThread;
     private int[] wattsEquips;
     private int totalWatts;
+    private Escritor escritor;
+    private String diaAtual;
 
     public Arduino(String porta, ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa) {
         this.equipamentos = equipamentos;
@@ -33,6 +38,8 @@ public class Arduino {
 //            System.out.println(portNames[i].getSystemPortName());
         chosenPort = SerialPort.getCommPort(porta);
         chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+        this.escritor = new Escritor(equipamentos, new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Logs_dia_" + getData().replace('/', '-') + ".txt"));
+        this.diaAtual = getData();
     }
 
     public boolean isConectado() {
@@ -86,12 +93,30 @@ public class Arduino {
             for (int i = 0; i < this.status.length(); i++) {
                 if (status.charAt(i) == '1') {
 //                    System.out.println("Equipamento " + i + " ligado.");
-                    System.out.println(equipamentos.get(i).getNome() + " ::: LIGADO na porta: " + portas.get(i) + " utilizando " + equipamentos.get(i).getWatts() + " watts");
+                    System.out.println(equipamentos.get(i).getNome() + " ::: LIGADO");
+//                    this.escritor.geradorLogs(getDataHorario());
+                    if (!this.equipamentos.get(i).isLigado()){
+                        if (!diaAtual.equals(getData())){
+                            this.mudaDataArquivo();
+                        }
+                        equipamentos.get(i).setLigado(true);
+                        System.out.println(getDataHorario());
+                        escritor.geradorLogs(i, this.getDataHorario());
+                    }
                     this.gastoAtual += ((equipamentos.get(i).getKwhMin() * 30) * tarifa) / 60;
                     this.wattsEquips[i] = this.equipamentos.get(i).getWatts();
-                    System.out.println("Gasto Atual:" + this.gastoAtual);
+//                    System.out.println("Gasto Atual:" + this.gastoAtual);
                 }else {
                     this.wattsEquips[i] = 0;
+                    if(this.equipamentos.get(i).isLigado()){
+                        if (!diaAtual.equals(getData())){
+                            this.mudaDataArquivo();
+                        }
+                        System.out.println(equipamentos.get(i).getNome() + " ::: DESLIGADO");
+                        this.equipamentos.get(i).setLigado(false);
+                        System.out.println(getDataHorario());
+                        escritor.geradorLogs(i, this.getDataHorario());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -118,4 +143,23 @@ public class Arduino {
         }
         return total;
     }
+
+    private String getHorario(){
+        Date date = new Date();
+        return new SimpleDateFormat("hh:mm:ss a").format(date);
+    }
+
+    private String getDataHorario(){
+        Date date = new Date();
+        return new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a").format(date);
+    }
+    private String getData(){
+        Date date = new Date();
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
+    }
+
+    private void mudaDataArquivo(){
+        this.escritor = new Escritor(equipamentos, new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Logs_dia_" + getData().replace('/', '-') + ".txt"));
+    }
+
 }

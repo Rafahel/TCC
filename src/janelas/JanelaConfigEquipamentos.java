@@ -75,6 +75,7 @@ public class JanelaConfigEquipamentos implements Initializable {
             label[i].setAlignment(Pos.BASELINE_LEFT);
             label[i].prefHeight(5);
             t[i].prefHeight(5);
+            t[i].setText("" + (i + 1));
             nomesVbox.getChildren().add(label[i]);
             textFieldVbox.getChildren().add(t[i]);
         }

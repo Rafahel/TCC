@@ -64,8 +64,8 @@ public class Equipamento {
 
     public String toFileFormat() {
         String nome = this.nome.replace(' ', '$');
-        return nome + " " + this.watts + " " + this.minUtilzacaoDiaria + " "
-                + this.maxUtilzacaoDiaria;
+        return nome + " " + this.watts + " " + this.maxUtilzacaoDiaria + " "
+                + this.minUtilzacaoDiaria;
     }
 
     @Override

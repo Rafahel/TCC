@@ -12,13 +12,15 @@ public class OtimizacaoGenetica {
     private String resultado;
     private TextArea textArea;
     private Boolean cancela;
+    ArrayList<String> otimizacoes;
 
-    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, TextArea textArea, Boolean cancela) {
+    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, TextArea textArea, ArrayList<String> otimizacoes ) {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.resultado = "";
         this.textArea = textArea;
         this.cancela = false;
+        this.otimizacoes = otimizacoes;
     }
 
     public void otimiza() {
@@ -47,12 +49,14 @@ public class OtimizacaoGenetica {
 
         if (encontrado) {
             Individuo fittest = populacao.getFitestIndividual();
-            this.resultado = "Solução encontrada!\n" + "Geração: " + generationCounter + " - fitness: " +
+            this.resultado ="Solucao " + (this.otimizacoes.size() + 1) + "\n" + "Geração: " + generationCounter + " - fitness: " +
                     fittest.getFitnessStr() + "% Resultado: " + fittest.getResultado() + "\n" +
-                    fittest + "\n" + "Objetivo: " + this.objetivo + "\n";
+                    fittest + "\n" + "Objetivo: " + this.objetivo + "\n" + "-------------------------\n";
+
             for (int i = 0; i < equipamentos.size(); i++) {
-                this.resultado += ("Utilizar o equipamento " + equipamentos.get(i).getNome() + " por " + fittest.getGene(i) + " minutos diarios.\n");
+                this.resultado += (equipamentos.get(i).getNome() + " " +  fittest.getGene(i) + " minutos diarios.\n");
             }
+            this.otimizacoes.add(this.resultado);
             this.textArea.setText(this.resultado);
         } else {
             this.textArea.setText("Solução não encontrada");
