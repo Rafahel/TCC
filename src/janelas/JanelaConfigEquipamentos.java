@@ -65,6 +65,7 @@ public class JanelaConfigEquipamentos implements Initializable {
         if (equipamentos.size() > 22)
             this.insidePane.setPrefHeight(this.insidePane.getPrefHeight() + ((this.equipamentos.size() - 22) * 30));
 
+
         populateList();
 
     }
