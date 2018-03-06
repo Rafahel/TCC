@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,40 +12,53 @@
 
 <AnchorPane fx:id="win" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="696.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaConfigEquipamentos">
   <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#424a59" height="423.0" layoutX="224.0" layoutY="38.0" stroke="BLACK" strokeType="INSIDE" width="464.0" />
-      <VBox fx:id="textFieldVbox" layoutX="134.0" layoutY="49.0" prefHeight="200.0" prefWidth="54.0" />
-      <VBox fx:id="nomesVbox" layoutX="43.0" layoutY="49.0" prefHeight="200.0" prefWidth="91.0" />
-      <Label layoutX="54.0" layoutY="14.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
-         <font>
-            <Font name="System Bold" size="11.0" />
-         </font>
-      </Label>
-      <Label layoutX="145.0" layoutY="14.0" prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00">
-         <font>
-            <Font name="System Bold" size="11.0" />
-         </font>
-      </Label>
-      <Button fx:id="okButton" layoutX="574.0" layoutY="672.0" mnemonicParsing="false" onMouseClicked="#botaoOkClicked" prefHeight="54.0" prefWidth="100.0" text="Finalizar" />
-      <TextField fx:id="textFieldNome" layoutX="398.0" layoutY="140.0" style="-fx-background-color: #bbbbbb;" />
-      <TextField fx:id="textFieldKwh" layoutX="398.0" layoutY="197.0" style="-fx-background-color: #bbbbbb;" />
-      <TextField fx:id="textFieldMaxHoras" layoutX="398.0" layoutY="249.0" style="-fx-background-color: #bbbbbb;" />
-      <TextField fx:id="textFieldMinHoras" layoutX="398.0" layoutY="305.0" style="-fx-background-color: #bbbbbb;" />
-      <Label layoutX="354.0" layoutY="144.0" text="Nome:" textFill="#fff600" />
-      <Label layoutX="362.0" layoutY="201.0" text="Watts:" textFill="#fff600" />
-      <Label layoutX="263.0" layoutY="253.0" text="Maximo Minutos por dia:" textFill="#fff600" />
-      <Label layoutX="264.0" layoutY="309.0" text="Minimo Minutos por dia:" textFill="#fff600" />
-      <Label layoutX="354.0" layoutY="88.0" prefHeight="46.0" prefWidth="270.0" text="Editor de Equipamento" textFill="#fff200">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#424a59" height="423.0" layoutX="218.0" layoutY="147.0" stroke="BLACK" strokeType="INSIDE" width="464.0" />
+      <Button fx:id="okButton" layoutX="384.0" layoutY="635.0" mnemonicParsing="false" onMouseClicked="#botaoOkClicked" prefHeight="54.0" prefWidth="100.0" text="Finalizar" />
+      <TextField fx:id="textFieldNome" layoutX="392.0" layoutY="249.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldKwh" layoutX="392.0" layoutY="306.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldMaxHoras" layoutX="392.0" layoutY="358.0" style="-fx-background-color: #bbbbbb;" />
+      <TextField fx:id="textFieldMinHoras" layoutX="392.0" layoutY="414.0" style="-fx-background-color: #bbbbbb;" />
+      <Label layoutX="348.0" layoutY="253.0" text="Nome:" textFill="#fff600" />
+      <Label layoutX="356.0" layoutY="310.0" text="Watts:" textFill="#fff600" />
+      <Label layoutX="257.0" layoutY="362.0" text="Maximo Minutos por dia:" textFill="#fff600" />
+      <Label layoutX="258.0" layoutY="418.0" text="Minimo Minutos por dia:" textFill="#fff600" />
+      <Label layoutX="348.0" layoutY="197.0" prefHeight="46.0" prefWidth="270.0" text="Editor de Equipamento" textFill="#fff200">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <CheckBox fx:id="sempreLigadoCheckBox" layoutX="410.0" layoutY="364.0" mnemonicParsing="false" text="Sempre ligado" textFill="RED">
+      <CheckBox fx:id="sempreLigadoCheckBox" layoutX="404.0" layoutY="473.0" mnemonicParsing="false" text="Sempre ligado" textFill="RED">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </CheckBox>
-      <Button fx:id="botaoAnterior" layoutX="233.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#botaoAnteriorClicked" text="&lt;&lt;&lt;" />
-      <Button fx:id="botaoProximo" layoutX="637.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#botaoProximoClicked" text="&gt;&gt;&gt;" />
-      <Button fx:id="botaoSalvar" layoutX="432.0" layoutY="428.0" mnemonicParsing="false" onMouseClicked="#botaoSalvarClicked" text="Salvar" />
+      <Button fx:id="botaoAnterior" layoutX="227.0" layoutY="537.0" mnemonicParsing="false" onMouseClicked="#botaoAnteriorClicked" text="&lt;&lt;&lt;" />
+      <Button fx:id="botaoProximo" layoutX="631.0" layoutY="537.0" mnemonicParsing="false" onMouseClicked="#botaoProximoClicked" text="&gt;&gt;&gt;" />
+      <Button fx:id="botaoSalvar" layoutX="426.0" layoutY="537.0" mnemonicParsing="false" onMouseClicked="#botaoSalvarClicked" text="Salvar" />
+      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="38.0" prefHeight="700.0" prefWidth="199.0">
+        <content>
+          <AnchorPane fx:id="insidePane" minHeight="0.0" minWidth="0.0" prefHeight="705.0" prefWidth="200.0" style="-fx-background-color: #2D3447;">
+               <children>
+                  <VBox fx:id="textFieldVbox" layoutX="105.0" layoutY="49.0" prefHeight="200.0" prefWidth="54.0" />
+                  <VBox fx:id="nomesVbox" layoutX="14.0" layoutY="49.0" prefHeight="200.0" prefWidth="91.0" />
+                  <Label layoutX="25.0" layoutY="14.0" prefHeight="28.0" prefWidth="70.0" text="Equipamento" textFill="#f6ff00">
+                     <font>
+                        <Font name="System Bold" size="11.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="116.0" layoutY="14.0" prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00">
+                     <font>
+                        <Font name="System Bold" size="11.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Label layoutX="246.0" prefHeight="46.0" prefWidth="316.0" text="Configuracao de Equipamentos" textFill="#fff200">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
   </children>
 </AnchorPane>

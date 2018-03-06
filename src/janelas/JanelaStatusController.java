@@ -12,6 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -55,6 +56,7 @@ public class JanelaStatusController implements Initializable {
     private DecimalFormat df;
     private Thread thread;
     @FXML private Label potenciaLabel;
+    @FXML private AnchorPane insidePane;
 
 
 
@@ -75,6 +77,9 @@ public class JanelaStatusController implements Initializable {
         this.arduino = arduino;
         this.valorGasto.setText("0.00");
         this.populateList();
+//        System.out.println(this.insidePane.getPrefHeight());
+        if (equipamentos.size() > 22)
+            this.insidePane.setPrefHeight(this.insidePane.getPrefHeight() + ((this.equipamentos.size() - 22) * 30));
         conectaArduino();
 
     }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,6 +39,8 @@ public class JanelaConfigEquipamentos implements Initializable {
 
     @FXML private CheckBox sempreLigadoCheckBox;
 
+    @FXML private AnchorPane insidePane;
+
     private int pos;
     private TextField t[];
     private Label label[];
@@ -59,6 +62,8 @@ public class JanelaConfigEquipamentos implements Initializable {
         this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
         this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
         this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+        if (equipamentos.size() > 22)
+            this.insidePane.setPrefHeight(this.insidePane.getPrefHeight() + ((this.equipamentos.size() - 22) * 30));
 
         populateList();
 
