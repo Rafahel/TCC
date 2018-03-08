@@ -54,14 +54,14 @@ public class JanelaConfigEquipamentos implements Initializable {
 
     public void inicializaJanela(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas){
         this.equipamentos = equipamentos;
-        t = new TextField[equipamentos.size()];
-        label = new Label[equipamentos.size()];
+        this.t = new TextField[equipamentos.size()];
+        this.label = new Label[equipamentos.size()];
         this.portas = portas;
         this.pos = 0;
-        this.textFieldNome.setText(equipamentos.get(pos).getNome());
-        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
-        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
-        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+        this.textFieldNome.setText(equipamentos.get(this.pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(equipamentos.get(this.pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(this.pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(this.pos).getMinUtilzacaoDiaria()));
         if (equipamentos.size() > 22)
             this.insidePane.setPrefHeight(this.insidePane.getPrefHeight() + ((this.equipamentos.size() - 22) * 30));
 
@@ -72,18 +72,18 @@ public class JanelaConfigEquipamentos implements Initializable {
 
 
     private void populateList(){
-        nomesVbox.setSpacing(15);
-        textFieldVbox.setSpacing(5);
-        for (int i = 0; i < equipamentos.size() ; i++) {
-            t[i] = new TextField();
-            label[i] = new Label(equipamentos.get(i).getNome() + ":");
-            label[i].setTextFill(Color.web("#f6ff00"));
-            label[i].setAlignment(Pos.BASELINE_LEFT);
-            label[i].prefHeight(5);
-            t[i].prefHeight(5);
-            t[i].setText("" + (i + 1));
-            nomesVbox.getChildren().add(label[i]);
-            textFieldVbox.getChildren().add(t[i]);
+        this.nomesVbox.setSpacing(15);
+        this.textFieldVbox.setSpacing(5);
+        for (int i = 0; i < this.equipamentos.size() ; i++) {
+            this.t[i] = new TextField();
+            this.label[i] = new Label(this.equipamentos.get(i).getNome() + ":");
+            this.label[i].setTextFill(Color.web("#f6ff00"));
+            this.label[i].setAlignment(Pos.BASELINE_LEFT);
+            this.label[i].prefHeight(5);
+            this.t[i].prefHeight(5);
+            this.t[i].setText("" + (i + 1));
+            this.nomesVbox.getChildren().add(this.label[i]);
+            this.textFieldVbox.getChildren().add(this.t[i]);
         }
     }
 
@@ -92,7 +92,7 @@ public class JanelaConfigEquipamentos implements Initializable {
         try {
             for (int i = 0; i < equipamentos.size() ; i++) {
                 System.out.println("adicionando porta " + t[i].getText());
-                portas.add(Integer.parseInt(t[i].getText()));
+                this.portas.add(Integer.parseInt(t[i].getText()));
             }
         }catch (Exception e){
 
@@ -102,43 +102,43 @@ public class JanelaConfigEquipamentos implements Initializable {
 
     @FXML
     private void botaoProximoClicked(){
-        if (pos + 1 < equipamentos.size()){
-            pos++;
+        if (this.pos + 1 < this.equipamentos.size()){
+            this.pos++;
         }else {
-            pos = 0;
+            this.pos = 0;
         }
         System.out.println(equipamentos.get(pos));
-        this.textFieldNome.setText(equipamentos.get(pos).getNome());
-        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
-        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
-        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+        this.textFieldNome.setText(this.equipamentos.get(this.pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(this.equipamentos.get(this.pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(this.equipamentos.get(this.pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(this.equipamentos.get(this.pos).getMinUtilzacaoDiaria()));
     }
 
     @FXML
     private void botaoAnteriorClicked(){
-        if (pos - 1 >= 0){
-            pos--;
+        if (this.pos - 1 >= 0){
+            this.pos--;
         }else {
-            pos = equipamentos.size() - 1;
+            this.pos = this.equipamentos.size() - 1;
         }
         System.out.println(equipamentos.get(pos));
-        this.textFieldNome.setText(equipamentos.get(pos).getNome());
-        this.textFieldKwh.setText(Integer.toString(equipamentos.get(pos).getWatts()));
-        this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(pos).getMaxUtilzacaoDiaria()));
-        this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(pos).getMinUtilzacaoDiaria()));
+        this.textFieldNome.setText(this.equipamentos.get(this.pos).getNome());
+        this.textFieldKwh.setText(Integer.toString(this.equipamentos.get(this.pos).getWatts()));
+        this.textFieldMaxHoras.setText(Integer.toString(this.equipamentos.get(this.pos).getMaxUtilzacaoDiaria()));
+        this.textFieldMinHoras.setText(Integer.toString(this.equipamentos.get(this.pos).getMinUtilzacaoDiaria()));
     }
 
     @FXML
     private void botaoSalvarClicked(){
        try {
-           equipamentos.get(pos).setNome(textFieldNome.getText());
-           equipamentos.get(pos).setWatts(Integer.parseInt(textFieldKwh.getText()));
-           if(sempreLigadoCheckBox.isSelected()){
-               equipamentos.get(pos).setMaxUtilzacaoDiaria(1440);
-               equipamentos.get(pos).setMinUtilzacaoDiaria(1440);
+           this.equipamentos.get(this.pos).setNome(this.textFieldNome.getText());
+           this.equipamentos.get(this.pos).setWatts(Integer.parseInt(this.textFieldKwh.getText()));
+           if(this.sempreLigadoCheckBox.isSelected()){
+               this.equipamentos.get(this.pos).setMaxUtilzacaoDiaria(1440);
+               this.equipamentos.get(this.pos).setMinUtilzacaoDiaria(1440);
            }else {
-               equipamentos.get(pos).setMaxUtilzacaoDiaria(Integer.parseInt(textFieldMaxHoras.getText()));
-               equipamentos.get(pos).setMinUtilzacaoDiaria(Integer.parseInt(textFieldMinHoras.getText()));
+               this.equipamentos.get(this.pos).setMaxUtilzacaoDiaria(Integer.parseInt(this.textFieldMaxHoras.getText()));
+               this.equipamentos.get(this.pos).setMinUtilzacaoDiaria(Integer.parseInt(this.textFieldMinHoras.getText()));
            }
        }catch (NumberFormatException e){
 

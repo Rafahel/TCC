@@ -1,6 +1,7 @@
 package classes;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
@@ -62,4 +63,6 @@ public class OtimizacaoGenetica {
             this.textArea.setText("Solução não encontrada");
         }
     }
+
+
 }

@@ -13,7 +13,6 @@ public class Calculadora {
     private double totalMin;
     private DecimalFormat df;
 
-
     public Calculadora(ArrayList<Equipamento> equipamentos, double tarifa) {
         this.equipamentos = equipamentos;
         this.tarifa = tarifa;
@@ -24,7 +23,7 @@ public class Calculadora {
     }
 
     public void calculaGastosTotais() {
-        double totalMinimo = 0, totalMax = 0, totalMed = 0;
+        double totalMinimo = 0, totalMax = 0;
 //        System.out.println("Total equipamentos selecionados: " + equipamentos.size());
         for (Equipamento e : this.equipamentos) {
 //            System.out.println(e.getNome());
@@ -33,12 +32,12 @@ public class Calculadora {
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
-        System.out.println("Máxima: " + this.totalMax);
+//        System.out.println("Máxima: " + this.totalMax);
         this.totalMax = Double.parseDouble(df.format(this.totalMax));
         this.totalMin = Double.parseDouble(df.format(this.totalMin));
-        System.out.println("Máxima: " + this.totalMax);
-        System.out.println("Minima: " + (this.totalMin));
-        System.out.println("Media:" + this.getTotalMed());
+//        System.out.println("Máxima: " + this.totalMax);
+//        System.out.println("Minima: " + (this.totalMin));
+//        System.out.println("Media:" + this.getTotalMed());
     }
 
     public double getTotalMax() {
@@ -55,5 +54,9 @@ public class Calculadora {
 
     public double[] getResults() {
         return new double[]{getTotalMax(), getTotalMed(), getTotalMin()};
+    }
+
+    public static double calculaGastoSegundo(Equipamento equipamento, double tarifa){
+        return ((equipamento.getKwhMin() / 60) * tarifa);
     }
 }

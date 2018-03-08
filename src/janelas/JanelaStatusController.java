@@ -11,8 +11,11 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -36,15 +39,6 @@ public class JanelaStatusController implements Initializable {
     @FXML
     private Label valorGasto;
 
-    @FXML
-    private VBox nomesVbox;
-
-    @FXML
-    private VBox portasVbox;
-
-    @FXML
-    private VBox statusVbox;
-
     @FXML Label horarioLabel;
 
     private ArrayList<Equipamento> equipamentos;
@@ -57,6 +51,14 @@ public class JanelaStatusController implements Initializable {
     private Thread thread;
     @FXML private Label potenciaLabel;
     @FXML private AnchorPane insidePane;
+
+    @FXML
+    private VBox tempoRestanteVbox;
+
+    private Label[] tempoRestanteLabel;
+
+    @FXML
+    private GridPane gridPane;
 
 
 
@@ -73,6 +75,7 @@ public class JanelaStatusController implements Initializable {
         this.nomeEquipamentoLabel = new Label[equipamentos.size()];
         this.portaEquipamentoLabel = new Label[equipamentos.size()];
         this.statusEquipamentoLabel = new Label[equipamentos.size()];
+        this.tempoRestanteLabel = new Label[equipamentos.size()];
         this.df = new DecimalFormat("#.##");
         this.arduino = arduino;
         this.valorGasto.setText("0.00");
@@ -85,25 +88,36 @@ public class JanelaStatusController implements Initializable {
     }
 
     private void populateList() {
-        nomesVbox.setSpacing(15);
-        statusVbox.setSpacing(15);
-        portasVbox.setSpacing(15);
+
         for (int i = 0; i < equipamentos.size(); i++) {
             this.nomeEquipamentoLabel[i] = new Label(equipamentos.get(i).getNome() + ":");
-            nomeEquipamentoLabel[i].setTextFill(Color.web("#f6ff00"));
-            nomeEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
-            nomeEquipamentoLabel[i].prefHeight(5);
-            nomesVbox.getChildren().add(nomeEquipamentoLabel[i]);
+            this.nomeEquipamentoLabel[i].setTextFill(Color.web("#f6ff00"));
+            this.nomeEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
+            this.nomeEquipamentoLabel[i].prefHeight(5);
+//            nomesVbox.getChildren().add(nomeEquipamentoLabel[i]);
             this.statusEquipamentoLabel[i] = new Label("DESLIGADO");
-            statusEquipamentoLabel[i].setTextFill(Color.web("#ff0000"));
-            statusEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
-            statusEquipamentoLabel[i].prefHeight(5);
-            statusVbox.getChildren().add(statusEquipamentoLabel[i]);
+            this.statusEquipamentoLabel[i].setTextFill(Color.web("#ff0000"));
+            this.statusEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
+            this.statusEquipamentoLabel[i].prefHeight(5);
+//            statusVbox.getChildren().add(statusEquipamentoLabel[i]);
             this.portaEquipamentoLabel[i] = new Label(Integer.toString(portas.get(i)));
-            portaEquipamentoLabel[i].setTextFill(Color.web("#f6ff00"));
-            portaEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
-            portaEquipamentoLabel[i].prefHeight(5);
-            portasVbox.getChildren().add(portaEquipamentoLabel[i]);
+            this.portaEquipamentoLabel[i].setTextFill(Color.web("#f6ff00"));
+            this.portaEquipamentoLabel[i].setAlignment(Pos.BASELINE_LEFT);
+            this.portaEquipamentoLabel[i].prefHeight(5);
+//            portasVbox.getChildren().add(portaEquipamentoLabel[i]);
+            this.gridPane.add(nomeEquipamentoLabel[i], 0, i+1,1,1);
+            this.gridPane.add(statusEquipamentoLabel[i], 1, i+1,1,1);
+            this.gridPane.add(portaEquipamentoLabel[i], 2,  i+1,1,1);
+            if(this.equipamentos.get(i).isOtimizado()){
+                this.tempoRestanteLabel[i] = new Label(equipamentos.get(i).getTempoRestante() + " Minutos");
+                this.tempoRestanteLabel[i].setTextFill(Color.web("#39e12d"));
+                this.tempoRestanteLabel[i].setAlignment(Pos.BASELINE_LEFT);
+                this.tempoRestanteLabel[i].prefHeight(5);
+                this.gridPane.add(tempoRestanteLabel[i], 3, i + 1,1,1);
+            }
+//            tempoRestanteVbox.getChildren().add(tempoRestanteLabel[i]);
+
+
         }
     }
 
@@ -118,19 +132,33 @@ public class JanelaStatusController implements Initializable {
                     Thread.sleep(100);
                     double valor = arduino.getGastoAtual();
                     updateMessage(Double.toString(valor));
-                    status = arduino.getStatus().substring(0, equipamentos.size());
+                    status = arduino.getStatus();
+                    if (status.length() >= equipamentos.size())
+                        status = status.substring(0, equipamentos.size());
                     Platform.runLater(() -> valorGasto.setText(df.format(valor)));
                     for (int i = 0; i < status.length(); i++) {
-                        final int pos = i;
-                        if (status.charAt(i) == '0'){
-                            Platform.runLater(() -> statusEquipamentoLabel[pos].setText("DESLIGADO"));
-                            Platform.runLater(() -> statusEquipamentoLabel[pos].setTextFill(Color.web("#ff0000")));
+                        try {
+                            final int pos = i;
+                            if (status.charAt(i) == '0'){
+                                Platform.runLater(() -> statusEquipamentoLabel[pos].setText("DESLIGADO"));
+                                Platform.runLater(() -> statusEquipamentoLabel[pos].setTextFill(Color.web("#ff0000")));
+                            }
+                            else{
+                                Platform.runLater(() -> statusEquipamentoLabel[pos].setText("LIGADO"));
+                                Platform.runLater(() -> statusEquipamentoLabel[pos].setTextFill(Color.web("#0fea0b")));
+                                if (equipamentos.get(pos).isOtimizado()){
+                                    Platform.runLater(() -> tempoRestanteLabel[pos].setText(Integer.toString(equipamentos.get(pos).getTempoRestante()) + " Minutos"));
+                                    if (equipamentos.get(pos).getTempoRestante() == 0){
+                                        tempoRestanteLabel[pos].setTextFill(Color.RED);
+                                    }
+                                }
+                            }
+                            Platform.runLater(() -> potenciaLabel.setText("" + arduino.getTotalWatts()));
+                        }catch (Exception e){
+                            System.out.println("Erro ao atualizar labels");
                         }
-                        else{
-                            Platform.runLater(() -> statusEquipamentoLabel[pos].setText("LIGADO"));
-                            Platform.runLater(() -> statusEquipamentoLabel[pos].setTextFill(Color.web("#0fea0b")));
-                        }
-                        Platform.runLater(() -> potenciaLabel.setText("" + arduino.getTotalWatts()));
+
+
                     }
 
                 }
@@ -140,8 +168,8 @@ public class JanelaStatusController implements Initializable {
             }
         };
 
-        thread = new Thread(longRunningTask);
-        thread.start();
+        this.thread = new Thread(longRunningTask);
+        this.thread.start();
 
 
     }

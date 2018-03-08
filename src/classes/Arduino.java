@@ -1,12 +1,16 @@
 package classes;
 
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Arduino {
     private SerialPort chosenPort;
@@ -21,10 +25,10 @@ public class Arduino {
     private int totalWatts;
     private Escritor escritor;
     private String diaAtual;
+    private double kwTotal;
 
-    public Arduino(String porta, ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa) {
+    public Arduino(String porta, ArrayList<Equipamento> equipamentos, double tarifa) {
         this.equipamentos = equipamentos;
-        this.portas = portas;
         this.conectado = false;
         this.gastoAtual = 0;
         this.tarifa = tarifa;
@@ -33,29 +37,34 @@ public class Arduino {
         for (int i = 0; i < wattsEquips.length ; i++) {
             this.wattsEquips[i] = 0;
         }
-//        SerialPort[] portNames = SerialPort.getCommPorts();
-//        for (int i = 0; i < portNames.length; i++)
-//            System.out.println(portNames[i].getSystemPortName());
-        chosenPort = SerialPort.getCommPort(porta);
-        chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
-        this.escritor = new Escritor(equipamentos, new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Logs_dia_" + getData().replace('/', '-') + ".txt"));
+        this.chosenPort = SerialPort.getCommPort(porta);
+        this.chosenPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+        this.escritor = new Escritor(equipamentos, new File("C:\\Users\\" +
+                System.getProperty("user.name") + "\\Documents\\HouseMon\\Logs_dia_" +
+                getData().replace('/', '-') + ".txt"));
         this.diaAtual = getData();
+        this.kwTotal = 0.00;
+        this.reduz();
     }
 
     public boolean isConectado() {
-        return conectado;
+        return this.conectado;
     }
+
 
     public void conecta() {
 
-        if (chosenPort.openPort()) {
+        if (this.chosenPort.openPort()) {
             this.conectado = true;
             Thread thread = new Thread() {
                 @Override
                 public void run() {
+
                     Scanner scanner = new Scanner(chosenPort.getInputStream());
+                    OutputStream saida = chosenPort.getOutputStream();
                     while (scanner.hasNextLine()) {
                         try {
+
                             String line = scanner.nextLine();
 //                            int number = Integer.parseInt(line);
                             if (line.length() == 9) {
@@ -87,7 +96,8 @@ public class Arduino {
 
     }
 
-    public void equipamentoIsConnected() {
+    private void equipamentoIsConnected() {
+
         try {
 //            System.out.println("len de status = "  + this.status.length());
             for (int i = 0; i < this.status.length(); i++) {
@@ -102,10 +112,13 @@ public class Arduino {
                         equipamentos.get(i).setLigado(true);
                         System.out.println(getDataHorario());
                         escritor.geradorLogs(i, this.getDataHorario());
+
                     }
-                    this.gastoAtual += ((equipamentos.get(i).getKwhMin() * 30) * tarifa) / 60;
+                    this.gastoAtual += Calculadora.calculaGastoSegundo(equipamentos.get(i), tarifa);
+                    kwTotal += (equipamentos.get(i).getKwhMin() / 60);
+                    System.out.println("Total de KW gastos: " +  kwTotal);
                     this.wattsEquips[i] = this.equipamentos.get(i).getWatts();
-//                    System.out.println("Gasto Atual:" + this.gastoAtual);
+                    System.out.println("Gasto Atual:" + this.gastoAtual);
                 }else {
                     this.wattsEquips[i] = 0;
                     if(this.equipamentos.get(i).isLigado()){
@@ -138,7 +151,7 @@ public class Arduino {
 
     public int getTotalWatts(){
         int total = 0;
-        for (int wattsEquip : wattsEquips) {
+        for (int wattsEquip : this.wattsEquips) {
             total += wattsEquip;
         }
         return total;
@@ -159,7 +172,36 @@ public class Arduino {
     }
 
     private void mudaDataArquivo(){
-        this.escritor = new Escritor(equipamentos, new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Logs_dia_" + getData().replace('/', '-') + ".txt"));
+        this.escritor = new Escritor(this.equipamentos,
+                new File("C:\\Users\\" + System.getProperty("user.name") +
+                        "\\Documents\\HouseMon\\Logs_dia_" +
+                        getData().replace('/', '-') + ".txt"));
     }
+
+    private void reduz(){
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+               while (true){
+                   try {
+                       sleep(1000);
+                       for (Equipamento e: equipamentos) {
+                           if(e.isLigado()){
+                               e.reduzTempoRestanteSegundo();
+                               e.checkMinRestante();
+                           }
+                       }
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+               }
+            }
+        };
+        thread.start();
+    }
+
+
+
 
 }

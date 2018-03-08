@@ -40,17 +40,11 @@ public class Escritor {
         try {
             FileWriter fw = new FileWriter(caminho, true);
             BufferedWriter bw = new BufferedWriter(fw);
-//            FileReader fr = new FileReader(caminho);
-//            BufferedReader br = new BufferedReader(fr);
-//            String line;
-//            String text = "";
-//            while ((line = br.readLine()) != null)
-//                text += line;
             if (equipamentos.get(index).isLigado()){
-                bw.append(equipamentos.get(index).getNome()).append(" LIGADO ").append(horario);
+                bw.append(equipamentos.get(index).getNome()).append(" LIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()));
                 bw.newLine();
             }else {
-                bw.append(equipamentos.get(index).getNome()).append(" DESLIGADO ").append(horario);
+                bw.append(equipamentos.get(index).getNome()).append(" DESLIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()));
                 bw.newLine();
             }
             bw.close();

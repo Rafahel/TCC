@@ -23,7 +23,9 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 
 public class JanelaPrincipalController implements Initializable {
@@ -98,6 +100,30 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML private Button botaoSalvarSolucao;
 
+    @FXML private Button botaoUtilizarOtimizacao;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.equipamentos = new ArrayList<>();
+        this.file = null;
+        this.listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.listView2.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.listaEquipamentosSelecionados = new ArrayList<>();
+//        this.addListaEquipamentosDEBUG();
+        this.addToList();
+        this.cancela = false;
+        this.otimizaButton.setDisable(true);
+        this.janelaStatusAberta = false;
+        SerialPort[] portas = SerialPort.getCommPorts();
+        for (int i = 0; i < portas.length; i++) {
+            this.portasComboBox.getItems().add(portas[i].getSystemPortName());
+        }
+        this.localPasta = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon";
+        this.resultadoOtimizacoes = new ArrayList<>();
+        this.indexOtimizacoes = 0;
+        janelaStatusButton.setDisable(true);
+    }
+
 
     @FXML
     private void botaoConectaClicked(){
@@ -167,6 +193,7 @@ public class JanelaPrincipalController implements Initializable {
             this.refreshListClicked();
             this.clearList2();
         }
+        this.DEBUG_EQUIPAMENTOS.setDisable(true);
     }
 
     @FXML
@@ -189,27 +216,6 @@ public class JanelaPrincipalController implements Initializable {
 //            e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.equipamentos = new ArrayList<>();
-        this.file = null;
-        this.listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.listView2.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.listaEquipamentosSelecionados = new ArrayList<>();
-//        this.addListaEquipamentosDEBUG();
-        this.addToList();
-        this.cancela = false;
-        this.otimizaButton.setDisable(true);
-        this.janelaStatusAberta = false;
-        SerialPort[] portas = SerialPort.getCommPorts();
-        for (int i = 0; i < portas.length; i++) {
-            this.portasComboBox.getItems().add(portas[i].getSystemPortName());
-        }
-        this.localPasta = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon";
-        this.resultadoOtimizacoes = new ArrayList<>();
-        this.indexOtimizacoes = 0;
     }
 
     private void addToList() {
@@ -390,7 +396,8 @@ public class JanelaPrincipalController implements Initializable {
 
 
     private void conectaArduino(String porta){
-        arduino = new Arduino(porta, this.listaEquipamentosSelecionados, this.portas, Double.parseDouble(textFieldTarifa.getText()));
+
+        arduino = new Arduino(porta, this.listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
         arduino.conecta();
         Task<Void> longRunningTask = new Task<Void>() {
 
@@ -398,10 +405,12 @@ public class JanelaPrincipalController implements Initializable {
             protected Void call() throws Exception {
                 while (arduino.isConectado()) {
                     Thread.sleep(100);
+                    janelaStatusButton.setDisable(false);
                     double valor = arduino.getGastoAtual();
                 }
                 botaoConecta.setDisable(false);
                 portasComboBox.setDisable(false);
+                janelaStatusButton.setDisable(false);
                 return null;
             }
         };
@@ -442,6 +451,49 @@ public class JanelaPrincipalController implements Initializable {
     private void botaoSalvarSolucaoClicked(){
         Escritor escritor = new Escritor(new File(this.localPasta));
         escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoOtimizacoes.get(indexOtimizacoes) );
+    }
+
+    @FXML
+    private void botaoUtilizarOtimizacaoClicked(){
+
+        Task<Void> longRunningTask = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                String genes = resultadoOtimizacoes.get(indexOtimizacoes).split("\n")[2];
+                int inicio = genes.indexOf('{');
+                int fim = genes.indexOf('}');
+                genes = genes.substring(inicio, fim);
+                genes = genes.replace('{', ' ');
+                genes = genes.replace(',', ' ');
+                String[] nums = genes.split(" ");
+                int[] valores = new int[listaEquipamentosSelecionados.size()];
+                int pos = 0;
+                for (String num : nums) {
+                    try {
+                        if (!num.equals(" ")) {
+                            System.out.println(Integer.parseInt(num));
+                            valores[pos] = Integer.parseInt(num);
+                            pos++;
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+                pos = 0;
+                for (Equipamento e : listaEquipamentosSelecionados){
+                    e.setOtimizado(true);
+                    e.setTempoOtimizado(valores[pos]);
+                    pos++;
+                }
+                return null;
+            }
+        };
+
+        new Thread(longRunningTask).start();
+
+
+
+
     }
 
 }

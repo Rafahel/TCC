@@ -9,6 +9,11 @@ public class Equipamento {
     private int minUtilzacaoDiaria;
     private int maxUtilzacaoDiaria;
     private boolean ligado;
+    private int tempoOtimizado;
+    private boolean otimizado;
+    private int tempoRestante;
+    private long tempoRestanteSegundos;
+    private int tempoExcedido;
 
     public Equipamento(String nome, int watts, int minUtilzacaoDiaria, int maxUtilzacaoDiaria) {
         this.nome = nome;
@@ -18,6 +23,11 @@ public class Equipamento {
 //        this.horasParaMinutos();
         this.ligado = false;
         this.transformaWatts();
+        this.otimizado = false;
+        this.tempoOtimizado = 0;
+        this.tempoRestante = 0;
+        this.tempoExcedido = 0;
+        this.tempoRestanteSegundos = 0;
     }
 
 //    public void horasParaMinutos(){
@@ -94,5 +104,61 @@ public class Equipamento {
 
     public void setMaxUtilzacaoDiaria(int maxUtilzacaoDiaria) {
         this.maxUtilzacaoDiaria = maxUtilzacaoDiaria;
+    }
+
+    public int getTempoOtimizado() {
+        return tempoOtimizado;
+    }
+
+    public void setTempoOtimizado(int tempoOtimizado) {
+        this.tempoOtimizado = tempoOtimizado;
+        setTempoRestante();
+    }
+
+    public boolean isOtimizado() {
+        return otimizado;
+    }
+
+    public void setOtimizado(boolean otimizado) {
+        this.otimizado = otimizado;
+    }
+
+    public int getTempoRestante() {
+        return tempoRestante;
+    }
+
+    public void setTempoRestante() {
+        this.tempoRestante = this.tempoOtimizado;
+    }
+
+    public void reduzTempoRestante(){
+        this.tempoRestante --;
+    }
+
+    public int getTempoExcedido() {
+        return tempoExcedido;
+    }
+
+    public void setTempoExcedido(int tempoExcedido) {
+        this.tempoExcedido = tempoExcedido;
+    }
+
+    public void somaTempoExedido(){
+        this.tempoExcedido ++;
+    }
+
+    public void setTempoRestanteSegundos() {
+        this.tempoRestanteSegundos = this.tempoRestante * 60;
+    }
+
+    public void reduzTempoRestanteSegundo(){
+        this.tempoRestanteSegundos --;
+    }
+
+    public void checkMinRestante(){
+        if (this.tempoRestanteSegundos != (this.tempoRestante * 60)){
+            if (this.tempoRestanteSegundos % 60 == 0)
+                this.reduzTempoRestante();
+        }
     }
 }
