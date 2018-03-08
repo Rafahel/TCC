@@ -122,12 +122,13 @@ public class JanelaPrincipalController implements Initializable {
         this.resultadoOtimizacoes = new ArrayList<>();
         this.indexOtimizacoes = 0;
         janelaStatusButton.setDisable(true);
+        this.portas = new ArrayList<>();
     }
 
 
     @FXML
     private void botaoConectaClicked(){
-        if (equipamentos.size() > 0 && portas.size() > 0){
+        if (equipamentos.size() > 0){
             String porta = this.portasComboBox.getSelectionModel().getSelectedItem();
             this.botaoConecta.setDisable(true);
             this.portasComboBox.setDisable(true);
@@ -279,7 +280,7 @@ public class JanelaPrincipalController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
                 Parent root = (Parent) loader.load();
                 JanelaConfigEquipamentos newWindowController = loader.getController();
-                newWindowController.inicializaJanela(this.listaEquipamentosSelecionados, this.portas);
+                newWindowController.inicializaJanela(this.listaEquipamentosSelecionados);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.setTitle("Cadastro de Equipamentos");
@@ -301,6 +302,7 @@ public class JanelaPrincipalController implements Initializable {
             }
         }
         if (listaEquipamentosSelecionados.size() > 0) {
+
             Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
             calculadora.calculaGastosTotais();
             double minimo = Double.parseDouble(this.formatDbl(min));
@@ -329,6 +331,11 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void buttonJanelaStatusButtonClicked(){
         try {
+            if (portas.size() == 0){
+                for (int i = 0; i < listaEquipamentosSelecionados.size() ; i++) {
+                    this.portas.add( i+1 );
+                }
+            }
             this.janelaStatusAberta = true;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaStatus.fxml"));
             Parent root = (Parent) loader.load();

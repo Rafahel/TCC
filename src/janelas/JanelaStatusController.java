@@ -34,21 +34,21 @@ public class JanelaStatusController implements Initializable {
 
     private Label[] statusEquipamentoLabel;
 
-    private double tarifa;
-
     @FXML
     private Label valorGasto;
 
     @FXML Label horarioLabel;
 
     private ArrayList<Equipamento> equipamentos;
+
     private ArrayList<Integer> portas;
 
-    private Service<Void> backgroundThread;
     private Arduino arduino;
+
     private String status;
+
     private DecimalFormat df;
-    private Thread thread;
+
     @FXML private Label potenciaLabel;
     @FXML private AnchorPane insidePane;
 
@@ -71,7 +71,6 @@ public class JanelaStatusController implements Initializable {
     public void inicializaJanela(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas, double tarifa, Arduino arduino) {
         this.equipamentos = equipamentos;
         this.portas = portas;
-        this.tarifa = tarifa;
         this.nomeEquipamentoLabel = new Label[equipamentos.size()];
         this.portaEquipamentoLabel = new Label[equipamentos.size()];
         this.statusEquipamentoLabel = new Label[equipamentos.size()];
@@ -168,8 +167,8 @@ public class JanelaStatusController implements Initializable {
             }
         };
 
-        this.thread = new Thread(longRunningTask);
-        this.thread.start();
+        Thread thread = new Thread(longRunningTask);
+        thread.start();
 
 
     }
@@ -183,10 +182,4 @@ public class JanelaStatusController implements Initializable {
         time = time.replace(':', ' ');
         return Integer.parseInt(time.split(" ")[2]);
     }
-
-//    public void shutdown() {
-//        arduino.setCloseThread(true);
-//
-//    }
-
 }

@@ -18,8 +18,6 @@ import java.util.ResourceBundle;
 public class JanelaConfigEquipamentos implements Initializable {
 
     private ArrayList<Equipamento> equipamentos;
-    @FXML private VBox nomesVbox;
-    @FXML private VBox textFieldVbox;
 
     @FXML private Button oKbutton;
 
@@ -39,12 +37,7 @@ public class JanelaConfigEquipamentos implements Initializable {
 
     @FXML private CheckBox sempreLigadoCheckBox;
 
-    @FXML private AnchorPane insidePane;
-
     private int pos;
-    private TextField t[];
-    private Label label[];
-    private ArrayList<Integer> portas;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,53 +45,15 @@ public class JanelaConfigEquipamentos implements Initializable {
     }
 
 
-    public void inicializaJanela(ArrayList<Equipamento> equipamentos, ArrayList<Integer> portas){
+    public void inicializaJanela(ArrayList<Equipamento> equipamentos){
         this.equipamentos = equipamentos;
-        this.t = new TextField[equipamentos.size()];
-        this.label = new Label[equipamentos.size()];
-        this.portas = portas;
         this.pos = 0;
         this.textFieldNome.setText(equipamentos.get(this.pos).getNome());
         this.textFieldKwh.setText(Integer.toString(equipamentos.get(this.pos).getWatts()));
         this.textFieldMaxHoras.setText(Integer.toString(equipamentos.get(this.pos).getMaxUtilzacaoDiaria()));
         this.textFieldMinHoras.setText(Integer.toString(equipamentos.get(this.pos).getMinUtilzacaoDiaria()));
-        if (equipamentos.size() > 22)
-            this.insidePane.setPrefHeight(this.insidePane.getPrefHeight() + ((this.equipamentos.size() - 22) * 30));
-
-
-        populateList();
-
     }
 
-
-    private void populateList(){
-        this.nomesVbox.setSpacing(15);
-        this.textFieldVbox.setSpacing(5);
-        for (int i = 0; i < this.equipamentos.size() ; i++) {
-            this.t[i] = new TextField();
-            this.label[i] = new Label(this.equipamentos.get(i).getNome() + ":");
-            this.label[i].setTextFill(Color.web("#f6ff00"));
-            this.label[i].setAlignment(Pos.BASELINE_LEFT);
-            this.label[i].prefHeight(5);
-            this.t[i].prefHeight(5);
-            this.t[i].setText("" + (i + 1));
-            this.nomesVbox.getChildren().add(this.label[i]);
-            this.textFieldVbox.getChildren().add(this.t[i]);
-        }
-    }
-
-    @FXML
-    private void botaoOkClicked(){
-        try {
-            for (int i = 0; i < equipamentos.size() ; i++) {
-                System.out.println("adicionando porta " + t[i].getText());
-                this.portas.add(Integer.parseInt(t[i].getText()));
-            }
-        }catch (Exception e){
-
-        }
-
-    }
 
     @FXML
     private void botaoProximoClicked(){
