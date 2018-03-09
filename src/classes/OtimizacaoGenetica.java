@@ -11,17 +11,15 @@ public class OtimizacaoGenetica {
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
     private String resultado;
-    private TextArea textArea;
     private Boolean cancela;
-    ArrayList<String> otimizacoes;
+    boolean encontrado;
 
-    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, TextArea textArea, ArrayList<String> otimizacoes ) {
+    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo) {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.resultado = "";
-        this.textArea = textArea;
         this.cancela = false;
-        this.otimizacoes = otimizacoes;
+
     }
 
     public void otimiza() {
@@ -30,7 +28,7 @@ public class OtimizacaoGenetica {
         populacao.initialize();
 
         int generationCounter = 0;
-        boolean encontrado = false;
+        encontrado = false;
         double maxFitness = 100;
 
         while (generationCounter <= 5000 && !this.cancela) {
@@ -50,19 +48,21 @@ public class OtimizacaoGenetica {
 
         if (encontrado) {
             Individuo fittest = populacao.getFitestIndividual();
-            this.resultado ="Solucao " + (this.otimizacoes.size() + 1) + "\n" + "Geração: " + generationCounter + " - fitness: " +
+            this.resultado = "Geração: " + generationCounter + " - fitness: " +
                     fittest.getFitnessStr() + "% Resultado: " + fittest.getResultado() + "\n" +
                     fittest + "\n" + "Objetivo: " + this.objetivo + "\n" + "-------------------------\n";
 
             for (int i = 0; i < equipamentos.size(); i++) {
-                this.resultado += (equipamentos.get(i).getNome() + " " +  fittest.getGene(i) + " minutos diarios.\n");
+                this.resultado += (equipamentos.get(i).getNome() + " " + fittest.getGene(i) + " minutos diarios.\n");
             }
-            this.otimizacoes.add(this.resultado);
-            this.textArea.setText(this.resultado);
-        } else {
-            this.textArea.setText("Solução não encontrada");
         }
     }
 
+    public boolean isEncontrado() {
+        return encontrado;
+    }
 
+    public String getResultado() {
+        return resultado;
+    }
 }

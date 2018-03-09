@@ -3,6 +3,7 @@ package janelas;
 
 import classes.*;
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -12,9 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,23 +33,31 @@ import java.util.Timer;
 
 public class JanelaPrincipalController implements Initializable {
 
-    @FXML private Button botaoCadastroEquipamento;
+    @FXML
+    private Button botaoCadastroEquipamento;
 
     private ArrayList<Equipamento> equipamentos;
 
-    @FXML private Button botaoCalcula;
+    @FXML
+    private Button botaoCalcula;
 
-    @FXML private TextField textFieldTarifa;
+    @FXML
+    private TextField textFieldTarifa;
 
-    @FXML private Button DEBUG_EQUIPAMENTOS;
+    @FXML
+    private Button DEBUG_EQUIPAMENTOS;
 
-    @FXML private ListView<String> listView;
+    @FXML
+    private ListView<String> listView;
 
-    @FXML private ListView<String> listView2;
+    @FXML
+    private ListView<String> listView2;
 
-    @FXML private Button botaoArquivo;
+    @FXML
+    private Button botaoArquivo;
 
-    @FXML private Button buttonSalvar;
+    @FXML
+    private Button buttonSalvar;
 
     private File file;
 
@@ -54,53 +65,73 @@ public class JanelaPrincipalController implements Initializable {
 
     private ArrayList<Integer> portas;
 
-    @FXML private Button otimizaButton;
+    @FXML
+    private Button otimizaButton;
 
-    @FXML private TextField objetivoField;
+    @FXML
+    private TextField objetivoField;
 
-    @FXML private TextArea resultadoTextArea;
+    @FXML
+    private TextArea resultadoTextArea;
 
-    @FXML private Label maximaLabel;
+    @FXML
+    private Label maximaLabel;
 
-    @FXML private Label mediaLabel;
+    @FXML
+    private Label mediaLabel;
 
-    @FXML private Label minimaLabel;
+    @FXML
+    private Label minimaLabel;
 
     private double max, med, min;
 
-    @FXML private Button buttonAtualizaLabels;
+    @FXML
+    private Button buttonAtualizaLabels;
 
     private Boolean cancela;
 
-    @FXML private Button botaoEditarEquipamento;
+    @FXML
+    private Button botaoEditarEquipamento;
 
-    @FXML private Button janelaStatusButton;
+    @FXML
+    private Button janelaStatusButton;
 
     boolean janelaStatusAberta;
 
-    @FXML private Button botaoMostraEquipamentos;
+    @FXML
+    private Button botaoMostraEquipamentos;
 
-    @FXML private Button botaoLimpar;
+    @FXML
+    private Button botaoLimpar;
 
     private Arduino arduino;
 
-    @FXML private ComboBox<String> portasComboBox;
+    @FXML
+    private ComboBox<String> portasComboBox;
 
-    @FXML private Button botaoConecta;
+    @FXML
+    private Button botaoConecta;
 
     private String localPasta;
 
     private ArrayList<String> resultadoOtimizacoes;
 
-    @FXML private Button botaoProximo;
+    @FXML
+    private Button botaoProximo;
 
-    @FXML private Button botaoAnterior;
+    @FXML
+    private Button botaoAnterior;
 
     private int indexOtimizacoes;
 
-    @FXML private Button botaoSalvarSolucao;
+    @FXML
+    private Button botaoSalvarSolucao;
 
-    @FXML private Button botaoUtilizarOtimizacao;
+    @FXML
+    private Button botaoUtilizarOtimizacao;
+
+    @FXML
+    private Label kwhLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,12 +154,13 @@ public class JanelaPrincipalController implements Initializable {
         this.indexOtimizacoes = 0;
         janelaStatusButton.setDisable(true);
         this.portas = new ArrayList<>();
+
     }
 
 
     @FXML
-    private void botaoConectaClicked(){
-        if (equipamentos.size() > 0){
+    private void botaoConectaClicked() {
+        if (equipamentos.size() > 0) {
             String porta = this.portasComboBox.getSelectionModel().getSelectedItem();
             this.botaoConecta.setDisable(true);
             this.portasComboBox.setDisable(true);
@@ -232,8 +264,6 @@ public class JanelaPrincipalController implements Initializable {
         if (this.listView.getItems().size() > 0) {
             ObservableList<String> lista;
             lista = this.listView.getSelectionModel().getSelectedItems();
-//            //System.out.println(this.listView.getSelectionModel().getSelectedItems());
-//            //System.out.println(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()));
             Equipamento e = new Equipamento(equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getNome(),
                     equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getWatts(),
                     equipamentos.get(this.listView.getSelectionModel().getSelectedIndex()).getMinUtilzacaoDiaria(),
@@ -246,7 +276,7 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private void clickLista2() {
-        if (this.listView2.getSelectionModel().getSelectedIndex() > -1){
+        if (this.listView2.getSelectionModel().getSelectedIndex() > -1) {
             listaEquipamentosSelecionados.remove(listaEquipamentosSelecionados.get(listView2.getSelectionModel().getSelectedIndex()));
             this.listView2.getItems().remove(this.listView2.getSelectionModel().getSelectedIndex());
         }
@@ -294,7 +324,7 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private void otimizaButtonClicked() {
-        if(objetivoField.getText().equals("")){
+        if (objetivoField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "O campo objetivo esta vazio!", ButtonType.OK);
             alert.showAndWait();
             if (alert.getResult() == ButtonType.OK) {
@@ -308,17 +338,27 @@ public class JanelaPrincipalController implements Initializable {
             double minimo = Double.parseDouble(this.formatDbl(min));
             double maximo = Double.parseDouble(this.formatDbl(max));
             double objetivo = Double.parseDouble(this.objetivoField.getText());
+
             if (objetivo < maximo) {
                 if (objetivo > minimo) {
-                    OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, resultadoTextArea, this.resultadoOtimizacoes);
-                    Thread thread = new Thread() {
+
+                    Task<Void> longRunningTask = new Task<Void>() {
+
                         @Override
-                        public void run() {
+                        protected Void call() throws Exception {
+                            OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
                             otimizacaoGenetica.otimiza();
+                            if (otimizacaoGenetica.isEncontrado()) {
+                                resultadoOtimizacoes.add("Solucao " + (indexOtimizacoes + 1) + "\n" + otimizacaoGenetica.getResultado());
+                                indexOtimizacoes = resultadoOtimizacoes.size();
+                                Platform.runLater(() -> resultadoTextArea.setText(resultadoOtimizacoes.get(resultadoOtimizacoes.size() - 1)));
+                            } else {
+                                Platform.runLater(() -> resultadoTextArea.setText("Resultado não encontrado.\nModifique o valor e tente novamente."));
+                            }
+                            return null;
                         }
                     };
-                    thread.start();
-
+                    new Thread(longRunningTask).start();
                 } else {
                     resultadoTextArea.setText("O objetivo precisa ser maior ou igual ao MINIMO");
                 }
@@ -329,11 +369,11 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void buttonJanelaStatusButtonClicked(){
+    private void buttonJanelaStatusButtonClicked() {
         try {
-            if (portas.size() == 0){
-                for (int i = 0; i < listaEquipamentosSelecionados.size() ; i++) {
-                    this.portas.add( i+1 );
+            if (portas.size() == 0) {
+                for (int i = 0; i < listaEquipamentosSelecionados.size(); i++) {
+                    this.portas.add(i + 1);
                 }
             }
             this.janelaStatusAberta = true;
@@ -351,7 +391,7 @@ public class JanelaPrincipalController implements Initializable {
         }
     }
 
-    private void chamaCalculadora(){
+    private void chamaCalculadora() {
 
         double valores[] = new double[3];
         double tarifa = Double.parseDouble(textFieldTarifa.getText());
@@ -360,17 +400,17 @@ public class JanelaPrincipalController implements Initializable {
         max = calculadora.getResults()[0];
         med = calculadora.getResults()[1];
         min = calculadora.getResults()[2];
+        this.kwhLabel.setText(Double.toString(calculadora.calculakwh()));
         atualizaLabels();
     }
 
-    private void atualizaLabels(){
+    private void atualizaLabels() {
 
-        if (listaEquipamentosSelecionados.size() == 0){
+        if (listaEquipamentosSelecionados.size() == 0) {
             minimaLabel.setText("0.00");
             maximaLabel.setText("0.00");
             mediaLabel.setText("0.00");
-        }
-        else if(listaEquipamentosSelecionados.size() > 4){
+        } else if (listaEquipamentosSelecionados.size() > 4) {
             DecimalFormat df = new DecimalFormat("#.##");
             df.setRoundingMode(RoundingMode.DOWN);
             maximaLabel.setText(df.format(max));
@@ -381,20 +421,20 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void printEquips(){
-        for (Equipamento e: listaEquipamentosSelecionados) {
+    private void printEquips() {
+        for (Equipamento e : listaEquipamentosSelecionados) {
             System.out.println(e);
         }
     }
 
     @FXML
-    private void botaoLimparClicked(){
+    private void botaoLimparClicked() {
         listView2.getItems().remove(0, listView2.getItems().size());
         listaEquipamentosSelecionados = new ArrayList<>();
         chamaCalculadora();
     }
 
-    public String formatDbl(double dbl){
+    public String formatDbl(double dbl) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.DOWN);
         return df.format(dbl);
@@ -402,7 +442,7 @@ public class JanelaPrincipalController implements Initializable {
     }
 
 
-    private void conectaArduino(String porta){
+    private void conectaArduino(String porta) {
 
         arduino = new Arduino(porta, this.listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
         arduino.conecta();
@@ -427,47 +467,52 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void botaoProximoClicked(){
-        if (this.resultadoOtimizacoes.size() > 0){
-            if (indexOtimizacoes < this.resultadoOtimizacoes.size() - 1){
-                System.out.println(indexOtimizacoes);
-                this.indexOtimizacoes ++;
-            }else {
-                System.out.println(indexOtimizacoes);
-                this.indexOtimizacoes = 0;
+    private void botaoProximoClicked() {
+        try {
+            if (resultadoOtimizacoes.size() > 0) {
+                indexOtimizacoes++;
+                resultadoTextArea.setText(resultadoOtimizacoes.get(indexOtimizacoes));
             }
-            this.resultadoTextArea.setText(this.resultadoOtimizacoes.get(indexOtimizacoes));
+        } catch (IndexOutOfBoundsException e) {
+            indexOtimizacoes = 0;
+            resultadoTextArea.setText(resultadoOtimizacoes.get(0));
         }
     }
 
     @FXML
-    private void botaoAnteriorClicked(){
-        if (this.resultadoOtimizacoes.size() > 0) {
-            if (indexOtimizacoes > 0){
-                this.indexOtimizacoes --;
-                System.out.println(indexOtimizacoes);
-            }else {
-                System.out.println(indexOtimizacoes);
-                this.indexOtimizacoes = this.resultadoOtimizacoes.size() - 1;
+    private void botaoAnteriorClicked() {
+        try {
+            if (resultadoOtimizacoes.size() > 0) {
+                indexOtimizacoes--;
+                resultadoTextArea.setText(resultadoOtimizacoes.get(indexOtimizacoes));
             }
-            this.resultadoTextArea.setText(this.resultadoOtimizacoes.get(indexOtimizacoes));
+        } catch (IndexOutOfBoundsException e) {
+            indexOtimizacoes = resultadoOtimizacoes.size() - 1;
+            resultadoTextArea.setText(resultadoOtimizacoes.get(resultadoOtimizacoes.size() - 1));
+
         }
     }
 
     @FXML
-    private void botaoSalvarSolucaoClicked(){
+    private void botaoSalvarSolucaoClicked() {
         Escritor escritor = new Escritor(new File(this.localPasta));
-        escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoOtimizacoes.get(indexOtimizacoes) );
+        escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoOtimizacoes.get(indexOtimizacoes));
     }
 
+    // TODO Corrigir erro do index.
     @FXML
-    private void botaoUtilizarOtimizacaoClicked(){
+    private void botaoUtilizarOtimizacaoClicked() {
 
         Task<Void> longRunningTask = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
-                String genes = resultadoOtimizacoes.get(indexOtimizacoes).split("\n")[2];
+                String genes;
+                if (indexOtimizacoes - 1 <= 0)
+                    genes = resultadoOtimizacoes.get(0).split("\n")[2];
+                else
+                    genes = resultadoOtimizacoes.get(indexOtimizacoes - 1).split("\n")[2];
+
                 int inicio = genes.indexOf('{');
                 int fim = genes.indexOf('}');
                 genes = genes.substring(inicio, fim);
@@ -487,7 +532,7 @@ public class JanelaPrincipalController implements Initializable {
                     }
                 }
                 pos = 0;
-                for (Equipamento e : listaEquipamentosSelecionados){
+                for (Equipamento e : listaEquipamentosSelecionados) {
                     e.setOtimizado(true);
                     e.setTempoOtimizado(valores[pos]);
                     pos++;
@@ -495,12 +540,7 @@ public class JanelaPrincipalController implements Initializable {
                 return null;
             }
         };
-
         new Thread(longRunningTask).start();
-
-
-
-
     }
 
 }

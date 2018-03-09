@@ -59,4 +59,14 @@ public class Calculadora {
     public static double calculaGastoSegundo(Equipamento equipamento, double tarifa){
         return ((equipamento.getKwhMin() / 60) * tarifa);
     }
+
+    public double calculakwh(){
+        double kWh = 0;
+        for (Equipamento e: this.equipamentos) {
+            kWh+= ((e.getWatts()) * e.getMaxUtilzacaoDiaria());
+            kWh = (kWh/1000) / 2;
+            System.out.println(kWh);
+        }
+        return kWh;
+    }
 }

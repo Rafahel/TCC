@@ -166,5 +166,15 @@
          </font>
       </Label>
       <Button fx:id="botaoUtilizarOtimizacao" layoutX="944.0" layoutY="633.0" mnemonicParsing="false" onMouseClicked="#botaoUtilizarOtimizacaoClicked" text="Utilizar otimizacao" />
+      <Label layoutX="267.0" layoutY="423.0" text="kWh" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="kwhLabel" layoutX="267.0" layoutY="456.0" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
