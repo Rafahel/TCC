@@ -53,6 +53,23 @@ public class Escritor {
         }
     }
 
+    public static void geradorLogSimulador(String caminho, String horario, Equipamento equipamento){
+        try {
+            FileWriter fw = new FileWriter(caminho, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            if (equipamento.isLigado()){
+                bw.append(equipamento.getNome()).append(" LIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamento.getTempoRestante()));
+                bw.newLine();
+            }else {
+                bw.append(equipamento.getNome()).append(" DESLIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamento.getTempoRestante()));
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Escritor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void salvaOtimizacao(String nome, String otimizacao){
         try {
             FileWriter fw = new FileWriter(caminho + nome );

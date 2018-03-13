@@ -176,5 +176,6 @@
             <Font size="19.0" />
          </font>
       </Label>
+      <Button fx:id="simuladorButton" layoutX="356.0" layoutY="633.0" mnemonicParsing="false" onMouseClicked="#simladorButtonClicked" text="Simulador" />
    </children>
 </AnchorPane>

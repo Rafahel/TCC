@@ -57,7 +57,7 @@ public class Calculadora {
     }
 
     public static double calculaGastoSegundo(Equipamento equipamento, double tarifa){
-        return ((equipamento.getKwhMin() / 60) * tarifa);
+        return ((equipamento.getKwhMin()/60) * tarifa);
     }
 
     public double calculakwh(){

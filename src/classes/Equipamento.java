@@ -135,6 +135,10 @@ public class Equipamento {
         this.tempoRestante --;
     }
 
+    public void addTempoRestante(int tempo){
+        this.tempoRestanteSegundos += tempo;
+    }
+
     public int getTempoExcedido() {
         return tempoExcedido;
     }
