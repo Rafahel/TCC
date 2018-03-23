@@ -37,9 +37,8 @@ public class AlgoritmoGenetico {
             newPopulacao.saveIndividual(i, Populacao.getIndividual(randomIndex));
 
         }
-        Individuo fitestIndividual = newPopulacao.getFitestIndividual();
 
-        return fitestIndividual;
+        return newPopulacao.getFitestIndividual();
     }
 
     private Individuo crossover(Individuo firstIndividual, Individuo secondIndividual) {

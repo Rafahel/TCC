@@ -25,10 +25,7 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.ResourceBundle;
-import java.util.Timer;
+import java.util.*;
 
 
 public class JanelaPrincipalController implements Initializable {
@@ -133,6 +130,10 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private Label kwhLabel;
 
+    private String genes;
+
+    @FXML private Button simuladorButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.equipamentos = new ArrayList<>();
@@ -154,6 +155,7 @@ public class JanelaPrincipalController implements Initializable {
         this.indexOtimizacoes = 0;
         janelaStatusButton.setDisable(true);
         this.portas = new ArrayList<>();
+        this.simuladorButton.setDisable(true);
 
     }
 
@@ -467,52 +469,22 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void botaoProximoClicked() {
-        try {
-            if (resultadoOtimizacoes.size() > 0) {
-                indexOtimizacoes++;
-                resultadoTextArea.setText(resultadoOtimizacoes.get(indexOtimizacoes));
-            }
-        } catch (IndexOutOfBoundsException e) {
-            indexOtimizacoes = 0;
-            resultadoTextArea.setText(resultadoOtimizacoes.get(0));
-        }
-    }
-
-    @FXML
-    private void botaoAnteriorClicked() {
-        try {
-            if (resultadoOtimizacoes.size() > 0) {
-                indexOtimizacoes--;
-                resultadoTextArea.setText(resultadoOtimizacoes.get(indexOtimizacoes));
-            }
-        } catch (IndexOutOfBoundsException e) {
-            indexOtimizacoes = resultadoOtimizacoes.size() - 1;
-            resultadoTextArea.setText(resultadoOtimizacoes.get(resultadoOtimizacoes.size() - 1));
-
-        }
-    }
-
-    @FXML
     private void botaoSalvarSolucaoClicked() {
         Escritor escritor = new Escritor(new File(this.localPasta));
-        escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoOtimizacoes.get(indexOtimizacoes));
+        escritor.salvaOtimizacao("\\Solucao.txt", this.resultadoTextArea.getText());
     }
 
-    // TODO Corrigir erro do index.
     @FXML
     private void botaoUtilizarOtimizacaoClicked() {
+        this.simuladorButton.setDisable(false);
+        this.genes = resultadoTextArea.getText();
 
         Task<Void> longRunningTask = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
-                String genes;
-                if (indexOtimizacoes - 1 <= 0)
-                    genes = resultadoOtimizacoes.get(0).split("\n")[2];
-                else
-                    genes = resultadoOtimizacoes.get(indexOtimizacoes - 1).split("\n")[2];
 
+                genes = genes.split("\n")[2];
                 int inicio = genes.indexOf('{');
                 int fim = genes.indexOf('}');
                 genes = genes.substring(inicio, fim);
@@ -555,8 +527,23 @@ public class JanelaPrincipalController implements Initializable {
             }
         };
         new Thread(longRunningTask).start();
+    }
 
+    @FXML
+    private void visualizarSolucoesClicked(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSelecaoDeSolucao.fxml"));
+            Parent root = (Parent) loader.load();
+            JanelaSelecaoDeSolucaoController newWindowController = loader.getController();
+            newWindowController.inicializaJanela(this.resultadoOtimizacoes, this.resultadoTextArea);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Seleção de Soluções");
+            stage.show();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

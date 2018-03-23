@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="824.0" style="-fx-background-color: #0a1a4a;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaSelecaoDeSolucaoController">
+   <children>
+      <TextArea fx:id="textAreaSolucao" layoutX="81.0" layoutY="68.0" prefHeight="271.0" prefWidth="663.0" />
+      <Label layoutX="375.0" layoutY="40.0" text="Solucoes" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button fx:id="botaoAnterior" layoutX="380.0" layoutY="354.0" mnemonicParsing="false" onMouseClicked="#botaoAnteriorClicked" text="&lt;&lt;" />
+      <Button fx:id="botaoProximo" layoutX="413.0" layoutY="354.0" mnemonicParsing="false" onMouseClicked="#botaoProximoClicked" text="&gt;&gt;" />
+      <Button fx:id="botaoSelecionar" layoutX="686.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#selecionarSolucaoClicked" text="Selecionar Solucao" />
+   </children>
+</AnchorPane>
