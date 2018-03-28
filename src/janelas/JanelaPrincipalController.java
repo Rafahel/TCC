@@ -523,13 +523,13 @@ public class JanelaPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSimulador.fxml"));
             Parent root = (Parent) loader.load();
             JanelaSimuladorController newWindowController = loader.getController();
-            newWindowController.inicializaJanela(simulacaoresultadoA, simulacaoresultadoB);
+            newWindowController.inicializaJanela(Double.parseDouble(this.textFieldTarifa.getText()), this.simulacaoresultadoA, this.simulacaoresultadoB);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Simulações");
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
     }

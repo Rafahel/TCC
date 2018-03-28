@@ -11,6 +11,7 @@ import javafx.scene.control.ToggleButton;
 
 import java.awt.*;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 public class JanelaSimuladorController implements Initializable {
@@ -24,7 +25,15 @@ public class JanelaSimuladorController implements Initializable {
     @FXML private Button mudaModoChartButton;
 
     @FXML private Label yLabel;
-            
+
+    @FXML private Label totalNaoOtimizadoLabelKw;
+
+    @FXML private Label totalOtimizadoLabelKw;
+
+    @FXML private Label totalNaoOtimizadoLabelRs;
+
+    @FXML private Label totalOtimizadoLabelRs;
+
     private boolean gastoKw;
 
     private double[] resultadoA;
@@ -38,13 +47,16 @@ public class JanelaSimuladorController implements Initializable {
     private XYChart.Series<String, Double> seriesOtimizadoKw = new XYChart.Series<>();
 
     private XYChart.Series<String, Double> seriesOtimizadoGasto = new XYChart.Series<>();
+    
+    private double tarifa;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     @FXML
-    public void inicializaJanela(double[] resultadoA, double[] resultadoB){
+    public void inicializaJanela(double tarifa, double[] resultadoA, double[] resultadoB){
+        this.tarifa = tarifa;
         this.resultadoA = resultadoA;
         this.resultadoB = resultadoB;
         this.lineChart.getData().clear();
@@ -54,28 +66,22 @@ public class JanelaSimuladorController implements Initializable {
         seriesOtimizadoKw.setName("Otimizado");
         seriesNotimizadoGasto.setName("Não Otimizado");
         seriesOtimizadoGasto.setName("Otimizado");
-        for (int i = 0; i < resultadoA.length ; i++) {
-            textAreaResultadoOtimizado.appendText("" + resultadoB[i] + "\n");
-            textAreaResultadoNaoOtimizado.appendText("" + resultadoA[i] + "\n");
-        }
         double a = 0;
         double b = 0;
         for (int i = 0; i < resultadoA.length ; i++) {
+            textAreaResultadoOtimizado.appendText("" + resultadoB[i] + "\n");
+            textAreaResultadoNaoOtimizado.appendText("" + resultadoA[i] + "\n");
             a += resultadoA[i];
-            seriesNotimizadoKw.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1),resultadoA[i]));
-            seriesNotimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (a * 0.69118)));
-            System.out.println(a );
-        }
-
-        System.out.println("-------");
-        for (int i = 0; i < resultadoB.length ; i++) {
             b += resultadoB[i];
+            seriesNotimizadoKw.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1),resultadoA[i]));
+            seriesNotimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (a * this.tarifa)));
             seriesOtimizadoKw.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1),resultadoB[i]));
-            seriesOtimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (b * 0.69118)));
-            System.out.println(b);
+            seriesOtimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (b * this.tarifa)));
         }
-
-
+        totalNaoOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(a * this.tarifa));
+        totalOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(b * this.tarifa));
+        totalNaoOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(a) + " Kw");
+        totalOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(b) + " Kw");
         lineChart.getData().add(seriesNotimizadoKw);
         lineChart.getData().add(seriesOtimizadoKw);
         this.gastoKw = true;

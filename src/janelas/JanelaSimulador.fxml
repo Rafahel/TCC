@@ -23,7 +23,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <LineChart fx:id="lineChart" animated="false" layoutX="488.0" layoutY="88.0" prefHeight="403.0" prefWidth="759.0">
+      <LineChart fx:id="lineChart" animated="false" layoutX="488.0" layoutY="153.0" prefHeight="365.0" prefWidth="759.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" tickLabelFill="#faff00" />
         </xAxis>
@@ -31,21 +31,61 @@
           <NumberAxis side="LEFT" tickLabelFill="#faff00" />
         </yAxis>
       </LineChart>
-      <Label layoutX="764.0" layoutY="74.0" prefHeight="28.0" prefWidth="207.0" text="Utilizacao de Kw por dia" textFill="#f6ff00">
+      <Label layoutX="764.0" layoutY="129.0" prefHeight="28.0" prefWidth="207.0" text="Utilizacao de Kw por dia" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="yLabel" layoutX="488.0" layoutY="102.0" prefHeight="28.0" prefWidth="28.0" text="Kw" textFill="#f6ff00">
+      <Label fx:id="yLabel" layoutX="488.0" layoutY="172.0" prefHeight="28.0" prefWidth="28.0" text="Kw" textFill="#f6ff00">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="1199.0" layoutY="463.0" prefHeight="28.0" prefWidth="36.0" text="Dia" textFill="#f6ff00">
+      <Label layoutX="1199.0" layoutY="490.0" prefHeight="28.0" prefWidth="36.0" text="Dia" textFill="#f6ff00">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="mudaModoChartButton" layoutX="1092.0" layoutY="489.0" mnemonicParsing="false" onMouseClicked="#toogleGastoDiarioClicked" text="Gasto diario kw" />
+      <Button fx:id="mudaModoChartButton" layoutX="1110.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#toogleGastoDiarioClicked" text="Gasto diario kw" />
+      <Label layoutX="514.0" layoutY="91.0" prefHeight="28.0" prefWidth="207.0" text="Total Otimizado em R$:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="514.0" layoutY="65.0" prefHeight="28.0" prefWidth="242.0" text="Total Não Otimizado em R$:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="514.0" layoutY="14.0" prefHeight="28.0" prefWidth="242.0" text="Total Não Otimizado em Kw:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="514.0" layoutY="42.0" prefHeight="28.0" prefWidth="207.0" text="Total Otimizado em Kw:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalNaoOtimizadoLabelKw" layoutX="764.0" layoutY="14.0" prefHeight="28.0" prefWidth="242.0" text="***" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalOtimizadoLabelKw" layoutX="764.0" layoutY="39.0" prefHeight="28.0" prefWidth="242.0" text="***" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalNaoOtimizadoLabelRs" layoutX="764.0" layoutY="65.0" prefHeight="28.0" prefWidth="242.0" text="***" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalOtimizadoLabelRs" layoutX="764.0" layoutY="91.0" prefHeight="28.0" prefWidth="242.0" text="***" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
