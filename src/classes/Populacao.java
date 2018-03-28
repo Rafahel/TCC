@@ -8,18 +8,20 @@ public class Populacao {
     private Individuo[] individuals;
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
+    private int diasRestantes;
 
-    public Populacao(int populationSize, ArrayList<Equipamento> equipamentos, double objetivo) {
+    public Populacao(int populationSize, ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes) {
         this.individuals = new Individuo[populationSize];
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
+        this.diasRestantes = diasRestantes;
         initialize();
 
     }
 
     public void initialize() {
         for (int i = 0; i < individuals.length; i++) {
-            Individuo individual = new Individuo(equipamentos, this.objetivo);
+            Individuo individual = new Individuo(equipamentos, this.objetivo, this.diasRestantes);
             individual.generateIndividual();
             saveIndividual(i, individual);
 

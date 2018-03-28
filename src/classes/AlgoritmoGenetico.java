@@ -8,15 +8,17 @@ public class AlgoritmoGenetico {
     private Random randomGenerator;
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
+    private int diasRestantes;
 
-    public AlgoritmoGenetico(ArrayList<Equipamento> equipamentos, double objetivo) {
+    public AlgoritmoGenetico(ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes) {
         this.randomGenerator = new Random();
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
+        this.diasRestantes = diasRestantes;
     }
 
     public Populacao evolvePopulacao(Populacao populacao) {
-        Populacao newPopulacao = new Populacao(populacao.size(), equipamentos, this.objetivo);
+        Populacao newPopulacao = new Populacao(populacao.size(), equipamentos, this.objetivo, diasRestantes);
         for (int i = 0; i < populacao.size(); i++) {
             Individuo firstIndividual = randomSelection(populacao);
             Individuo secondIndividual = randomSelection(populacao);
@@ -31,7 +33,7 @@ public class AlgoritmoGenetico {
     }
 
     private Individuo randomSelection(Populacao Populacao) {
-        Populacao newPopulacao = new Populacao(Constantes.TOURNAMENT_SIZE, equipamentos, this.objetivo);
+        Populacao newPopulacao = new Populacao(Constantes.TOURNAMENT_SIZE, equipamentos, this.objetivo, diasRestantes);
         for (int i = 0; i < Constantes.TOURNAMENT_SIZE; i++) {
             int randomIndex = (int) (Math.random() * Populacao.size());
             newPopulacao.saveIndividual(i, Populacao.getIndividual(randomIndex));
@@ -42,7 +44,7 @@ public class AlgoritmoGenetico {
     }
 
     private Individuo crossover(Individuo firstIndividual, Individuo secondIndividual) {
-        Individuo newSolution = new Individuo(equipamentos, this.objetivo);
+        Individuo newSolution = new Individuo(equipamentos, this.objetivo, diasRestantes);
         for (int i = 0; i < equipamentos.size(); i++) {
             if (Math.random() <= Constantes.CROSSOVER_RATE) {
                 newSolution.setGenes(i, firstIndividual.getGene(i));

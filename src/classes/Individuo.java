@@ -13,9 +13,10 @@ public class Individuo {
     private double objetivo;
     private Double resultado;
     static Integer idIndividuo;
+    private int diasRestantes;
 
 
-    public Individuo(ArrayList<Equipamento> equipamentos, double objetivo) {
+    public Individuo(ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes) {
 //        System.out.println("Individuo quantidade equip: " + equipamentos.size());
         this.genes = new int[equipamentos.size()];
         this.randomGenerator = new Random();
@@ -23,6 +24,8 @@ public class Individuo {
         this.objetivo = objetivo;
         this.fitness = 0.00;
         this.resultado = 0.000;
+        this.diasRestantes = diasRestantes;
+
     }
 
     public Individuo(double fitness, ArrayList<Equipamento> equipamentos, double objetivo) {
@@ -45,7 +48,7 @@ public class Individuo {
     public Double getFitness() {
         if (fitness == 0) {
             for (int i = 0; i < genes.length; i++) {
-                this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * 30) * 0.69118;
+                this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * this.diasRestantes) * 0.69118;
 //                System.out.println(equipamentos.get(i).getKwhMin() + " * " + getGene(i) + " * 30 * 0.69118 = " + this.resultado);
 //                System.out.println(equipamentos.get(i).getNome() +" ligado por " + getGene(i) + " por dia. Custo mensal: " + resultado);
             }

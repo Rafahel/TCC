@@ -493,6 +493,8 @@ public class JanelaPrincipalController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 simulador.simula();
+                simulador.setOtimizar(true);
+                simulador.simula();
                 return null;
             }
         };
@@ -522,5 +524,13 @@ public class JanelaPrincipalController implements Initializable {
 //        Platform.exit();
 
     }
+
+//    private void deepCopy(){
+//        ArrayList<Equipamento> equipamentoList = new ArrayList<>();
+//        for (Equipamento e: listaEquipamentosSelecionados) {
+//            Equipamento aux = new Equipamento()
+//            equipamentoList.add()
+//        }
+//    }
 
 }

@@ -34,6 +34,7 @@ public class Calculadora {
         this.totalMin = Double.parseDouble(df.format(this.totalMin));
     }
 
+
     public double getTotalMax() {
         return totalMax;
     }
