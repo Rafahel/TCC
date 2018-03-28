@@ -41,6 +41,7 @@ public class Simulador {
         double kwDiario = 0;
         double gastado = 0;
         double novoObj = this.objetivo;
+        this.resultado = "";
 
         double gastoDiario = 0;
 
@@ -125,6 +126,20 @@ public class Simulador {
         return gastoDiario;
     }
 
+    public double[] getResultado() {
+        double[] valores = new double[resultado.split("\n").length];
+        String[] str = resultado.split("\n");
+        int pos = 0;
+        for (String s: str) {
+            try {
+                valores[pos] = Double.parseDouble(s);
+            }catch (NumberFormatException e){
+
+            }
+            pos++;
+        }
+        return valores;
+    }
 
     private String time(){
         Date date = new Date();

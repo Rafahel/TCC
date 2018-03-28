@@ -68,6 +68,8 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML private Button botaoVisualizarSolucoes;
 
+    @FXML private Button botaoResultadosSimulador;
+
 
     // Componentes não FXML
     private ArrayList<Equipamento> equipamentos;
@@ -91,6 +93,10 @@ public class JanelaPrincipalController implements Initializable {
     private int indexOtimizacoes;
 
     private String genes;
+
+    private double[] simulacaoresultadoA;
+
+    private double[] simulacaoresultadoB;
 
 
     /*
@@ -121,6 +127,7 @@ public class JanelaPrincipalController implements Initializable {
         this.botaoUtilizarOtimizacao.setDisable(true);
         this.botaoSalvarSolucao.setDisable(true);
         this.botaoVisualizarSolucoes.setDisable(true);
+        this.botaoResultadosSimulador.setDisable(true);
 
 
     }
@@ -485,6 +492,7 @@ public class JanelaPrincipalController implements Initializable {
         new Thread(longRunningTask).start();
     }
 
+
     @FXML
     private void simladorButtonClicked(){
         Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()), Double.parseDouble(this.textFieldTarifa.getText()), new Escritor(file));
@@ -493,12 +501,37 @@ public class JanelaPrincipalController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 simulador.simula();
+                simulacaoresultadoA = simulador.getResultado();
                 simulador.setOtimizar(true);
                 simulador.simula();
+                simulacaoresultadoB = simulador.getResultado();
+                Platform.runLater(() -> botaoResultadosSimulador.setDisable(false));
                 return null;
             }
         };
         new Thread(longRunningTask).start();
+
+
+    }
+
+    @FXML
+    private void janelaResultadoSimulacao(){
+        try {
+            for (int i = 0; i < simulacaoresultadoB.length; i++) {
+                System.out.println(">>> " + simulacaoresultadoB[i]);
+            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSimulador.fxml"));
+            Parent root = (Parent) loader.load();
+            JanelaSimuladorController newWindowController = loader.getController();
+            newWindowController.inicializaJanela(simulacaoresultadoA, simulacaoresultadoB);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Seleção de Simulações");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
