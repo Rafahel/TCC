@@ -52,33 +52,35 @@ public class Simulador {
             for (Equipamento e: this.equipamentos) {
 
                 if (Math.random() < offset){
-                    valorRnd = (e.getTempoOtimizado() +  new Random().nextInt(10) + 1);
+                    if(e.getMinUtilzacaoDiaria() == 1440)
+                        continue;
+                    valorRnd = (int) (e.getTempoOtimizado() * ((new Random().nextInt(3) + 1)* Math.random() + 1) );
 //                    System.out.println("(Uso para mais) Tempo de uso de " + e.getNome() + " : " + valorRnd);
-                    custo += valorRnd * e.getKwhMin() * 0.69118;
+                    custo += valorRnd * e.getKwhMin() * this.tarifa;
                     kwMensal += valorRnd * e.getKwhMin();
                     kwDiario += valorRnd * e.getKwhMin();
-                    gastoDiario += valorRnd * e.getKwhMin() * 0.69118;
+                    gastoDiario += valorRnd * e.getKwhMin() * this.tarifa;
                 }
                 else {
-                    custo += e.getTempoOtimizado() * e.getKwhMin() * 0.69118;
+                    custo += e.getTempoOtimizado() * e.getKwhMin() * this.tarifa;
                     kwMensal += e.getTempoOtimizado() * e.getKwhMin();
                     kwDiario += e.getTempoOtimizado() * e.getKwhMin();
-                    gastoDiario += e.getTempoOtimizado() * e.getKwhMin() * 0.69118;
+                    gastoDiario += e.getTempoOtimizado() * e.getKwhMin() * this.tarifa;
                 }
 
             }
 
-//            System.out.println(">>> " + ((kwDiario * dias * 0.69118) + gastado));
-            gastado += kwDiario * 0.69118;
-//            System.out.println(">>> GASTO DIARIO  " + kwDiario * 0.69118);
+//            System.out.println(">>> " + ((kwDiario * dias * this.tarifa) + gastado));
+            gastado += kwDiario * this.tarifa;
+//            System.out.println(">>> GASTO DIARIO  " + kwDiario * this.tarifa);
 //            System.out.println(">>> GASTO DIARIO OTIMIZADO : " + gastoDiario());
-//            System.out.println("REDUZIR >>> " + kwDiario * 0.69118);
-//            System.out.println("TOTAL GASTO ATE AGORA: " + (kwMensal * 0.69118));
+//            System.out.println("REDUZIR >>> " + kwDiario * this.tarifa);
+//            System.out.println("TOTAL GASTO ATE AGORA: " + (kwMensal * this.tarifa));
 
-            double reducao = (kwDiario * 0.69118) - gastoDiario();
+            double reducao = (kwDiario * this.tarifa) - gastoDiario();
             this.resultado += kwDiario + "\n";
 
-            novoObj -= (kwDiario * 0.69118);
+            novoObj -= (kwDiario * this.tarifa);
             if(reducao > 0 && otimizar){
 //                System.out.println("Nova otimizacao sendo feita, o valor passou do objetivo. Dias Restantes " + dias);
 //                novoObj -= reducao;
@@ -93,7 +95,7 @@ public class Simulador {
         }
         System.out.println("Custo total mensal: " + custo);
         System.out.println("kwMensal: " + kwMensal);
-        System.out.println("custo do kwMensal: " + (kwMensal * 0.69118));
+        System.out.println("custo do kwMensal: " + (kwMensal * this.tarifa));
         System.out.println("resultado: \n" + resultado);
         this.dias = 30;
 
@@ -121,7 +123,7 @@ public class Simulador {
             gastoDiario += e.getTempoOtimizado() * e.getKwhMin();
         }
 
-        gastoDiario = gastoDiario * 0.69118;
+        gastoDiario = gastoDiario * this.tarifa;
 //        System.out.println(">>> GASTO DIARIO OTIMIZADO : " + gastoDiario);
         return gastoDiario;
     }
