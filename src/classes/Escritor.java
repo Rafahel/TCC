@@ -36,15 +36,17 @@ public class Escritor {
 
     }
 
-    public void geradorLogs(int index, String horario){
+    public void geradorLogs(int index, String horario, String gastoAtual){
         try {
             FileWriter fw = new FileWriter(caminho, true);
             BufferedWriter bw = new BufferedWriter(fw);
             if (equipamentos.get(index).isLigado()){
-                bw.append(equipamentos.get(index).getNome()).append(" LIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()));
+                bw.append(equipamentos.get(index).getNome()).append(" LIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()))
+                        .append(" Gasto total: ").append("R$").append(gastoAtual);
                 bw.newLine();
             }else {
-                bw.append(equipamentos.get(index).getNome()).append(" DESLIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()));
+                bw.append(equipamentos.get(index).getNome()).append(" DESLIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamentos.get(index).getTempoRestante()))
+                        .append(" Gasto total: ").append("R$").append(gastoAtual);
                 bw.newLine();
             }
             bw.close();

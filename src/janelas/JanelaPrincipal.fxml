@@ -27,33 +27,26 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="1198.0" layoutY="313.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" prefHeight="48.0" prefWidth="68.0" style="-fx-background-color: #0a1a4a;">
-         <graphic>
-            <ImageView fitHeight="40.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Icones/ladybug.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
+      <Button fx:id="DEBUG_EQUIPAMENTOS" layoutX="1129.0" layoutY="633.0" mnemonicParsing="false" onMouseClicked="#debugEquipamentos" prefHeight="18.0" prefWidth="68.0" text="Debug" textFill="RED" />
       <TextField fx:id="textFieldTarifa" layoutX="81.0" layoutY="457.0" prefHeight="25.0" prefWidth="64.0" text="0.69118" />
       <Label layoutX="89.0" layoutY="423.0" text="Tarifa" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <ListView fx:id="listView" layoutX="356.0" layoutY="29.0" onMouseClicked="#clickLista" prefHeight="254.0" prefWidth="399.0" />
-      <ListView fx:id="listView2" layoutX="783.0" layoutY="29.0" onMouseClicked="#clickLista2" prefHeight="254.0" prefWidth="399.0" />
-      <Label layoutX="450.0" layoutY="1.0" text="Seletor de equipamentos" textFill="#f6ff00">
+      <ListView fx:id="listView" layoutX="371.0" layoutY="51.0" onMouseClicked="#clickLista" prefHeight="254.0" prefWidth="399.0" />
+      <ListView fx:id="listView2" layoutX="798.0" layoutY="51.0" onMouseClicked="#clickLista2" prefHeight="254.0" prefWidth="399.0" />
+      <Label layoutX="465.0" layoutY="23.0" text="Seletor de equipamentos" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="866.0" layoutY="1.0" text="Equipamentos selecionados" textFill="#f6ff00">
+      <Label layoutX="881.0" layoutY="23.0" text="Equipamentos selecionados" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="buttonRefreshList" layoutX="528.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
+      <Button fx:id="buttonRefreshList" layoutX="543.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#refreshListClicked" text="Refresh" />
       <Button fx:id="botaoArquivo" layoutX="15.0" layoutY="109.0" mnemonicParsing="false" onMouseClicked="#botaoArquivoClicked" prefHeight="68.0" prefWidth="272.0" style="-fx-background-color: #000000;" text="  Carregar Equipamentos" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -76,7 +69,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Button fx:id="configurarButton" layoutX="783.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
+      <Button fx:id="configurarButton" layoutX="798.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#configurarEquipamentos" text="Configurar" />
       <Button fx:id="otimizaButton" layoutX="57.0" layoutY="590.0" mnemonicParsing="false" onMouseClicked="#otimizaButtonClicked" prefHeight="68.0" prefWidth="219.0" style="-fx-background-color: #000000;" text="  Otimiza" textFill="#39e12d">
          <font>
             <Font name="System Bold" size="23.0" />
@@ -94,7 +87,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <TextArea fx:id="resultadoTextArea" editable="false" layoutX="356.0" layoutY="364.0" prefHeight="266.0" prefWidth="683.0">
+      <TextArea fx:id="resultadoTextArea" editable="false" layoutX="371.0" layoutY="386.0" prefHeight="266.0" prefWidth="683.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -129,7 +122,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="botaoLimpar" layoutX="1129.0" layoutY="286.0" mnemonicParsing="false" onMouseClicked="#botaoLimparClicked" text="Limpar" />
+      <Button fx:id="botaoLimpar" layoutX="1144.0" layoutY="308.0" mnemonicParsing="false" onMouseClicked="#botaoLimparClicked" text="Limpar" />
       <Label layoutX="122.0" text="Options" textFill="#f6ff00">
          <font>
             <Font name="Calibri Bold" size="27.0" />
@@ -157,13 +150,13 @@
       </Label>
       <ComboBox fx:id="portasComboBox" layoutX="93.0" layoutY="312.0" prefHeight="25.0" prefWidth="68.0" />
       <Button fx:id="botaoConecta" layoutX="188.0" layoutY="312.0" mnemonicParsing="false" onMouseClicked="#botaoConectaClicked" text="Conecta" />
-      <Button fx:id="botaoSalvarSolucao" layoutX="1059.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#botaoSalvarSolucaoClicked" prefHeight="25.0" prefWidth="117.0" text="Salvar Solucao" />
-      <Label layoutX="656.0" layoutY="330.0" text="Resultado" textFill="#f6ff00">
+      <Button fx:id="botaoSalvarSolucao" layoutX="1074.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#botaoSalvarSolucaoClicked" prefHeight="25.0" prefWidth="117.0" text="Salvar Solucao" />
+      <Label layoutX="686.0" layoutY="352.0" text="Resultado" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="botaoUtilizarOtimizacao" layoutX="1059.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#botaoUtilizarOtimizacaoClicked" prefHeight="25.0" prefWidth="117.0" text="Utilizar Solucao" />
+      <Button fx:id="botaoUtilizarOtimizacao" layoutX="1074.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#botaoUtilizarOtimizacaoClicked" prefHeight="25.0" prefWidth="117.0" text="Utilizar Solucao" />
       <Label layoutX="267.0" layoutY="423.0" text="kWh" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
@@ -174,7 +167,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="simuladorButton" layoutX="1082.0" layoutY="605.0" mnemonicParsing="false" onMouseClicked="#simladorButtonClicked" text="Simulador" />
-      <Button fx:id="botaoVisualizarSolucoes" layoutX="1059.0" layoutY="437.0" mnemonicParsing="false" onMouseClicked="#visualizarSolucoesClicked" prefHeight="25.0" prefWidth="117.0" text="Visualizar Solucoes" />
+      <Button fx:id="simuladorButton" layoutX="1098.0" layoutY="494.0" mnemonicParsing="false" onMouseClicked="#simladorButtonClicked" text="Simulador" />
+      <Button fx:id="botaoVisualizarSolucoes" layoutX="1074.0" layoutY="459.0" mnemonicParsing="false" onMouseClicked="#visualizarSolucoesClicked" prefHeight="25.0" prefWidth="117.0" text="Visualizar Solucoes" />
    </children>
 </AnchorPane>

@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -30,31 +31,46 @@ import java.util.*;
 
 public class JanelaPrincipalController implements Initializable {
 
-    @FXML
-    private Button botaoCadastroEquipamento;
+    // Componentes FXML do JavaFx
+    @FXML private TextField textFieldTarifa;
 
+    @FXML private Button DEBUG_EQUIPAMENTOS;
+
+    @FXML private ListView<String> listView;
+
+    @FXML private ListView<String> listView2;
+
+    @FXML private Button otimizaButton;
+
+    @FXML private TextField objetivoField;
+
+    @FXML private TextArea resultadoTextArea;
+
+    @FXML private Label maximaLabel;
+
+    @FXML private Label mediaLabel;
+
+    @FXML private Label minimaLabel;
+
+    @FXML private Button janelaStatusButton;
+
+    @FXML private ComboBox<String> portasComboBox;
+
+    @FXML private Button botaoConecta;
+
+    @FXML private Label kwhLabel;
+
+    @FXML private Button simuladorButton;
+
+    @FXML private Button botaoUtilizarOtimizacao;
+
+    @FXML private Button botaoSalvarSolucao;
+
+    @FXML private Button botaoVisualizarSolucoes;
+
+
+    // Componentes não FXML
     private ArrayList<Equipamento> equipamentos;
-
-    @FXML
-    private Button botaoCalcula;
-
-    @FXML
-    private TextField textFieldTarifa;
-
-    @FXML
-    private Button DEBUG_EQUIPAMENTOS;
-
-    @FXML
-    private ListView<String> listView;
-
-    @FXML
-    private ListView<String> listView2;
-
-    @FXML
-    private Button botaoArquivo;
-
-    @FXML
-    private Button buttonSalvar;
 
     private File file;
 
@@ -62,78 +78,25 @@ public class JanelaPrincipalController implements Initializable {
 
     private ArrayList<Integer> portas;
 
-    @FXML
-    private Button otimizaButton;
-
-    @FXML
-    private TextField objetivoField;
-
-    @FXML
-    private TextArea resultadoTextArea;
-
-    @FXML
-    private Label maximaLabel;
-
-    @FXML
-    private Label mediaLabel;
-
-    @FXML
-    private Label minimaLabel;
-
     private double max, med, min;
-
-    @FXML
-    private Button buttonAtualizaLabels;
-
-    private Boolean cancela;
-
-    @FXML
-    private Button botaoEditarEquipamento;
-
-    @FXML
-    private Button janelaStatusButton;
 
     boolean janelaStatusAberta;
 
-    @FXML
-    private Button botaoMostraEquipamentos;
-
-    @FXML
-    private Button botaoLimpar;
-
     private Arduino arduino;
-
-    @FXML
-    private ComboBox<String> portasComboBox;
-
-    @FXML
-    private Button botaoConecta;
 
     private String localPasta;
 
     private ArrayList<String> resultadoOtimizacoes;
 
-    @FXML
-    private Button botaoProximo;
-
-    @FXML
-    private Button botaoAnterior;
-
     private int indexOtimizacoes;
-
-    @FXML
-    private Button botaoSalvarSolucao;
-
-    @FXML
-    private Button botaoUtilizarOtimizacao;
-
-    @FXML
-    private Label kwhLabel;
 
     private String genes;
 
-    @FXML private Button simuladorButton;
 
+    /*
+            Inicializador da janela, nele as tudo que é necessário sera inicializado, incluindo as portas seriais.
+
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.equipamentos = new ArrayList<>();
@@ -143,7 +106,6 @@ public class JanelaPrincipalController implements Initializable {
         this.listaEquipamentosSelecionados = new ArrayList<>();
 //        this.addListaEquipamentosDEBUG();
         this.addToList();
-        this.cancela = false;
         this.otimizaButton.setDisable(true);
         this.janelaStatusAberta = false;
         SerialPort[] portas = SerialPort.getCommPorts();
@@ -156,6 +118,10 @@ public class JanelaPrincipalController implements Initializable {
         janelaStatusButton.setDisable(true);
         this.portas = new ArrayList<>();
         this.simuladorButton.setDisable(true);
+        this.botaoUtilizarOtimizacao.setDisable(true);
+        this.botaoSalvarSolucao.setDisable(true);
+        this.botaoVisualizarSolucoes.setDisable(true);
+
 
     }
 
@@ -353,6 +319,10 @@ public class JanelaPrincipalController implements Initializable {
                             if (otimizacaoGenetica.isEncontrado()) {
                                 resultadoOtimizacoes.add("Solucao " + (indexOtimizacoes + 1) + "\n" + otimizacaoGenetica.getResultado());
                                 indexOtimizacoes = resultadoOtimizacoes.size();
+                                botaoUtilizarOtimizacao.setDisable(false);
+                                botaoUtilizarOtimizacao.setDisable(false);
+                                botaoSalvarSolucao.setDisable(false);
+                                botaoVisualizarSolucoes.setDisable(false);
                                 Platform.runLater(() -> resultadoTextArea.setText(resultadoOtimizacoes.get(resultadoOtimizacoes.size() - 1)));
                             } else {
                                 Platform.runLater(() -> resultadoTextArea.setText("Resultado não encontrado.\nModifique o valor e tente novamente."));
@@ -544,6 +514,13 @@ public class JanelaPrincipalController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void shutdown() {
+        System.out.println("shutdown");
+        this.arduino.closeThread();
+//        Platform.exit();
+
     }
 
 }

@@ -78,7 +78,7 @@ public class Individuo {
             if (i < equipamentos.size() - 1)
                 s += ", ";
         }
-        return s + "} Solucao: " + this.resultado + " Fitness: " + fitness + " %";
+        return s + "}\nSolucao: " + new DecimalFormat("#.###").format(this.resultado) + " Fitness: " + new DecimalFormat("#.###").format(fitness) + " %";
     }
 
     public double getResultado() {

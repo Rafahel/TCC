@@ -14,6 +14,7 @@ public class Equipamento {
     private int tempoRestante;
     private long tempoRestanteSegundos;
     private int tempoExcedido;
+    private int tempoLigado;
 
     public Equipamento(String nome, int watts, int minUtilzacaoDiaria, int maxUtilzacaoDiaria) {
         this.nome = nome;
@@ -28,6 +29,7 @@ public class Equipamento {
         this.tempoRestante = 0;
         this.tempoExcedido = 0;
         this.tempoRestanteSegundos = 0;
+        this.resetaTempoLigado();
     }
 
 //    public void horasParaMinutos(){
@@ -161,8 +163,23 @@ public class Equipamento {
 
     public void checkMinRestante(){
         if (this.tempoRestanteSegundos != (this.tempoRestante * 60)){
-            if (this.tempoRestanteSegundos % 60 == 0)
+            if (this.tempoRestanteSegundos % 60 == 0){
                 this.reduzTempoRestante();
+                this.addTempoLigado();
+            }
+
         }
+    }
+
+    public int getTempoLigado() {
+        return tempoLigado;
+    }
+
+    public void addTempoLigado() {
+        this.tempoLigado ++;
+    }
+
+    public void resetaTempoLigado(){
+        this.tempoLigado = 0;
     }
 }

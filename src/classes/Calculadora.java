@@ -24,20 +24,14 @@ public class Calculadora {
 
     public void calculaGastosTotais() {
         double totalMinimo = 0, totalMax = 0;
-//        System.out.println("Total equipamentos selecionados: " + equipamentos.size());
         for (Equipamento e : this.equipamentos) {
-//            System.out.println(e.getNome());
             totalMax = (e.getKwhMin() * e.getMaxUtilzacaoDiaria() * 30) * this.tarifa;
             totalMinimo = (e.getKwhMin() * 30 * e.getMinUtilzacaoDiaria()) * this.tarifa;
             this.totalMax += totalMax;
             this.totalMin += totalMinimo;
         }
-//        System.out.println("Máxima: " + this.totalMax);
         this.totalMax = Double.parseDouble(df.format(this.totalMax));
         this.totalMin = Double.parseDouble(df.format(this.totalMin));
-//        System.out.println("Máxima: " + this.totalMax);
-//        System.out.println("Minima: " + (this.totalMin));
-//        System.out.println("Media:" + this.getTotalMed());
     }
 
     public double getTotalMax() {
@@ -65,8 +59,7 @@ public class Calculadora {
         for (Equipamento e: this.equipamentos) {
             kWh+= ((e.getWatts()) * e.getMaxUtilzacaoDiaria());
             kWh = (kWh/1000) / 2;
-            System.out.println(kWh);
         }
-        return kWh;
+        return Double.parseDouble(df.format(kWh));
     }
 }

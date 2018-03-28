@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -76,8 +77,8 @@ public class Arduino {
                         } catch (Exception e) {
                         }
                         if (closeThread){
-                            closeThread = false;
                             chosenPort.closePort();
+                            System.out.println("Desconectando arduino e fechando thread.");
                             break;
                         }
 
@@ -108,10 +109,11 @@ public class Arduino {
                     if (!this.equipamentos.get(i).isLigado()){
                         if (!diaAtual.equals(getData())){
                             this.mudaDataArquivo();
+                            this.equipamentos.get(i).resetaTempoLigado();
                         }
                         equipamentos.get(i).setLigado(true);
                         System.out.println(getDataHorario());
-                        escritor.geradorLogs(i, this.getDataHorario());
+                        escritor.geradorLogs(i, this.getDataHorario(), new DecimalFormat("#.##").format(this.gastoAtual));
 
                     }
                     this.gastoAtual += Calculadora.calculaGastoSegundo(equipamentos.get(i), tarifa);
@@ -124,11 +126,12 @@ public class Arduino {
                     if(this.equipamentos.get(i).isLigado()){
                         if (!diaAtual.equals(getData())){
                             this.mudaDataArquivo();
+                            this.equipamentos.get(i).resetaTempoLigado();
                         }
                         System.out.println(equipamentos.get(i).getNome() + " ::: DESLIGADO");
                         this.equipamentos.get(i).setLigado(false);
                         System.out.println(getDataHorario());
-                        escritor.geradorLogs(i, this.getDataHorario());
+                        escritor.geradorLogs(i, this.getDataHorario(), new DecimalFormat("#.##").format(this.gastoAtual));
                     }
                 }
             }
@@ -145,8 +148,8 @@ public class Arduino {
         return status;
     }
 
-    public void setCloseThread(boolean closeThread) {
-        this.closeThread = closeThread;
+    public void closeThread() {
+        this.closeThread = true;
     }
 
     public int getTotalWatts(){
@@ -184,6 +187,8 @@ public class Arduino {
             @Override
             public void run() {
                while (true){
+                   if (closeThread)
+                       break;
                    try {
                        sleep(1000);
                        for (Equipamento e: equipamentos) {

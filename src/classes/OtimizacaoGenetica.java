@@ -4,6 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,7 +13,7 @@ public class OtimizacaoGenetica {
     private double objetivo;
     private String resultado;
     private Boolean cancela;
-    boolean encontrado;
+    private boolean encontrado;
 
     public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo) {
         this.equipamentos = equipamentos;
@@ -28,7 +29,7 @@ public class OtimizacaoGenetica {
         populacao.initialize();
 
         int generationCounter = 0;
-        encontrado = false;
+        this.encontrado = false;
         double maxFitness = 100;
 
         while (generationCounter <= 5000 && !this.cancela) {
@@ -49,7 +50,7 @@ public class OtimizacaoGenetica {
         if (encontrado) {
             Individuo fittest = populacao.getFitestIndividual();
             this.resultado = "Geração: " + generationCounter + " - fitness: " +
-                    fittest.getFitnessStr() + "% Resultado: " + fittest.getResultado() + "\n" +
+                    fittest.getFitnessStr() + "% Resultado: " + new DecimalFormat("#.##").format(fittest.getResultado()) + "\n" +
                     fittest + "\n" + "Objetivo: " + this.objetivo + "\n" + "-------------------------\n";
 
             for (int i = 0; i < equipamentos.size(); i++) {
