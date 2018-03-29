@@ -12,7 +12,7 @@ public class Simulador {
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
     private double tarifa;
-    private double offset = 0.2;
+    private double offset;
     private String resultado = "";
     private String caminho;
     private int dias;
@@ -26,6 +26,7 @@ public class Simulador {
         this.caminho = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon" + "\\logSimulador.txt";
         this.dias = 30;
         this.otimizar = false;
+        this.offset = 0.4;
 
     }
 
@@ -93,10 +94,10 @@ public class Simulador {
             reducao = 0;
             dias --;
         }
-        System.out.println("Custo total mensal: " + custo);
-        System.out.println("kwMensal: " + kwMensal);
-        System.out.println("custo do kwMensal: " + (kwMensal * this.tarifa));
-        System.out.println("resultado: \n" + resultado);
+//        System.out.println("Custo total mensal: " + custo);
+//        System.out.println("kwMensal: " + kwMensal);
+//        System.out.println("custo do kwMensal: " + (kwMensal * this.tarifa));
+//        System.out.println("resultado: \n" + resultado);
         this.dias = 30;
 
 
@@ -104,7 +105,7 @@ public class Simulador {
 
 
     private void utilizaOtimizacao (int[] genes) {
-        System.out.println("Otimizacao sendo utilizada");
+//        System.out.println("Otimizacao sendo utilizada");
         int pos = 0;
         double kw = 0;
         for (Equipamento e: equipamentos) {

@@ -454,6 +454,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void botaoUtilizarOtimizacaoClicked() {
         this.simuladorButton.setDisable(false);
+        this.botaoResultadosSimulador.setDisable(true);
         this.genes = resultadoTextArea.getText();
 
         Task<Void> longRunningTask = new Task<Void>() {
@@ -517,13 +518,11 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void janelaResultadoSimulacao(){
         try {
-            for (int i = 0; i < simulacaoresultadoB.length; i++) {
-                System.out.println(">>> " + simulacaoresultadoB[i]);
-            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSimulador.fxml"));
             Parent root = (Parent) loader.load();
             JanelaSimuladorController newWindowController = loader.getController();
-            newWindowController.inicializaJanela(Double.parseDouble(this.textFieldTarifa.getText()), this.simulacaoresultadoA, this.simulacaoresultadoB);
+            newWindowController.inicializaJanela(Double.parseDouble(this.textFieldTarifa.getText()),
+                    this.simulacaoresultadoA, this.simulacaoresultadoB, Double.parseDouble(this.objetivoField.getText()));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Simulações");
