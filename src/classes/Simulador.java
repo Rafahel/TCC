@@ -17,7 +17,6 @@ public class Simulador {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.tarifa = tarifa;
-        this.offset = 0.2;
         this.caminho = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon" + "\\logSimulador.txt";
         this.dias = 30;
         this.otimizar = false;
@@ -43,11 +42,15 @@ public class Simulador {
 //            System.out.println("Dia " + (i + 1));
             kwDiario = 0;
             for (Equipamento e: this.equipamentos) {
-
                 if (Math.random() < offset){
-                    if(e.getMinUtilzacaoDiaria() == 1440)
-                        continue;
-                    valorRnd = (int) (e.getTempoOtimizado() * ((new Random().nextInt(5) + 1)* Math.random() + 1) );
+                    if(e.getMinUtilzacaoDiaria() != 1440){
+                        valorRnd = (int) (e.getTempoOtimizado() * ((new Random().nextInt(2) + 1)* Math.random() + 1) );
+                        if (valorRnd > 1440){
+                            valorRnd = 1440;
+                        }
+                    }else {
+                        valorRnd = e.getMinUtilzacaoDiaria();
+                    }
 //                    System.out.println("(Uso para mais) Tempo de uso de " + e.getNome() + " : " + valorRnd);
                     custo += valorRnd * e.getKwhMin() * this.tarifa;
                     kwMensal += valorRnd * e.getKwhMin();

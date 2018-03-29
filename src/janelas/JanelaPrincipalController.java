@@ -494,6 +494,7 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private void simladorButtonClicked() {
+        this.botaoUtilizarOtimizacaoClicked();
         Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()),
                 Double.parseDouble(this.textFieldTarifa.getText()), new Escritor(file));
         Task<Void> longRunningTask = new Task<Void>() {

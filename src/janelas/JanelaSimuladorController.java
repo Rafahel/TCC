@@ -44,6 +44,9 @@ public class JanelaSimuladorController implements Initializable {
     @FXML
     private Label precisaoLabel;
 
+    @FXML
+    private Label objetivoLabel;
+
     private double[] resultadoNaoOtimizado;
 
     private double[] somatorioOtimizado;
@@ -70,6 +73,7 @@ public class JanelaSimuladorController implements Initializable {
         this.seriesOtimizadoKw.setName("Otimizado");
         this.seriesNotimizadoGasto.setName("Não Otimizado");
         this.seriesOtimizadoGasto.setName("Otimizado");
+        this.objetivoLabel.setText("R$ " + new DecimalFormat("#.##").format(objetivo));
         double somatorioNaoOtimizado = 0;
         double somatorioOtimizado = 0;
         for (int i = 0; i < resultadoA.length; i++) {
