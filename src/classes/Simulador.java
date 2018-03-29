@@ -1,11 +1,6 @@
 package classes;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 public class Simulador {
@@ -43,10 +38,7 @@ public class Simulador {
         double gastado = 0;
         double novoObj = this.objetivo;
         this.resultado = "";
-
         double gastoDiario = 0;
-
-
         for (int i = 0; i < 30; i++) {
 //            System.out.println("Dia " + (i + 1));
             kwDiario = 0;
@@ -55,7 +47,7 @@ public class Simulador {
                 if (Math.random() < offset){
                     if(e.getMinUtilzacaoDiaria() == 1440)
                         continue;
-                    valorRnd = (int) (e.getTempoOtimizado() * ((new Random().nextInt(3) + 1)* Math.random() + 1) );
+                    valorRnd = (int) (e.getTempoOtimizado() * ((new Random().nextInt(5) + 1)* Math.random() + 1) );
 //                    System.out.println("(Uso para mais) Tempo de uso de " + e.getNome() + " : " + valorRnd);
                     custo += valorRnd * e.getKwhMin() * this.tarifa;
                     kwMensal += valorRnd * e.getKwhMin();
@@ -68,9 +60,7 @@ public class Simulador {
                     kwDiario += e.getTempoOtimizado() * e.getKwhMin();
                     gastoDiario += e.getTempoOtimizado() * e.getKwhMin() * this.tarifa;
                 }
-
             }
-
 //            System.out.println(">>> " + ((kwDiario * dias * this.tarifa) + gastado));
             gastado += kwDiario * this.tarifa;
 //            System.out.println(">>> GASTO DIARIO  " + kwDiario * this.tarifa);
@@ -99,8 +89,6 @@ public class Simulador {
 //        System.out.println("custo do kwMensal: " + (kwMensal * this.tarifa));
 //        System.out.println("resultado: \n" + resultado);
         this.dias = 30;
-
-
     }
 
 
@@ -116,7 +104,6 @@ public class Simulador {
 //            System.out.println("Equipamento " + e.getNome() + " tempo novo: " + e.getTempoOtimizado());
         }
     }
-
 
     private double gastoDiario(){
         double gastoDiario = 0 ;
@@ -142,10 +129,5 @@ public class Simulador {
             pos++;
         }
         return valores;
-    }
-
-    private String time(){
-        Date date = new Date();
-        return new SimpleDateFormat("ddMMyyyyhh:mm:ss").format(date);
     }
 }

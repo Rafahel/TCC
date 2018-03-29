@@ -42,7 +42,7 @@ public class OtimizacaoGenetica {
 
         int generationCounter = 0;
         this.encontrado = false;
-        double maxFitness = 100;
+        double maxFitness = 99;
 
         while (generationCounter <= 5000 && !this.cancela) {
             generationCounter++;
@@ -51,7 +51,7 @@ public class OtimizacaoGenetica {
                 encontrado = true;
                 break;
             }
-            if (generationCounter % 1000 == 0 && maxFitness >= 90) {
+            if (generationCounter % 1000 == 0 && maxFitness >= 89) {
 //                System.out.print("Solução não encontrada, ja se passaram " + generationCounter + " geracoes, mudando fitness de " + maxFitness);
                 maxFitness -= 2;
 //                System.out.println(" para " + maxFitness);

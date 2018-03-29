@@ -12,63 +12,77 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
 public class JanelaPrincipalController implements Initializable {
 
     // Componentes FXML do JavaFx
-    @FXML private TextField textFieldTarifa;
+    @FXML
+    private TextField textFieldTarifa;
 
-    @FXML private Button DEBUG_EQUIPAMENTOS;
+    @FXML
+    private Button DEBUG_EQUIPAMENTOS;
 
-    @FXML private ListView<String> listView;
+    @FXML
+    private ListView<String> listView;
 
-    @FXML private ListView<String> listView2;
+    @FXML
+    private ListView<String> listView2;
 
-    @FXML private Button otimizaButton;
+    @FXML
+    private Button otimizaButton;
 
-    @FXML private TextField objetivoField;
+    @FXML
+    private TextField objetivoField;
 
-    @FXML private TextArea resultadoTextArea;
+    @FXML
+    private TextArea resultadoTextArea;
 
-    @FXML private Label maximaLabel;
+    @FXML
+    private Label maximaLabel;
 
-    @FXML private Label mediaLabel;
+    @FXML
+    private Label mediaLabel;
 
-    @FXML private Label minimaLabel;
+    @FXML
+    private Label minimaLabel;
 
-    @FXML private Button janelaStatusButton;
+    @FXML
+    private Button janelaStatusButton;
 
-    @FXML private ComboBox<String> portasComboBox;
+    @FXML
+    private ComboBox<String> portasComboBox;
 
-    @FXML private Button botaoConecta;
+    @FXML
+    private Button botaoConecta;
 
-    @FXML private Label kwhLabel;
+    @FXML
+    private Label kwhLabel;
 
-    @FXML private Button simuladorButton;
+    @FXML
+    private Button simuladorButton;
 
-    @FXML private Button botaoUtilizarOtimizacao;
+    @FXML
+    private Button botaoUtilizarOtimizacao;
 
-    @FXML private Button botaoSalvarSolucao;
+    @FXML
+    private Button botaoSalvarSolucao;
 
-    @FXML private Button botaoVisualizarSolucoes;
+    @FXML
+    private Button botaoVisualizarSolucoes;
 
-    @FXML private Button botaoResultadosSimulador;
+    @FXML
+    private Button botaoResultadosSimulador;
 
 
     // Componentes não FXML
@@ -81,8 +95,6 @@ public class JanelaPrincipalController implements Initializable {
     private ArrayList<Integer> portas;
 
     private double max, med, min;
-
-    boolean janelaStatusAberta;
 
     private Arduino arduino;
 
@@ -113,10 +125,9 @@ public class JanelaPrincipalController implements Initializable {
 //        this.addListaEquipamentosDEBUG();
         this.addToList();
         this.otimizaButton.setDisable(true);
-        this.janelaStatusAberta = false;
         SerialPort[] portas = SerialPort.getCommPorts();
-        for (int i = 0; i < portas.length; i++) {
-            this.portasComboBox.getItems().add(portas[i].getSystemPortName());
+        for (SerialPort porta : portas) {
+            this.portasComboBox.getItems().add(porta.getSystemPortName());
         }
         this.localPasta = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon";
         this.resultadoOtimizacoes = new ArrayList<>();
@@ -217,11 +228,9 @@ public class JanelaPrincipalController implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Cadastro de Equipamentos");
             stage.show();
-
-
         } catch (IOException e) {
             //System.out.println(e);
-//            e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -229,7 +238,6 @@ public class JanelaPrincipalController implements Initializable {
     private void addToList() {
         for (Equipamento e : this.equipamentos) {
             //System.out.println(e.getNome() + " adicionado a lista 1");
-
             this.listView.getItems().add(e.getNome());
         }
     }
@@ -262,7 +270,7 @@ public class JanelaPrincipalController implements Initializable {
         try {
             this.listView2.getItems().remove(0, this.listView2.getItems().size());
         } catch (Exception e) {
-            //System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -276,10 +284,6 @@ public class JanelaPrincipalController implements Initializable {
     private void configurarEquipamentos() {
         if (this.listaEquipamentosSelecionados.size() > 0) {
             this.portas = new ArrayList<>();
-            for (Equipamento e : this.listaEquipamentosSelecionados) {
-                //System.out.println("Na lista : " + e.getNome());
-
-            }
             try {
                 //System.out.println("Chamando janela");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaConfigEquipamento.fxml"));
@@ -290,7 +294,6 @@ public class JanelaPrincipalController implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.setTitle("Cadastro de Equipamentos");
                 stage.show();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -355,7 +358,6 @@ public class JanelaPrincipalController implements Initializable {
                     this.portas.add(i + 1);
                 }
             }
-            this.janelaStatusAberta = true;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaStatus.fxml"));
             Parent root = (Parent) loader.load();
             JanelaStatusController newWindowController = loader.getController();
@@ -371,8 +373,6 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     private void chamaCalculadora() {
-
-        double valores[] = new double[3];
         double tarifa = Double.parseDouble(textFieldTarifa.getText());
         Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, tarifa);
         calculadora.calculaGastosTotais();
@@ -384,7 +384,6 @@ public class JanelaPrincipalController implements Initializable {
     }
 
     private void atualizaLabels() {
-
         if (listaEquipamentosSelecionados.size() == 0) {
             minimaLabel.setText("0.00");
             maximaLabel.setText("0.00");
@@ -440,9 +439,7 @@ public class JanelaPrincipalController implements Initializable {
                 return null;
             }
         };
-
         new Thread(longRunningTask).start();
-
     }
 
     @FXML
@@ -456,12 +453,10 @@ public class JanelaPrincipalController implements Initializable {
         this.simuladorButton.setDisable(false);
         this.botaoResultadosSimulador.setDisable(true);
         this.genes = resultadoTextArea.getText();
-
         Task<Void> longRunningTask = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
-
                 genes = genes.split("\n")[2];
                 int inicio = genes.indexOf('{');
                 int fim = genes.indexOf('}');
@@ -474,11 +469,14 @@ public class JanelaPrincipalController implements Initializable {
                 for (String num : nums) {
                     try {
                         if (!num.equals(" ")) {
-                            System.out.println(Integer.parseInt(num));
-                            valores[pos] = Integer.parseInt(num);
-                            pos++;
+                            if (!num.equals("")){
+//                                System.out.println(Integer.parseInt(num));
+                                valores[pos] = Integer.parseInt(num);
+                                pos++;
+                            }
                         }
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
                 }
                 pos = 0;
@@ -495,9 +493,9 @@ public class JanelaPrincipalController implements Initializable {
 
 
     @FXML
-    private void simladorButtonClicked(){
-        Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()), Double.parseDouble(this.textFieldTarifa.getText()), new Escritor(file));
-
+    private void simladorButtonClicked() {
+        Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()),
+                Double.parseDouble(this.textFieldTarifa.getText()), new Escritor(file));
         Task<Void> longRunningTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -511,12 +509,10 @@ public class JanelaPrincipalController implements Initializable {
             }
         };
         new Thread(longRunningTask).start();
-
-
     }
 
     @FXML
-    private void janelaResultadoSimulacao(){
+    private void janelaResultadoSimulacao() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSimulador.fxml"));
             Parent root = (Parent) loader.load();
@@ -527,14 +523,13 @@ public class JanelaPrincipalController implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Simulações");
             stage.show();
-
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void visualizarSolucoesClicked(){
+    private void visualizarSolucoesClicked() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSelecaoDeSolucao.fxml"));
             Parent root = (Parent) loader.load();
@@ -544,7 +539,6 @@ public class JanelaPrincipalController implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Soluções");
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

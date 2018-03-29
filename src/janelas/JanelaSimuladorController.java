@@ -7,37 +7,46 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 public class JanelaSimuladorController implements Initializable {
 
-    @FXML private TextArea textAreaResultadoOtimizado;
+    @FXML
+    private TextArea textAreaResultadoOtimizado;
 
-    @FXML private TextArea textAreaResultadoNaoOtimizado;
+    @FXML
+    private TextArea textAreaResultadoNaoOtimizado;
 
-    @FXML private LineChart<String, Double> lineChart;
+    @FXML
+    private LineChart<String, Double> lineChart;
 
-    @FXML private Button mudaModoChartButton;
+    @FXML
+    private Button mudaModoChartButton;
 
-    @FXML private Label yLabel;
+    @FXML
+    private Label yLabel;
 
-    @FXML private Label totalNaoOtimizadoLabelKw;
+    @FXML
+    private Label totalNaoOtimizadoLabelKw;
 
-    @FXML private Label totalOtimizadoLabelKw;
+    @FXML
+    private Label totalOtimizadoLabelKw;
 
-    @FXML private Label totalNaoOtimizadoLabelRs;
+    @FXML
+    private Label totalNaoOtimizadoLabelRs;
 
-    @FXML private Label totalOtimizadoLabelRs;
+    @FXML
+    private Label totalOtimizadoLabelRs;
 
-    @FXML private Label precisaoLabel;
+    @FXML
+    private Label precisaoLabel;
 
-    private boolean gastoKw;
+    private double[] resultadoNaoOtimizado;
 
-    private double[] resultadoA;
-
-    private double[] resultadoB;
+    private double[] somatorioOtimizado;
 
     private XYChart.Series<String, Double> seriesNotimizadoKw = new XYChart.Series<>();
 
@@ -46,61 +55,51 @@ public class JanelaSimuladorController implements Initializable {
     private XYChart.Series<String, Double> seriesOtimizadoKw = new XYChart.Series<>();
 
     private XYChart.Series<String, Double> seriesOtimizadoGasto = new XYChart.Series<>();
-    
-    private double tarifa;
-
-    private double objetivo;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     @FXML
-    public void inicializaJanela(double tarifa, double[] resultadoA, double[] resultadoB, double objetivo){
-        this.tarifa = tarifa;
-        this.objetivo = objetivo;
-        this.resultadoA = resultadoA;
-        this.resultadoB = resultadoB;
+    public void inicializaJanela(double tarifa, double[] resultadoA, double[] resultadoB, double objetivo) {
+        this.resultadoNaoOtimizado = resultadoA;
+        this.somatorioOtimizado = resultadoB;
         this.lineChart.getData().clear();
         this.lineChart.setCreateSymbols(false);
-        
         this.seriesNotimizadoKw.setName("Não Otimizado");
         this.seriesOtimizadoKw.setName("Otimizado");
         this.seriesNotimizadoGasto.setName("Não Otimizado");
         this.seriesOtimizadoGasto.setName("Otimizado");
-        double a = 0;
-        double b = 0;
-        for (int i = 0; i < resultadoA.length ; i++) {
-            this.textAreaResultadoOtimizado.appendText("" + resultadoB[i] + "\n");
-            this.textAreaResultadoNaoOtimizado.appendText("" + resultadoA[i] + "\n");
-            a += resultadoA[i];
-            b += resultadoB[i];
-            this.seriesNotimizadoKw.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1),resultadoA[i]));
-            this.seriesNotimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (a * this.tarifa)));
-            this.seriesOtimizadoKw.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1),resultadoB[i]));
-            this.seriesOtimizadoGasto.getData().add(new XYChart.Data<String, Double>(Integer.toString(i+1), (b * this.tarifa)));
+        double somatorioNaoOtimizado = 0;
+        double somatorioOtimizado = 0;
+        for (int i = 0; i < resultadoA.length; i++) {
+            this.textAreaResultadoOtimizado.appendText("" + new DecimalFormat("#.##").format(this.somatorioOtimizado[i]) + "\n");
+            this.textAreaResultadoNaoOtimizado.appendText("" + new DecimalFormat("#.##").format(this.resultadoNaoOtimizado[i]) + "\n");
+            somatorioNaoOtimizado += this.resultadoNaoOtimizado[i];
+            somatorioOtimizado += this.somatorioOtimizado[i];
+            this.seriesNotimizadoKw.getData().add(new XYChart.Data<>(Integer.toString(i + 1), this.resultadoNaoOtimizado[i]));
+            this.seriesNotimizadoGasto.getData().add(new XYChart.Data<>(Integer.toString(i + 1), (somatorioNaoOtimizado * tarifa)));
+            this.seriesOtimizadoKw.getData().add(new XYChart.Data<>(Integer.toString(i + 1), this.somatorioOtimizado[i]));
+            this.seriesOtimizadoGasto.getData().add(new XYChart.Data<>(Integer.toString(i + 1), (somatorioOtimizado * tarifa)));
         }
-        this.totalNaoOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(a * this.tarifa));
-        this.totalOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(b * this.tarifa));
-        this.totalNaoOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(a) + " Kw");
-        this.totalOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(b) + " Kw");
-        this.precisaoLabel.setText(new DecimalFormat("#.##").format(((b * this.tarifa) * 100)/this.objetivo) + " %");
+        this.totalNaoOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(somatorioNaoOtimizado * tarifa));
+        this.totalOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(somatorioOtimizado * tarifa));
+        this.totalNaoOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(somatorioNaoOtimizado) + " Kw");
+        this.totalOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(somatorioOtimizado) + " Kw");
+        this.precisaoLabel.setText(new DecimalFormat("#.##").format(((somatorioOtimizado * tarifa) * 100) / objetivo) + " %");
         this.lineChart.getData().add(this.seriesNotimizadoKw);
         this.lineChart.getData().add(this.seriesOtimizadoKw);
-        this.gastoKw = true;
-
     }
 
     @FXML
     private void toogleGastoDiarioClicked() {
-        if (this.mudaModoChartButton.getText().equals("Gasto diario kw")){
+        if (this.mudaModoChartButton.getText().equals("Gasto diario kw")) {
             this.yLabel.setText("R$");
             this.mudaModoChartButton.setText("Gasto diario");
             this.lineChart.getData().clear();
             this.lineChart.getData().add(this.seriesNotimizadoGasto);
             this.lineChart.getData().add(this.seriesOtimizadoGasto);
-        }
-        else {
+        } else {
             this.mudaModoChartButton.setText("Gasto diario kw");
             this.yLabel.setText("kw");
             this.lineChart.getData().clear();
