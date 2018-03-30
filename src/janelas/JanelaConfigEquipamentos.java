@@ -62,7 +62,7 @@ public class JanelaConfigEquipamentos implements Initializable {
         }else {
             this.pos = 0;
         }
-        System.out.println(equipamentos.get(pos));
+        System.out.println(equipamentos.get(pos).getNome() + " " + equipamentos.get(pos).getWatts() + " " + equipamentos.get(pos).getMaxUtilzacaoDiaria() + " " + equipamentos.get(pos).getMinUtilzacaoDiaria());
         this.textFieldNome.setText(this.equipamentos.get(this.pos).getNome());
         this.textFieldKwh.setText(Integer.toString(this.equipamentos.get(this.pos).getWatts()));
         this.textFieldMaxHoras.setText(Integer.toString(this.equipamentos.get(this.pos).getMaxUtilzacaoDiaria()));

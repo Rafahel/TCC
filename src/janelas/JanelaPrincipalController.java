@@ -501,10 +501,11 @@ public class JanelaPrincipalController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 simulador.simula();
-                simulacaoresultadoA = simulador.getResultado();
-                simulador.setOtimizar(true);
-                simulador.simula();
-                simulacaoresultadoB = simulador.getResultado();
+                simulacaoresultadoA = simulador.getResultadoNotimizado();
+                simulacaoresultadoB = simulador.getResultadoOtimizado();
+//                simulador.setOtimizar(true);
+//                simulador.simula();
+
                 Platform.runLater(() -> botaoResultadosSimulador.setDisable(false));
                 return null;
             }
