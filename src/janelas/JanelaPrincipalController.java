@@ -324,7 +324,7 @@ public class JanelaPrincipalController implements Initializable {
 
                         @Override
                         protected Void call() throws Exception {
-                            OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo);
+                            OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, Double.parseDouble(textFieldTarifa.getText()));
                             otimizacaoGenetica.otimiza();
                             if (otimizacaoGenetica.isEncontrado()) {
                                 resultadoOtimizacoes.add("Solucao " + (indexOtimizacoes + 1) + "\n" + otimizacaoGenetica.getResultado());
@@ -496,7 +496,7 @@ public class JanelaPrincipalController implements Initializable {
     private void simladorButtonClicked() {
         this.botaoUtilizarOtimizacaoClicked();
         Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()),
-                Double.parseDouble(this.textFieldTarifa.getText()), new Escritor(file));
+                Double.parseDouble(this.textFieldTarifa.getText()));
         Task<Void> longRunningTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {

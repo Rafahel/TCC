@@ -9,19 +9,21 @@ public class Populacao {
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
     private int diasRestantes;
+    private double tarifa;
 
-    public Populacao(int populationSize, ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes) {
+    public Populacao(int populationSize, ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes, double tarifa) {
         this.individuals = new Individuo[populationSize];
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.diasRestantes = diasRestantes;
+        this.tarifa = tarifa;
         initialize();
 
     }
 
     public void initialize() {
         for (int i = 0; i < individuals.length; i++) {
-            Individuo individual = new Individuo(equipamentos, this.objetivo, this.diasRestantes);
+            Individuo individual = new Individuo(equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
             individual.generateIndividual();
             saveIndividual(i, individual);
 

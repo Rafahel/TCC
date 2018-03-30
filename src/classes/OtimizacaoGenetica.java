@@ -16,35 +16,38 @@ public class OtimizacaoGenetica {
     private boolean encontrado;
     private int diasRestantes;
     private Individuo individuoFinal;
+    private double tarifa;
 
-    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo) {
+    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, double tarifa) {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.resultado = "";
         this.cancela = false;
         this.diasRestantes = 30;
+        this.tarifa = tarifa;
 
     }
 
-    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes) {
+    public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes, double tarifa) {
         this.equipamentos = equipamentos;
         this.objetivo = objetivo;
         this.resultado = "";
         this.cancela = false;
         this.diasRestantes = diasRestantes;
+        this.tarifa = tarifa;
 
     }
 
     public void otimiza() {
-        AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(equipamentos, objetivo, diasRestantes);
-        Populacao populacao = new Populacao(100, equipamentos, this.objetivo, this.diasRestantes);
+        AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(equipamentos, objetivo, diasRestantes, this.tarifa);
+        Populacao populacao = new Populacao(100, equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
         populacao.initialize();
 
         int generationCounter = 0;
         this.encontrado = false;
         double maxFitness = 99;
 
-        while (generationCounter <= 5000 && !this.cancela) {
+        while (generationCounter <= 10000 && !this.cancela) {
             generationCounter++;
             Individuo melhor = populacao.getFitestIndividual();
             if (melhor.getFitness() >= maxFitness && melhor.getFitness() <= 100) {
