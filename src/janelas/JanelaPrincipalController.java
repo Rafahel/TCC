@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -83,6 +85,7 @@ public class JanelaPrincipalController implements Initializable {
 
     @FXML
     private Button botaoResultadosSimulador;
+
 
 
     // Componentes não FXML

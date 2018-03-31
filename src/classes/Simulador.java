@@ -18,7 +18,7 @@ public class Simulador {
         this.objetivo = objetivo;
         this.tarifa = tarifa;
         this.dias = 30;
-        this.offset = 0.4;
+        this.offset = 0.7;
         this.equipamentosOtimizado = new ArrayList<>();
         this.deepCpy();
         this.resultadoNotimizado = new double[equipamentos.size()];
@@ -41,7 +41,8 @@ public class Simulador {
             for (int j = 0; j < this.equipamentos.size(); j++) {
                 if (Math.random() < offset){
                     if(this.equipamentos.get(j).getMinUtilzacaoDiaria() != 1440){
-                        double atrasoGerado = (1 + Math.random());
+                        double atrasoGerado = 1 +( 0.1 + (0.6 - 0.1) * new Random().nextDouble());//(1 + Math.random());
+                        System.out.println(atrasoGerado);
                         valorRnd = (int) (this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado );
                         valorRndOt = (int) (this.equipamentosOtimizado.get(j).getTempoOtimizado() * atrasoGerado);
                         if (valorRnd > 1440){
@@ -52,7 +53,7 @@ public class Simulador {
                         }
                     }else {
                         valorRnd = this.equipamentos.get(j).getTempoOtimizado();
-                        valorRndOt = equipamentosOtimizado.get(j).getTempoOtimizado();
+                        valorRndOt = this.equipamentosOtimizado.get(j).getTempoOtimizado();
                     }
 //                    System.out.println("(Uso para mais) Tempo de uso de " + e.getNome() + " : " + valorRnd);
                     kwDiario += valorRnd * this.equipamentos.get(j).getKwhMin();
