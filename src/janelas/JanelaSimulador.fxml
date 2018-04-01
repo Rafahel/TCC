@@ -11,14 +11,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="1269.0" style="-fx-background-color: #0a1a4a;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaSimuladorController">
    <children>
-      <TextArea fx:id="textAreaResultadoOtimizado" editable="false" layoutX="14.0" layoutY="52.0" prefHeight="449.0" prefWidth="221.0" />
-      <TextArea fx:id="textAreaResultadoNaoOtimizado" editable="false" layoutX="256.0" layoutY="52.0" prefHeight="449.0" prefWidth="221.0" />
-      <Label layoutX="79.0" layoutY="14.0" prefHeight="17.0" prefWidth="91.0" text="Otimizado" textFill="#f6ff00">
+      <TextArea fx:id="textAreaResultadoOtimizado" editable="false" layoutX="14.0" layoutY="348.0" prefHeight="153.0" prefWidth="221.0" />
+      <TextArea fx:id="textAreaResultadoNaoOtimizado" editable="false" layoutX="256.0" layoutY="348.0" prefHeight="153.0" prefWidth="221.0" />
+      <Label layoutX="79.0" layoutY="320.0" prefHeight="17.0" prefWidth="91.0" text="Otimizado" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="299.0" layoutY="14.0" prefHeight="28.0" prefWidth="135.0" text="Não Otimizado" textFill="#f6ff00">
+      <Label layoutX="299.0" layoutY="320.0" prefHeight="28.0" prefWidth="135.0" text="Não Otimizado" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
@@ -103,6 +103,12 @@
          </font>
       </Label>
       <Label fx:id="objetivoLabel" layoutX="1043.0" layoutY="65.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="gastoPorDiaTextArea" layoutX="14.0" layoutY="119.0" prefHeight="200.0" prefWidth="463.0" />
+      <Label layoutX="187.0" layoutY="91.0" prefHeight="28.0" prefWidth="118.0" text="Gasto por dia" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>

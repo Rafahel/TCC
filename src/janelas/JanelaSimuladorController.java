@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Formatter;
 import java.util.ResourceBundle;
 
 public class JanelaSimuladorController implements Initializable {
@@ -19,6 +20,9 @@ public class JanelaSimuladorController implements Initializable {
 
     @FXML
     private TextArea textAreaResultadoNaoOtimizado;
+
+    @FXML
+    private TextArea gastoPorDiaTextArea;
 
     @FXML
     private LineChart<String, Double> lineChart;
@@ -73,24 +77,31 @@ public class JanelaSimuladorController implements Initializable {
         this.seriesOtimizadoKw.setName("Otimizado");
         this.seriesNotimizadoGasto.setName("Não Otimizado");
         this.seriesOtimizadoGasto.setName("Otimizado");
-        this.objetivoLabel.setText("R$ " + new DecimalFormat("#.##").format(objetivo));
+        DecimalFormat formatador = new DecimalFormat("#.##");
+        formatador.setMinimumFractionDigits(2);
+        this.objetivoLabel.setText("R$ " + formatador.format(objetivo));
         double somatorioNaoOtimizado = 0;
         double somatorioOtimizado = 0;
         for (int i = 0; i < resultadoA.length; i++) {
-            this.textAreaResultadoOtimizado.appendText("" + new DecimalFormat("#.##").format(this.somatorioOtimizado[i]) + "\n");
-            this.textAreaResultadoNaoOtimizado.appendText("" + new DecimalFormat("#.##").format(this.resultadoNaoOtimizado[i]) + "\n");
+            this.textAreaResultadoOtimizado.appendText("" + formatador.format(this.somatorioOtimizado[i]) + "\n");
+            this.textAreaResultadoNaoOtimizado.appendText("" + formatador.format(this.resultadoNaoOtimizado[i]) + "\n");
             somatorioNaoOtimizado += this.resultadoNaoOtimizado[i];
             somatorioOtimizado += this.somatorioOtimizado[i];
             this.seriesNotimizadoKw.getData().add(new XYChart.Data<>(Integer.toString(i + 1), this.resultadoNaoOtimizado[i]));
             this.seriesNotimizadoGasto.getData().add(new XYChart.Data<>(Integer.toString(i + 1), (somatorioNaoOtimizado * tarifa)));
             this.seriesOtimizadoKw.getData().add(new XYChart.Data<>(Integer.toString(i + 1), this.somatorioOtimizado[i]));
             this.seriesOtimizadoGasto.getData().add(new XYChart.Data<>(Integer.toString(i + 1), (somatorioOtimizado * tarifa)));
+            this.gastoPorDiaTextArea.appendText("Dia " + (i + 1) + ": Otimizado: R$ " +
+                    formatador.format(resultadoB[i] * tarifa) +
+                    "\t\tNão Otimizado: R$ " + formatador.format(resultadoA[i] * tarifa) + "\n");
         }
-        this.totalNaoOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(somatorioNaoOtimizado * tarifa));
-        this.totalOtimizadoLabelRs.setText("R$ " + new DecimalFormat("#.##").format(somatorioOtimizado * tarifa));
-        this.totalNaoOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(somatorioNaoOtimizado) + " Kw");
-        this.totalOtimizadoLabelKw.setText(new DecimalFormat("#.##").format(somatorioOtimizado) + " Kw");
-        this.precisaoLabel.setText(new DecimalFormat("#.##").format(((somatorioOtimizado * tarifa) * 100) / objetivo) + " %");
+        this.gastoPorDiaTextArea.appendText("\n----------------------------------------------------------------\n");
+        this.gastoPorDiaTextArea.appendText("Total Otimizado: R$ " + formatador.format(somatorioOtimizado * tarifa) + "\t\tNão otimizado: R$" + formatador.format(somatorioNaoOtimizado * tarifa));
+        this.totalNaoOtimizadoLabelRs.setText("R$ " + formatador.format(somatorioNaoOtimizado * tarifa));
+        this.totalOtimizadoLabelRs.setText("R$ " + formatador.format(somatorioOtimizado * tarifa));
+        this.totalNaoOtimizadoLabelKw.setText(formatador.format(somatorioNaoOtimizado) + " Kw");
+        this.totalOtimizadoLabelKw.setText(formatador.format(somatorioOtimizado) + " Kw");
+        this.precisaoLabel.setText(formatador.format(((somatorioOtimizado * tarifa) * 100) / objetivo) + " %");
         this.lineChart.getData().add(this.seriesNotimizadoKw);
         this.lineChart.getData().add(this.seriesOtimizadoKw);
     }

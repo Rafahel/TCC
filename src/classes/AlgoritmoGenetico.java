@@ -20,14 +20,13 @@ public class AlgoritmoGenetico {
     }
 
     public Populacao evolvePopulacao(Populacao populacao) {
-        Populacao newPopulacao = new Populacao(populacao.size(), equipamentos, this.objetivo, diasRestantes, this.tarifa);
+        Populacao newPopulacao = new Populacao(populacao.size(), this.equipamentos, this.objetivo, diasRestantes, this.tarifa);
         for (int i = 0; i < populacao.size(); i++) {
             Individuo firstIndividual = randomSelection(populacao);
             Individuo secondIndividual = randomSelection(populacao);
             Individuo newIndividual = crossover(firstIndividual, secondIndividual);
             newPopulacao.saveIndividual(i, newIndividual);
         }
-
         for (int i = 0; i < populacao.size(); i++) {
             mutate(newPopulacao.getIndividual(i));
         }
@@ -39,7 +38,6 @@ public class AlgoritmoGenetico {
         for (int i = 0; i < Constantes.TOURNAMENT_SIZE; i++) {
             int randomIndex = (int) (Math.random() * Populacao.size());
             newPopulacao.saveIndividual(i, Populacao.getIndividual(randomIndex));
-
         }
 
         return newPopulacao.getFitestIndividual();
