@@ -103,7 +103,9 @@ public class JanelaPrincipalController implements Initializable {
 
     private String localPasta;
 
-    private ArrayList<String> resultadoOtimizacoes;
+    private ArrayList<Solucao> solucoes;
+
+    private Solucao solucao;
 
     private int indexOtimizacoes;
 
@@ -133,7 +135,6 @@ public class JanelaPrincipalController implements Initializable {
             this.portasComboBox.getItems().add(porta.getSystemPortName());
         }
         this.localPasta = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon";
-        this.resultadoOtimizacoes = new ArrayList<>();
         this.indexOtimizacoes = 0;
         janelaStatusButton.setDisable(true);
         this.portas = new ArrayList<>();
@@ -142,8 +143,8 @@ public class JanelaPrincipalController implements Initializable {
         this.botaoSalvarSolucao.setDisable(true);
         this.botaoVisualizarSolucoes.setDisable(true);
         this.botaoResultadosSimulador.setDisable(true);
-
-
+        this.solucoes = new ArrayList<>();
+        this.solucao = null;
     }
 
 
@@ -319,10 +320,8 @@ public class JanelaPrincipalController implements Initializable {
             double minimo = Double.parseDouble(this.formatDbl(min));
             double maximo = Double.parseDouble(this.formatDbl(max));
             double objetivo = Double.parseDouble(this.objetivoField.getText());
-
             if (objetivo < maximo) {
                 if (objetivo > minimo) {
-
                     Task<Void> longRunningTask = new Task<Void>() {
 
                         @Override
@@ -330,13 +329,15 @@ public class JanelaPrincipalController implements Initializable {
                             OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(listaEquipamentosSelecionados, objetivo, Double.parseDouble(textFieldTarifa.getText()));
                             otimizacaoGenetica.otimiza();
                             if (otimizacaoGenetica.isEncontrado()) {
-                                resultadoOtimizacoes.add("Solucao " + (indexOtimizacoes + 1) + "\n" + otimizacaoGenetica.getResultado());
-                                indexOtimizacoes = resultadoOtimizacoes.size();
+                                Solucao s = otimizacaoGenetica.getSolucao();
+                                s.addIndexSolucao(indexOtimizacoes + 1);
+                                solucoes.add(s);
+                                indexOtimizacoes = solucoes.size();
                                 botaoUtilizarOtimizacao.setDisable(false);
                                 botaoUtilizarOtimizacao.setDisable(false);
                                 botaoSalvarSolucao.setDisable(false);
                                 botaoVisualizarSolucoes.setDisable(false);
-                                Platform.runLater(() -> resultadoTextArea.setText(resultadoOtimizacoes.get(resultadoOtimizacoes.size() - 1)));
+                                Platform.runLater(() -> resultadoTextArea.setText(solucoes.get(solucoes.size() - 1).getSolucao()));
                             } else {
                                 Platform.runLater(() -> resultadoTextArea.setText("Resultado não encontrado.\nModifique o valor e tente novamente."));
                             }
@@ -460,33 +461,15 @@ public class JanelaPrincipalController implements Initializable {
 
             @Override
             protected Void call() throws Exception {
-                genes = genes.split("\n")[2];
-                int inicio = genes.indexOf('{');
-                int fim = genes.indexOf('}');
-                genes = genes.substring(inicio, fim);
-                genes = genes.replace('{', ' ');
-                genes = genes.replace(',', ' ');
-                String[] nums = genes.split(" ");
-                int[] valores = new int[listaEquipamentosSelecionados.size()];
-                int pos = 0;
-                for (String num : nums) {
-                    try {
-                        if (!num.equals(" ")) {
-                            if (!num.equals("")){
-//                                System.out.println(Integer.parseInt(num));
-                                valores[pos] = Integer.parseInt(num);
-                                pos++;
-                            }
+                for (Solucao s: solucoes) {
+//                    System.out.println(s.getSolucao());
+                    if (resultadoTextArea.getText().equals(s.getSolucao())){
+                        for (int i = 0; i < listaEquipamentosSelecionados.size() ; i++) {
+                            listaEquipamentosSelecionados.get(i).setOtimizado(true);
+                            listaEquipamentosSelecionados.get(i).setTempoOtimizado(s.getTempos()[i]);
+                            solucao = s;
                         }
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
                     }
-                }
-                pos = 0;
-                for (Equipamento e : listaEquipamentosSelecionados) {
-                    e.setOtimizado(true);
-                    e.setTempoOtimizado(valores[pos]);
-                    pos++;
                 }
                 return null;
             }
@@ -498,7 +481,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void simladorButtonClicked() {
         this.botaoUtilizarOtimizacaoClicked();
-        Simulador simulador = new Simulador(listaEquipamentosSelecionados, Double.parseDouble(this.objetivoField.getText()),
+        Simulador simulador = new Simulador(listaEquipamentosSelecionados, this.solucao.getObjetivo(),
                 Double.parseDouble(this.textFieldTarifa.getText()));
         Task<Void> longRunningTask = new Task<Void>() {
             @Override
@@ -506,9 +489,6 @@ public class JanelaPrincipalController implements Initializable {
                 simulador.simula();
                 simulacaoresultadoA = simulador.getResultadoNotimizado();
                 simulacaoresultadoB = simulador.getResultadoOtimizado();
-//                simulador.setOtimizar(true);
-//                simulador.simula();
-
                 Platform.runLater(() -> botaoResultadosSimulador.setDisable(false));
                 return null;
             }
@@ -523,7 +503,7 @@ public class JanelaPrincipalController implements Initializable {
             Parent root = (Parent) loader.load();
             JanelaSimuladorController newWindowController = loader.getController();
             newWindowController.inicializaJanela(Double.parseDouble(this.textFieldTarifa.getText()),
-                    this.simulacaoresultadoA, this.simulacaoresultadoB, Double.parseDouble(this.objetivoField.getText()));
+                    this.simulacaoresultadoA, this.simulacaoresultadoB, this.solucao.getObjetivo());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Simulações");
@@ -539,7 +519,7 @@ public class JanelaPrincipalController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaSelecaoDeSolucao.fxml"));
             Parent root = (Parent) loader.load();
             JanelaSelecaoDeSolucaoController newWindowController = loader.getController();
-            newWindowController.inicializaJanela(this.resultadoOtimizacoes, this.resultadoTextArea);
+            newWindowController.inicializaJanela(this.solucoes, this.resultadoTextArea);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Seleção de Soluções");

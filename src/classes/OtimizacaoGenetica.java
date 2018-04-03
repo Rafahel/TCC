@@ -17,6 +17,7 @@ public class OtimizacaoGenetica {
     private int diasRestantes;
     private Individuo individuoFinal;
     private double tarifa;
+    private Solucao solucao;
 
     public OtimizacaoGenetica(ArrayList<Equipamento> equipamentos, double objetivo, double tarifa) {
         this.equipamentos = equipamentos;
@@ -25,6 +26,7 @@ public class OtimizacaoGenetica {
         this.cancela = false;
         this.diasRestantes = 30;
         this.tarifa = tarifa;
+        this.solucao = null;
 
     }
 
@@ -51,7 +53,7 @@ public class OtimizacaoGenetica {
             generationCounter++;
             Individuo melhor = populacao.getFitestIndividual();
             if (melhor.getFitness() >= maxFitness && melhor.getFitness() <= 100) {
-                encontrado = true;
+                this.encontrado = true;
                 break;
             }
             if (generationCounter % 1000 == 0 && maxFitness >= 89) {
@@ -75,19 +77,12 @@ public class OtimizacaoGenetica {
         }
     }
 
-    public int[] getGenes(){
-        int[] genes = new int[equipamentos.size()];
-        for (int i = 0; i < equipamentos.size(); i++) {
-            genes[i] = this.individuoFinal.getGene(i);
-        }
-        return genes;
+    public Solucao getSolucao(){
+        this.solucao = new Solucao(this.resultado, this.individuoFinal.getGenes(), this.objetivo);
+        return solucao;
     }
 
     public boolean isEncontrado() {
         return encontrado;
-    }
-
-    public String getResultado() {
-        return resultado;
     }
 }

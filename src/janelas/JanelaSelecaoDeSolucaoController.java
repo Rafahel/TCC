@@ -1,6 +1,7 @@
 package janelas;
 
 import classes.Equipamento;
+import classes.Solucao;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class JanelaSelecaoDeSolucaoController implements Initializable{
     @FXML private TextArea textAreaSolucao;
-    private ArrayList<String> solucoes;
+    private ArrayList<Solucao> solucoes;
     private int indexSolucoes;
     @FXML private Button botaoProximo;
     @FXML private Button botaoAnterior;
@@ -27,13 +28,13 @@ public class JanelaSelecaoDeSolucaoController implements Initializable{
     }
 
 
-    public void inicializaJanela(ArrayList<String> solucoes, TextArea textArea){
+    public void inicializaJanela(ArrayList<Solucao> solucoes, TextArea textArea){
         this.textArea = textArea;
         this.solucoes = solucoes;
         this.textAreaSolucao.setEditable(false);
         this.indexSolucoes = 0;
         if (solucoes.size() > 0){
-            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes));
+            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         }
         else {
             this.textAreaSolucao.setText("Não há soluções.");
@@ -44,27 +45,27 @@ public class JanelaSelecaoDeSolucaoController implements Initializable{
     private void botaoProximoClicked(){
         if ((this.solucoes.size() - 1) > this.indexSolucoes){
             this.indexSolucoes ++;
-            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes));
+            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         }else {
             this.indexSolucoes = 0;
-            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes));
+            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         }
     }
     @FXML
     private void botaoAnteriorClicked(){
         if (this.indexSolucoes > 0){
             this.indexSolucoes --;
-            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes));
+            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         }else {
             this.indexSolucoes = this.solucoes.size() - 1;
-            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes));
+            this.textAreaSolucao.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         }
     }
 
     @FXML
     private void selecionarSolucaoClicked(){
-        this.solucao = this.solucoes.get(this.indexSolucoes);
-        this.textArea.setText(this.solucoes.get(this.indexSolucoes));
+        this.solucao = this.solucoes.get(this.indexSolucoes).getSolucao();
+        this.textArea.setText(this.solucoes.get(this.indexSolucoes).getSolucao());
         this.solucaoSelecionada = true;
     }
 

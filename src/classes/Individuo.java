@@ -101,4 +101,8 @@ public class Individuo {
         return "" + resultado + " * 100 / " + this.objetivo + " = " + df.format(fitness);
     }
 
+    public int[] getGenes(){
+        return this.genes;
+    }
+
 }
