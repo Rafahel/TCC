@@ -55,15 +55,19 @@ public class Escritor {
         }
     }
 
-    public static void geradorLogSimulador(String caminho, String horario, Equipamento equipamento){
+    public static void geradorLogSimulador(String caminho, int dia, ArrayList<Equipamento> equipamentos){
         try {
             FileWriter fw = new FileWriter(caminho, true);
             BufferedWriter bw = new BufferedWriter(fw);
-            if (equipamento.isLigado()){
-                bw.append(equipamento.getNome()).append(" LIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamento.getTempoRestante()));
+            bw.append("\t\t\t\t\tDIA").append(Integer.toString(dia));
+            bw.newLine();
+            for (Equipamento e: equipamentos) {
+                bw.append(e.getNome()).append(" TEMPO OTIMIZADO ").append(Integer.toString(e.getTempoOtimizado())).append(" TEMPO UTILIZADO: ");
+                if (e.getTempoExcedido() == 0)
+                    bw.append(Integer.toString(e.getTempoOtimizado()));
+                if (e.getTempoExcedido() > e.getTempoOtimizado())
+                    bw.append(" TEMPO EXCEDIDO: ").append(Integer.toString(e.getTempoExcedido() - e.getTempoOtimizado()));
                 bw.newLine();
-            }else {
-                bw.append(equipamento.getNome()).append(" DESLIGADO ").append(horario).append(" Tempo Restante: ").append(Integer.toString(equipamento.getTempoRestante()));
                 bw.newLine();
             }
             bw.close();

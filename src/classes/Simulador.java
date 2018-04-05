@@ -1,6 +1,8 @@
 package classes;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class Simulador {
@@ -12,6 +14,8 @@ public class Simulador {
     private int dias;
     private double[] resultadoNotimizado;
     private double[] resultadoOtimizado;
+    private Escritor escritor;
+    private String local;
 
     public Simulador(ArrayList<Equipamento> equipamentos, double objetivo, double tarifa) {
         this.equipamentos = equipamentos;
@@ -25,6 +29,9 @@ public class Simulador {
         this.resultadoOtimizado = new double[equipamentos.size()];
         this.resultadoNotimizado = new double[30];
         this.resultadoOtimizado = new double[30];
+        this.local = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Simulação.txt";
+        System.out.println(this.local);
+
     }
 
     public void simula(){
@@ -43,15 +50,21 @@ public class Simulador {
                     if(this.equipamentos.get(j).getMinUtilzacaoDiaria() != 1440){
                         double atrasoGerado = 1 +( 0.1 + (0.6 - 0.1) * new Random().nextDouble());//(1 + Math.random());
 //                        System.out.println(atrasoGerado);
+                        equipamentos.get(j).setTempoExcedido((int)(this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado ));
+                        equipamentosOtimizado.get(j).setTempoExcedido((int)(this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado ));
                         valorRnd = (int) (this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado );
                         valorRndOt = (int) (this.equipamentosOtimizado.get(j).getTempoOtimizado() * atrasoGerado);
                         if (valorRnd > 1440){
+                            equipamentos.get(j).setTempoExcedido(1440 - equipamentos.get(i).getTempoOtimizado());
                             valorRnd = 1440;
                         }
                         if (valorRndOt > 1440){
+                            equipamentosOtimizado.get(j).setTempoExcedido(1440 - equipamentos.get(i).getTempoOtimizado());
                             valorRndOt = 1440;
                         }
                     }else {
+                        equipamentos.get(j).setTempoExcedido(0);
+                        equipamentosOtimizado.get(j).setTempoExcedido(0);
                         valorRnd = this.equipamentos.get(j).getTempoOtimizado();
                         valorRndOt = this.equipamentosOtimizado.get(j).getTempoOtimizado();
                     }
@@ -60,6 +73,8 @@ public class Simulador {
                     kwDiarioOt += valorRndOt * this.equipamentosOtimizado.get(j).getKwhMin();
                 }
                 else {
+                    equipamentos.get(j).setTempoExcedido(0);
+                    equipamentosOtimizado.get(j).setTempoExcedido(0);
                     kwDiario += this.equipamentos.get(j).getTempoOtimizado() * this.equipamentos.get(j).getKwhMin();
                     kwDiarioOt += this.equipamentosOtimizado.get(j).getTempoOtimizado() * this.equipamentosOtimizado.get(j).getKwhMin();
                 }
@@ -88,6 +103,7 @@ public class Simulador {
                 otimizacaoGenetica.otimiza();
                 this.utilizaOtimizacao(otimizacaoGenetica.getSolucao().getTempos());
             }
+            Escritor.geradorLogSimulador(local, (i+1), equipamentosOtimizado);
             dias --;
         }
 //        System.out.println("Custo total mensal: " + custo);
@@ -141,5 +157,10 @@ public class Simulador {
 
     public double[] getResultadoOtimizado() {
         return this.resultadoOtimizado;
+    }
+
+    private String time(){
+        Date date = new Date();
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
     }
 }

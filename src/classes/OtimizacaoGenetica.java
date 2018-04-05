@@ -41,8 +41,8 @@ public class OtimizacaoGenetica {
     }
 
     public void otimiza() {
-        AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(equipamentos, objetivo, diasRestantes, this.tarifa);
-        Populacao populacao = new Populacao(100, equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
+        AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
+        Populacao populacao = new Populacao(100, this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
         populacao.initialize();
 
         int generationCounter = 0;
