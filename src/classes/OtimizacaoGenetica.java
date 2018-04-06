@@ -49,7 +49,7 @@ public class OtimizacaoGenetica {
         this.encontrado = false;
         double maxFitness = 99;
 
-        while (generationCounter <= 10000 && !this.cancela) {
+        while (generationCounter <= 5000 && !this.cancela) {
             generationCounter++;
             Individuo melhor = populacao.getFitestIndividual();
             if (melhor.getFitness() >= maxFitness && melhor.getFitness() <= 100) {

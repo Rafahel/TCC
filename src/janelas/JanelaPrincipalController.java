@@ -86,6 +86,11 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private Button botaoResultadosSimulador;
 
+    @FXML
+    private ProgressBar progressBar;
+
+    @FXML
+    private Label progressoLabel;
 
 
     // Componentes não FXML
@@ -145,6 +150,9 @@ public class JanelaPrincipalController implements Initializable {
         this.botaoResultadosSimulador.setDisable(true);
         this.solucoes = new ArrayList<>();
         this.solucao = null;
+        this.progressoLabel.setText("");
+        this.progressoLabel.setVisible(false);
+        this.progressBar.setVisible(false);
     }
 
 
@@ -483,6 +491,9 @@ public class JanelaPrincipalController implements Initializable {
         this.botaoUtilizarOtimizacaoClicked();
         Simulador simulador = new Simulador(listaEquipamentosSelecionados, this.solucao.getObjetivo(),
                 Double.parseDouble(this.textFieldTarifa.getText()));
+//        this.statusSim(simulador);
+        this.progressBar.setProgress(0);
+        statusSim(simulador);
         Task<Void> longRunningTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -490,6 +501,7 @@ public class JanelaPrincipalController implements Initializable {
                 simulacaoresultadoA = simulador.getResultadoNotimizado();
                 simulacaoresultadoB = simulador.getResultadoOtimizado();
                 Platform.runLater(() -> botaoResultadosSimulador.setDisable(false));
+
                 return null;
             }
         };
@@ -536,12 +548,20 @@ public class JanelaPrincipalController implements Initializable {
 
     }
 
-//    private void deepCopy(){
-//        ArrayList<Equipamento> equipamentoList = new ArrayList<>();
-//        for (Equipamento e: listaEquipamentosSelecionados) {
-//            Equipamento aux = new Equipamento()
-//            equipamentoList.add()
-//        }
-//    }
-
+    private void statusSim(Simulador simulador){
+        this.progressoLabel.setVisible(true);
+        this.progressBar.setVisible(true);
+        Task<Void> longRunningTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                while (simulador.getProgresso() < 100){
+                    Thread.sleep(100);
+                    Platform.runLater(() -> progressBar.setProgress(simulador.getProgresso()/100));
+                    Platform.runLater(() -> progressoLabel.setText(new DecimalFormat("#.##").format(simulador.getProgresso()) + " %"));
+                }
+                return null;
+            }
+        };
+        new Thread(longRunningTask).start();
+    }
 }

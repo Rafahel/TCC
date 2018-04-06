@@ -68,8 +68,10 @@ public class Escritor {
                 if (e.getTempoExcedido() > e.getTempoOtimizado())
                     bw.append(" TEMPO EXCEDIDO: ").append(Integer.toString(e.getTempoExcedido() - e.getTempoOtimizado()));
                 bw.newLine();
-                bw.newLine();
+
             }
+            bw.append("----------------------------------------------------------------------------------");
+            bw.newLine();
             bw.close();
         } catch (IOException ex) {
             Logger.getLogger(Escritor.class.getName()).log(Level.SEVERE, null, ex);

@@ -16,6 +16,7 @@ public class Simulador {
     private double[] resultadoOtimizado;
     private Escritor escritor;
     private String local;
+    private double progresso;
 
     public Simulador(ArrayList<Equipamento> equipamentos, double objetivo, double tarifa) {
         this.equipamentos = equipamentos;
@@ -30,8 +31,8 @@ public class Simulador {
         this.resultadoNotimizado = new double[30];
         this.resultadoOtimizado = new double[30];
         this.local = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\HouseMon\\Simulação.txt";
-        System.out.println(this.local);
-
+//        System.out.println(this.local);
+        this.progresso = 0;
     }
 
     public void simula(){
@@ -94,17 +95,24 @@ public class Simulador {
 //            System.out.println("Dia" + (i + 1 ) + "    " + gastado + " : " + gastadoOt);
 
             novoObj -= (kwDiarioOt * this.tarifa);
-//            System.out.println("novo obj: " + novoObj);
+//            System.out.println("reducao: " + reducao);
             if(reducao > 0){
 //                System.out.println("Nova otimizacao sendo feita, o valor passou do objetivo. Dias Restantes " + dias);
 //                novoObj -= reducao;
 //                System.out.println("Novo Obj: " + novoObj);
-                OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(this.equipamentosOtimizado, novoObj, this.dias, this.tarifa);
-                otimizacaoGenetica.otimiza();
-                this.utilizaOtimizacao(otimizacaoGenetica.getSolucao().getTempos());
+                while (true){
+                    OtimizacaoGenetica otimizacaoGenetica = new OtimizacaoGenetica(this.equipamentosOtimizado, novoObj, this.dias, this.tarifa);
+                    otimizacaoGenetica.otimiza();
+                    if (otimizacaoGenetica.isEncontrado()){
+                        this.utilizaOtimizacao(otimizacaoGenetica.getSolucao().getTempos());
+                        break;
+                    }
+                    novoObj += 0.3;
+                }
             }
             Escritor.geradorLogSimulador(local, (i+1), equipamentosOtimizado);
-            dias --;
+            this.progresso = (i * 100) / 29;
+            this.dias --;
         }
 //        System.out.println("Custo total mensal: " + custo);
 //        System.out.println("kwMensal: " + kwMensal);
@@ -162,5 +170,13 @@ public class Simulador {
     private String time(){
         Date date = new Date();
         return new SimpleDateFormat("dd/MM/yyyy").format(date);
+    }
+
+    public int getDias() {
+        return dias;
+    }
+
+    public double getProgresso() {
+        return progresso;
     }
 }
