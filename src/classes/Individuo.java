@@ -57,8 +57,6 @@ public class Individuo {
                 this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * this.diasRestantes) * this.tarifa;
             }
         }
-//        System.out.println(resultado);
-
         this.fitness = (resultado * 100) / this.objetivo;
 //        System.out.println("FLAG " +  resultado + " * 100 / " + this.objetivo + " >> Porcentagem : " + fitness);
 //        if (fitness > Constantes.MAXIMUM_FITNESS && fitness < 1)
