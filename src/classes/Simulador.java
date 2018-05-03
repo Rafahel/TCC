@@ -35,6 +35,7 @@ public class Simulador {
         this.progresso = 0;
     }
 
+    /// Corrigir logs
     public void simula(){
 
         int valorRnd = 0;
@@ -49,10 +50,12 @@ public class Simulador {
             for (int j = 0; j < this.equipamentos.size(); j++) {
                 if (Math.random() < offset){
                     if(this.equipamentos.get(j).getMinUtilzacaoDiaria() != 1440){
-                        double atrasoGerado = 1 +( 0.1 + (0.6 - 0.1) * new Random().nextDouble());//(1 + Math.random());
+                        double atrasoGerado = 1 +( 0.1 + (0.8 - 0.1) * new Random().nextDouble());//(1 + Math.random());
 //                        System.out.println(atrasoGerado);
-                        equipamentos.get(j).setTempoExcedido((int)(this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado ));
-                        equipamentosOtimizado.get(j).setTempoExcedido((int)(this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado ));
+                        equipamentos.get(j).setTempoUtilizado((int)(this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado ));
+                        equipamentos.get(j).setTempoExcedido(this.equipamentos.get(j).getTempoOtimizado() - this.equipamentos.get(j).getTempoUtilizado());
+                        equipamentosOtimizado.get(j).setTempoUtilizado((int)(this.equipamentosOtimizado.get(j).getTempoOtimizado() * atrasoGerado ));
+                        equipamentosOtimizado.get(j).setTempoExcedido(this.equipamentosOtimizado.get(j).getTempoOtimizado() - this.equipamentosOtimizado.get(j).getTempoUtilizado());
                         valorRnd = (int) (this.equipamentos.get(j).getTempoOtimizado() * atrasoGerado );
                         valorRndOt = (int) (this.equipamentosOtimizado.get(j).getTempoOtimizado() * atrasoGerado);
                         if (valorRnd > 1440){
@@ -107,10 +110,10 @@ public class Simulador {
                         this.utilizaOtimizacao(otimizacaoGenetica.getSolucao().getTempos());
                         break;
                     }
-                    novoObj += 0.3;
+                    novoObj += 0.1;
                 }
             }
-            Escritor.geradorLogSimulador(local, (i+1), equipamentosOtimizado);
+//            Escritor.geradorLogSimulador(local, (i+1), equipamentosOtimizado);
             this.progresso = (i * 100) / 29;
             this.dias --;
         }

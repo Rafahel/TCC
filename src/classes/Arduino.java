@@ -1,12 +1,6 @@
 package classes;
 
 import com.fazecast.jSerialComm.SerialPort;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
@@ -17,13 +11,11 @@ public class Arduino {
     private SerialPort chosenPort;
     private String status;
     private ArrayList<Equipamento> equipamentos;
-    private ArrayList<Integer> portas;
     private boolean conectado;
     private double gastoAtual;
     private double tarifa;
-    boolean closeThread;
+    private boolean closeThread;
     private int[] wattsEquips;
-    private int totalWatts;
     private Escritor escritor;
     private String diaAtual;
     private double kwTotal;
@@ -51,7 +43,6 @@ public class Arduino {
     public boolean isConectado() {
         return this.conectado;
     }
-
 
     public void conecta() {
 
@@ -81,7 +72,6 @@ public class Arduino {
                             System.out.println("Desconectando arduino e fechando thread.");
                             break;
                         }
-
                     }
                     scanner.close();
                 }
@@ -98,7 +88,6 @@ public class Arduino {
     }
 
     private void equipamentoIsConnected() {
-
         try {
 //            System.out.println("len de status = "  + this.status.length());
             for (int i = 0; i < this.status.length(); i++) {
@@ -205,8 +194,4 @@ public class Arduino {
         };
         thread.start();
     }
-
-
-
-
 }

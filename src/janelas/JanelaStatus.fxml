@@ -32,12 +32,12 @@
                               <Font name="System Bold" size="11.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00" GridPane.columnIndex="1">
+                        <Label prefHeight="28.0" prefWidth="33.0" text="Status" textFill="#f6ff00" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="11.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="28.0" prefWidth="33.0" text="Status" textFill="#f6ff00" GridPane.columnIndex="2">
+                        <Label prefHeight="28.0" prefWidth="33.0" text="Porta" textFill="#f6ff00" GridPane.columnIndex="2">
                            <font>
                               <Font name="System Bold" size="11.0" />
                            </font>

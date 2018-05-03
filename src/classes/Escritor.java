@@ -62,13 +62,9 @@ public class Escritor {
             bw.append("\t\t\t\t\tDIA").append(Integer.toString(dia));
             bw.newLine();
             for (Equipamento e: equipamentos) {
-                bw.append(e.getNome()).append(" TEMPO OTIMIZADO ").append(Integer.toString(e.getTempoOtimizado())).append(" TEMPO UTILIZADO: ");
-                if (e.getTempoExcedido() == 0)
-                    bw.append(Integer.toString(e.getTempoOtimizado()));
-                if (e.getTempoExcedido() > e.getTempoOtimizado())
-                    bw.append(" TEMPO EXCEDIDO: ").append(Integer.toString(e.getTempoExcedido() - e.getTempoOtimizado()));
+                bw.append(e.getNome()).append(" TEMPO OTIMIZADO ").append(Integer.toString(e.getTempoOtimizado())).append(" TEMPO UTILIZADO: ")
+                        .append(Integer.toString(e.getTempoUtilizado())).append(" TEMPO EXCEDIDO: ").append(Integer.toString(e.getTempoExcedido()));;
                 bw.newLine();
-
             }
             bw.append("----------------------------------------------------------------------------------");
             bw.newLine();

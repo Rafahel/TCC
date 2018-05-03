@@ -5,6 +5,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * O indivíduo é a representação de uma possível solução, nele temos a variavel genes que é onde se encontram os tempos
+ * de uso de cada um dos equipamentos selecionados pelo usuário.
+ */
+
 public class Individuo {
     private int[] genes;
     private double fitness;
@@ -12,7 +17,6 @@ public class Individuo {
     private ArrayList<Equipamento> equipamentos;
     private double objetivo;
     private Double resultado;
-    static Integer idIndividuo;
     private int diasRestantes;
     private double tarifa;
 

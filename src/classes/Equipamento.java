@@ -15,6 +15,7 @@ public class Equipamento {
     private long tempoRestanteSegundos;
     private int tempoExcedido;
     private int tempoLigado;
+    private int tempoUtilizado;
 
     public Equipamento(String nome, int watts, int minUtilzacaoDiaria, int maxUtilzacaoDiaria) {
         this.nome = nome;
@@ -29,6 +30,7 @@ public class Equipamento {
         this.tempoRestante = 0;
         this.tempoExcedido = 0;
         this.tempoRestanteSegundos = 0;
+        this.tempoUtilizado = 0;
         this.resetaTempoLigado();
     }
 
@@ -181,5 +183,13 @@ public class Equipamento {
 
     public void resetaTempoLigado(){
         this.tempoLigado = 0;
+    }
+
+    public int getTempoUtilizado() {
+        return tempoUtilizado;
+    }
+
+    public void setTempoUtilizado(int tempoUtilizado) {
+        this.tempoUtilizado = tempoUtilizado;
     }
 }

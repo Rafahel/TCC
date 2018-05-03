@@ -185,6 +185,9 @@ public class JanelaPrincipalController implements Initializable {
         }
     }
 
+    /**
+     * Abre uma janela de escolha do diretorio para salvar o arquivo de equipamentos que esta sendo utilizado no momento.
+     */
     @FXML
     private void buttonSalvarClicked() {
         try {
@@ -199,7 +202,7 @@ public class JanelaPrincipalController implements Initializable {
                     FileChooser chooser = new FileChooser();
                     chooser.setTitle("Abrir Arquivo");
                     chooser.setInitialDirectory(new File(this.localPasta));
-                    this.file = chooser.showOpenDialog(new Stage());
+                    this.file = chooser.showSaveDialog(new Stage());
                     //System.out.println(file.toString());
                     Escritor escritor = new Escritor(this.equipamentos, this.file);
                     escritor.geraArquivo();
@@ -211,6 +214,9 @@ public class JanelaPrincipalController implements Initializable {
         }
     }
 
+    /***
+     * Apenas para o teste do aplicativo. Este método carrega os equipamentos de testes criados.
+     */
     @FXML
     private void debugEquipamentos() {
         try {
@@ -227,6 +233,9 @@ public class JanelaPrincipalController implements Initializable {
         this.DEBUG_EQUIPAMENTOS.setDisable(true);
     }
 
+    /***
+     * Abre janela responsável pelo cadastro dos equipamentos.
+     */
     @FXML
     private void botaoCadastroEquipamento() { // Chama a janela de cadastro e passa argumentos para ela.
 
@@ -388,39 +397,39 @@ public class JanelaPrincipalController implements Initializable {
         double tarifa = Double.parseDouble(textFieldTarifa.getText());
         Calculadora calculadora = new Calculadora(listaEquipamentosSelecionados, tarifa);
         calculadora.calculaGastosTotais();
-        max = calculadora.getResults()[0];
-        med = calculadora.getResults()[1];
-        min = calculadora.getResults()[2];
+        this.max = calculadora.getResults()[0];
+        this.med = calculadora.getResults()[1];
+        this.min = calculadora.getResults()[2];
         this.kwhLabel.setText(Double.toString(calculadora.calculakwh()));
         atualizaLabels();
     }
 
     private void atualizaLabels() {
-        if (listaEquipamentosSelecionados.size() == 0) {
-            minimaLabel.setText("0.00");
-            maximaLabel.setText("0.00");
-            mediaLabel.setText("0.00");
-        } else if (listaEquipamentosSelecionados.size() > 4) {
+        if (this.listaEquipamentosSelecionados.size() == 0) {
+            this.minimaLabel.setText("0.00");
+            this.maximaLabel.setText("0.00");
+            this.mediaLabel.setText("0.00");
+        } else if (this.listaEquipamentosSelecionados.size() > 4) {
             DecimalFormat df = new DecimalFormat("#.##");
             df.setRoundingMode(RoundingMode.DOWN);
-            maximaLabel.setText(df.format(max));
-            mediaLabel.setText(df.format(med));
-            minimaLabel.setText(df.format(min));
+            this.maximaLabel.setText(df.format(this.max));
+            this.mediaLabel.setText(df.format(this.med));
+            this.minimaLabel.setText(df.format(this.min));
             this.otimizaButton.setDisable(false);
         }
     }
 
     @FXML
     private void printEquips() {
-        for (Equipamento e : listaEquipamentosSelecionados) {
+        for (Equipamento e : this.listaEquipamentosSelecionados) {
             System.out.println(e);
         }
     }
 
     @FXML
     private void botaoLimparClicked() {
-        listView2.getItems().remove(0, listView2.getItems().size());
-        listaEquipamentosSelecionados = new ArrayList<>();
+        this.listView2.getItems().remove(0, this.listView2.getItems().size());
+        this.listaEquipamentosSelecionados = new ArrayList<>();
         chamaCalculadora();
     }
 
@@ -434,8 +443,8 @@ public class JanelaPrincipalController implements Initializable {
 
     private void conectaArduino(String porta) {
 
-        arduino = new Arduino(porta, this.listaEquipamentosSelecionados, Double.parseDouble(textFieldTarifa.getText()));
-        arduino.conecta();
+        this.arduino = new Arduino(porta, this.listaEquipamentosSelecionados, Double.parseDouble(this.textFieldTarifa.getText()));
+        this.arduino.conecta();
         Task<Void> longRunningTask = new Task<Void>() {
 
             @Override
@@ -489,7 +498,7 @@ public class JanelaPrincipalController implements Initializable {
     @FXML
     private void simladorButtonClicked() {
         this.botaoUtilizarOtimizacaoClicked();
-        Simulador simulador = new Simulador(listaEquipamentosSelecionados, this.solucao.getObjetivo(),
+        Simulador simulador = new Simulador(this.listaEquipamentosSelecionados, this.solucao.getObjetivo(),
                 Double.parseDouble(this.textFieldTarifa.getText()));
 //        this.statusSim(simulador);
         this.progressBar.setProgress(0);
@@ -559,6 +568,7 @@ public class JanelaPrincipalController implements Initializable {
                     Platform.runLater(() -> progressBar.setProgress(simulador.getProgresso()/100));
                     Platform.runLater(() -> progressoLabel.setText(new DecimalFormat("#.##").format(simulador.getProgresso()) + " %"));
                 }
+                Platform.runLater(() -> janelaResultadoSimulacao());
                 return null;
             }
         };

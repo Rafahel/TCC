@@ -3,6 +3,10 @@ package classes;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Dentro desta classe ocorrem as operações de evolução da população, que consiste em crossover e mutação.
+ */
+
 public class AlgoritmoGenetico {
 
     private Random randomGenerator;
@@ -34,7 +38,7 @@ public class AlgoritmoGenetico {
     }
 
     private Individuo randomSelection(Populacao Populacao) {
-        Populacao newPopulacao = new Populacao(Constantes.TOURNAMENT_SIZE, equipamentos, this.objetivo, diasRestantes, this.tarifa);
+        Populacao newPopulacao = new Populacao(Constantes.TOURNAMENT_SIZE, this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
         for (int i = 0; i < Constantes.TOURNAMENT_SIZE; i++) {
             int randomIndex = (int) (Math.random() * Populacao.size());
             newPopulacao.saveIndividual(i, Populacao.getIndividual(randomIndex));
@@ -44,8 +48,8 @@ public class AlgoritmoGenetico {
     }
 
     private Individuo crossover(Individuo firstIndividual, Individuo secondIndividual) {
-        Individuo newSolution = new Individuo(equipamentos, this.objetivo, diasRestantes, this.tarifa);
-        for (int i = 0; i < equipamentos.size(); i++) {
+        Individuo newSolution = new Individuo(this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
+        for (int i = 0; i < this.equipamentos.size(); i++) {
             if (Math.random() <= Constantes.CROSSOVER_RATE) {
                 newSolution.setGenes(i, firstIndividual.getGene(i));
             } else {
@@ -56,11 +60,11 @@ public class AlgoritmoGenetico {
     }
 
     private void mutate(Individuo individual) {
-        for (int i = 0; i < equipamentos.size(); i++) {
+        for (int i = 0; i < this.equipamentos.size(); i++) {
             if (Math.random() < Constantes.MUTATION_RATE) {
-                int min = equipamentos.get(i).getMinUtilzacaoDiaria();
-                int max = equipamentos.get(i).getMaxUtilzacaoDiaria();
-                int gene = randomGenerator.nextInt((max - min) + 1) + min;
+                int min = this.equipamentos.get(i).getMinUtilzacaoDiaria();
+                int max = this.equipamentos.get(i).getMaxUtilzacaoDiaria();
+                int gene = this.randomGenerator.nextInt((max - min) + 1) + min;
                 individual.setGenes(i, gene);
             }
         }

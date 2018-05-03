@@ -1,12 +1,11 @@
 package classes;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
+
+/***
+ * Esta classe realiza a preparação da população e dos indivíduos para o uso do do Algoritmo Genético, assim como o
+ * controle da população e o limite de iterações.
+ */
 
 public class OtimizacaoGenetica {
     private ArrayList<Equipamento> equipamentos;
@@ -42,7 +41,7 @@ public class OtimizacaoGenetica {
 
     public void otimiza() {
         AlgoritmoGenetico algoritmoGenetico = new AlgoritmoGenetico(this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
-        Populacao populacao = new Populacao(100, this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
+        Populacao populacao = new Populacao(50, this.equipamentos, this.objetivo, this.diasRestantes, this.tarifa);
         populacao.initialize();
 
         int generationCounter = 0;
