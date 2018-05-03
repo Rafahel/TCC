@@ -238,9 +238,7 @@ public class JanelaPrincipalController implements Initializable {
      */
     @FXML
     private void botaoCadastroEquipamento() { // Chama a janela de cadastro e passa argumentos para ela.
-
         try {
-            //System.out.println("Chamando janela");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("JanelaCadastroEquipamento.fxml"));
             Parent root = (Parent) loader.load();
             JaneleCadastroEquipamentoController newWindowController = loader.getController();
@@ -250,10 +248,8 @@ public class JanelaPrincipalController implements Initializable {
             stage.setTitle("Cadastro de Equipamentos");
             stage.show();
         } catch (IOException e) {
-            //System.out.println(e);
             e.printStackTrace();
         }
-
     }
 
     private void addToList() {
