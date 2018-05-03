@@ -20,7 +20,6 @@ public class Individuo {
     private int diasRestantes;
     private double tarifa;
 
-
     public Individuo(ArrayList<Equipamento> equipamentos, double objetivo, int diasRestantes, double tarifa) {
 //        System.out.println("Individuo quantidade equip: " + equipamentos.size());
         this.genes = new int[equipamentos.size()];
@@ -61,7 +60,6 @@ public class Individuo {
 //        System.out.println("FLAG " +  resultado + " * 100 / " + this.objetivo + " >> Porcentagem : " + fitness);
 //        if (fitness > Constantes.MAXIMUM_FITNESS && fitness < 1)
 //            System.out.println("FLAG " +  resultado + " * 100 / " + this.objetivo + " >> Porcentagem : " + fitness);
-//        System.out.println("FITNESS: " +  fitness);
         return fitness;
     }
 
