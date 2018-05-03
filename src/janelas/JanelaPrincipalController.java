@@ -12,8 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -254,7 +252,6 @@ public class JanelaPrincipalController implements Initializable {
 
     private void addToList() {
         for (Equipamento e : this.equipamentos) {
-            //System.out.println(e.getNome() + " adicionado a lista 1");
             this.listView.getItems().add(e.getNome());
         }
     }
