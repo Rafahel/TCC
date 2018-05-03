@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Formatter;
 import java.util.ResourceBundle;
 
 public class JanelaSimuladorController implements Initializable {
@@ -50,6 +49,9 @@ public class JanelaSimuladorController implements Initializable {
 
     @FXML
     private Label objetivoLabel;
+
+    @FXML
+    private Label percentualEconomiaLabel;
 
     private double[] resultadoNaoOtimizado;
 
@@ -102,6 +104,7 @@ public class JanelaSimuladorController implements Initializable {
         this.totalNaoOtimizadoLabelKw.setText(formatador.format(somatorioNaoOtimizado) + " Kw");
         this.totalOtimizadoLabelKw.setText(formatador.format(somatorioOtimizado) + " Kw");
         this.precisaoLabel.setText(formatador.format(((somatorioOtimizado * tarifa) * 100) / objetivo) + " %");
+        this.percentualEconomiaLabel.setText(formatador.format((((somatorioNaoOtimizado * tarifa) * 100) / (somatorioOtimizado * tarifa)) - 100) + "%");
         this.lineChart.getData().add(this.seriesNotimizadoKw);
         this.lineChart.getData().add(this.seriesOtimizadoKw);
     }

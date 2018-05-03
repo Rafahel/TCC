@@ -3,12 +3,9 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.text.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="1269.0" style="-fx-background-color: #0a1a4a;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janelas.JanelaSimuladorController">
    <children>
       <TextArea fx:id="textAreaResultadoOtimizado" editable="false" layoutX="14.0" layoutY="348.0" prefHeight="153.0" prefWidth="221.0" />
@@ -82,12 +79,12 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="precisaoLabel" layoutX="1169.0" layoutY="91.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
+      <Label fx:id="precisaoLabel" layoutX="1164.0" layoutY="69.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="962.0" layoutY="91.0" prefHeight="28.0" prefWidth="207.0" text="Precisão da Otimizacão:" textFill="#f6ff00">
+      <Label layoutX="957.0" layoutY="69.0" prefHeight="28.0" prefWidth="207.0" text="Precisão da Otimizacão:" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
@@ -97,18 +94,28 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="962.0" layoutY="65.0" prefHeight="28.0" prefWidth="81.0" text="Objetivo:" textFill="#f6ff00">
+      <Label layoutX="957.0" layoutY="43.0" prefHeight="28.0" prefWidth="81.0" text="Objetivo:" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="objetivoLabel" layoutX="1043.0" layoutY="65.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
+      <Label fx:id="objetivoLabel" layoutX="1038.0" layoutY="43.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <TextArea fx:id="gastoPorDiaTextArea" layoutX="14.0" layoutY="119.0" prefHeight="200.0" prefWidth="463.0" />
       <Label layoutX="187.0" layoutY="91.0" prefHeight="28.0" prefWidth="118.0" text="Gasto por dia" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="957.0" layoutY="97.0" prefHeight="28.0" prefWidth="207.0" text="Percentual de economia:" textFill="#f6ff00">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="percentualEconomiaLabel" layoutX="1170.0" layoutY="97.0" prefHeight="28.0" prefWidth="91.0" text="***" textFill="#f6ff00">
          <font>
             <Font size="19.0" />
          </font>

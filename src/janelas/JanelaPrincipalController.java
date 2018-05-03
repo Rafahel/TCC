@@ -520,7 +520,7 @@ public class JanelaPrincipalController implements Initializable {
                     this.simulacaoresultadoA, this.simulacaoresultadoB, this.solucao.getObjetivo());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Seleção de Simulações");
+            stage.setTitle("Resultados da Simulação");
             stage.show();
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
