@@ -55,8 +55,6 @@ public class Individuo {
         if (fitness == 0) {
             for (int i = 0; i < genes.length; i++) {
                 this.resultado += (equipamentos.get(i).getKwhMin() * getGene(i) * this.diasRestantes) * this.tarifa;
-//                System.out.println(equipamentos.get(i).getKwhMin() + " * " + getGene(i) + " * 30 * this.tarifa = " + this.resultado);
-//                System.out.println(equipamentos.get(i).getNome() +" ligado por " + getGene(i) + " por dia. Custo mensal: " + resultado);
             }
         }
 //        System.out.println(resultado);
